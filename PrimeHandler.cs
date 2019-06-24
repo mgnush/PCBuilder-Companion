@@ -16,6 +16,7 @@ namespace PCCG_Tester
         public static async Task<bool> RunPrime(string path)
         {            
             string filename = Path.Combine(path, "Prime95/prime95.exe");
+            await Task.Delay(2000);
             var proc = System.Diagnostics.Process.Start(filename, "-t");
 
             await Task.Delay(5000);

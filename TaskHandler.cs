@@ -14,6 +14,7 @@ namespace PCCG_Tester
         public async static Task<bool> RunTasks()
         {
             TempHandler.InitTemp(_path);
+            FurmarkHandler.InitFurmark(_path);
             Task<bool> primeTask = PrimeHandler.RunPrime(_path);
 
             await Task.WhenAll(primeTask);
