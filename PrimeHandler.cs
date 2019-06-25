@@ -10,20 +10,18 @@ using System.Runtime;
 namespace PCCG_Tester
 {
     public static class PrimeHandler
-    {
-        //string filename = "C://Users/User/Desktop/AAA Testing/Prime95/prime95.exe";
-               
+    {               
         public static async Task<bool> RunPrime(string path)
         {            
-            string filename = Path.Combine(path, "Prime95/prime95.exe");
+            string filename = Path.Combine(path, "Benchmark/prime95.exe");
             await Task.Delay(4000);
             var proc = System.Diagnostics.Process.Start(filename, "-t");
 
-            await Task.Delay(5000);
+            await Task.Delay(900000);
             proc.CloseMainWindow();
             proc.Close();
 
-            string resultsPath = Path.Combine(path, "results.txt");
+            string resultsPath = Path.Combine(path, "Benchmark/results.txt");
             if (File.Exists(resultsPath))
             {
                 string results = File.ReadAllText(resultsPath).ToLower();
