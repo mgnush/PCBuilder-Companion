@@ -19,13 +19,12 @@ namespace PCCG_Tester
             InitializeComponent();
 
             if (DMStatusCheck())
+            {                
+                TestHandler();                
+            } else
             {
-                SetPowerControl();
-                TestHandler();
-                
-            }
-
-            
+                IgnoreDM.Visible = true;
+            }        
         }
 
         private bool DMStatusCheck()
@@ -43,6 +42,11 @@ namespace PCCG_Tester
             }
         }
 
+        private void IgnoreDM_Click(object sender, EventArgs e)
+        {
+            TestHandler();
+        }
+
         private void SetPowerControl()
         {
             PowerControl.SetToPerformance();
@@ -51,8 +55,9 @@ namespace PCCG_Tester
 
         private async void TestHandler()
         {
-            Task<bool> taskHandler = TaskHandler.RunTasks();
-           
+            SetPowerControl();
+
+            Task<bool> taskHandler = TaskHandler.RunPrimeFurmark();            
 
             await Task.WhenAll(taskHandler);
             bool taskRes = taskHandler.Result;
@@ -60,11 +65,14 @@ namespace PCCG_Tester
             if (taskRes)
             {
                 this.DMStatus.Text += "Prime OK \n";
+                this.DMStatus.ForeColor = Color.Green;
             } else
             {
                 this.DMStatus.Text += "Prime failed! \n";
                 this.DMStatus.ForeColor = Color.Red;
             }
+
+            //TaskHandler.RunHeaven();
         }
     }
 }

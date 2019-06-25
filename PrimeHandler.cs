@@ -16,7 +16,7 @@ namespace PCCG_Tester
         public static async Task<bool> RunPrime(string path)
         {            
             string filename = Path.Combine(path, "Prime95/prime95.exe");
-            await Task.Delay(2000);
+            await Task.Delay(4000);
             var proc = System.Diagnostics.Process.Start(filename, "-t");
 
             await Task.Delay(5000);
@@ -26,8 +26,8 @@ namespace PCCG_Tester
             string resultsPath = Path.Combine(path, "results.txt");
             if (File.Exists(resultsPath))
             {
-                string results = File.ReadAllText(resultsPath);
-                return !results.Contains("Possible hardware failure");
+                string results = File.ReadAllText(resultsPath).ToLower();
+                return !results.Contains("hardware failure");
             }
             return true;
         }

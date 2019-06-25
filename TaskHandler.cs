@@ -11,7 +11,7 @@ namespace PCCG_Tester
     {
         private const string _path = "C://Users/Mgnus/Desktop";
 
-        public async static Task<bool> RunTasks()
+        public async static Task<bool> RunPrimeFurmark()
         {
             TempHandler.InitTemp(_path);
             FurmarkHandler.InitFurmark(_path);
@@ -19,6 +19,11 @@ namespace PCCG_Tester
 
             await Task.WhenAll(primeTask);
             return primeTask.Result;
+        }
+
+        public static void RunHeaven()
+        {
+            HeavenHandler.InitHeaven(_path);
         }
     }
 }

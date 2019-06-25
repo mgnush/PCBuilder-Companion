@@ -19,20 +19,42 @@ namespace PCCG_Tester
         
         public static void InitTemp(string path)
         {
-
+            // CoreTemp for logging purposes (they agree on clock speeds & temps)
             string filename = Path.Combine(path, "CoreTemp64/Core Temp.exe");
+            try
+            {
+                var proc = System.Diagnostics.Process.Start(filename);
+            } catch (Exception e)
+            {
+                Console.WriteLine("File {0} not found.", filename);
+            }
+            
+            //HWMonitor for details, does not support logging natively
+            INIFile hwConfig = new INIFile(@"C://Users/Mgnus/Desktop/AAA Testing/Benchmark/hwmonitorw.ini");
+            hwConfig.Write("UPDATES", "0", "HWMonitor");   // Disable update prompts
+
+            filename = Path.Combine(path, "HWMonitor/HWMonitor_x64");
+            try
+            {
+                var proc = System.Diagnostics.Process.Start(filename);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("File {0} not found.", filename);
+            }
+
 
 
             //INIFile tempConfig = new INIFile(@"C://Users/Mgnus/Desktop/CoreTemp64/CoreTemp.ini");
             //tempConfig.Write("EnLog", "1", "Core temp settings");
 
-            var proc = System.Diagnostics.Process.Start(filename);
 
-        //enable logging
-        
-        //tempConfig.DeleteKey("Core Temp settings", "EnLog");
-        //bool moo = tempConfig.KeyExists("EnLog", "Core Temp settings");
-        
+
+            //enable logging
+
+            //tempConfig.DeleteKey("Core Temp settings", "EnLog");
+            //bool moo = tempConfig.KeyExists("EnLog", "Core Temp settings");
+
         }
     }    
      
