@@ -7,12 +7,13 @@
 ;   UAC Control
 ;
 #RequireAdmin
-Run("PCCG_Tester_1.2.exe")
 
-Sleep(10000)
-WinActivate("PCCG Tester")
-WinWaitActive("PCCG Tester", "Prime OK")
-Run("AAA Testing\Benchmark\Heaven\heaven.bat")
+;If NOT isadmin() Then
+ ;       RunAs("Administrator","Mgnus", "", 0, @C:\ & " on", "", @SW_SHOWMINIMIZED)
+  ;      Exit
+;EndIf
+
+Run("Benchmark\Heaven\heaven.bat")
 
 
 WinWaitActive("Unigine Heaven Benchmark 4.0 (Basic Edition)")
@@ -21,3 +22,12 @@ Sleep(14000)
 Send("{F9}")
 Sleep(14000)
 Send("{F9}")
+
+Sleep(300000)
+Send("{ENTER}")
+Sleep(1000)
+Send("{ENTER}")
+Sleep(1000)
+Send("!{F4}")
+
+;Heaven benchmark should now be in Users/User

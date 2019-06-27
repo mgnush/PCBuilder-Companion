@@ -40,7 +40,6 @@ namespace PCCG_Tester
             
             fmSettings.Save(xmlPath);
 
-
             var proc = System.Diagnostics.Process.Start(filename, "/enable_dyn_bkg=1 /bkg_img_id=2 /nogui");
 
         }

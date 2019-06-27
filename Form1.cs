@@ -66,13 +66,13 @@ namespace PCCG_Tester
             {
                 this.DMStatus.Text += "Prime OK \n";
                 this.DMStatus.ForeColor = Color.Green;
+
+                TaskHandler.RunHeaven();
             } else
             {
                 this.DMStatus.Text += "Prime failed! \n";
                 this.DMStatus.ForeColor = Color.Red;
-            }
-
-            //TaskHandler.RunHeaven();
+            }            
         }
     }
 }

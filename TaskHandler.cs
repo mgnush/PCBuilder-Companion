@@ -23,7 +23,7 @@ namespace PCCG_Tester
 
         public static void RunHeaven()
         {
-            //HeavenHandler.InitHeaven(_path);
+            HeavenHandler.InitHeaven(_path);
         }
     }
 }
