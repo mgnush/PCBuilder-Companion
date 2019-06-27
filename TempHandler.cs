@@ -28,12 +28,13 @@ namespace PCCG_Tester
             {
                 Console.WriteLine("File {0} not found.", filename);
             }
-            
+
             //HWMonitor for details, does not support logging natively
-            INIFile hwConfig = new INIFile(@"C://Users/Mgnus/Desktop/AAA Testing/Benchmark/hwmonitorw.ini");
+            string configPath = Path.Combine(path, "Benchmark/hwmonitorw.ini");
+            INIFile hwConfig = new INIFile(configPath);
             hwConfig.Write("UPDATES", "0", "HWMonitor");   // Disable update prompts
 
-            filename = Path.Combine(path, "HWMonitor/HWMonitor_x64");
+            filename = Path.Combine(path, "Benchmark/HWMonitor_x64");
             try
             {
                 var proc = System.Diagnostics.Process.Start(filename);

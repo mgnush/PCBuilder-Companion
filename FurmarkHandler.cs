@@ -13,8 +13,8 @@ namespace PCCG_Tester
     {
         public static void InitFurmark(string path)
         {
-            string filename = Path.Combine(path, "FurMark/FurMark.exe");
-            string xmlPath = Path.Combine(path, "FurMark/startup_options.xml");
+            string filename = Path.Combine(path, "Benchmark/FurMark.exe");
+            string xmlPath = Path.Combine(path, "Benchmark/startup_options.xml");
 
             XmlDocument fmSettings = new XmlDocument();
             fmSettings.Load(xmlPath);
