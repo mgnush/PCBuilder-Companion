@@ -17,7 +17,14 @@ namespace PCCG_Tester
             string xmlPath = Path.Combine(path, "Benchmark/startup_options.xml");
 
             XmlDocument fmSettings = new XmlDocument();
-            fmSettings.Load(xmlPath);
+            try {
+                fmSettings.Load(xmlPath);
+            } catch
+            {
+                Prompt.ShowDialog("Furmark startup_option file not found", "Error");
+                return;
+            }
+            
             XmlNode root = fmSettings.DocumentElement;
 
             // Change options
@@ -35,6 +42,7 @@ namespace PCCG_Tester
 
 
             var proc = System.Diagnostics.Process.Start(filename, "/enable_dyn_bkg=1 /bkg_img_id=2 /nogui");
+
         }
     }
 }

@@ -14,20 +14,42 @@ namespace PCCG_Tester
         public static async Task<bool> RunPrime(string path)
         {            
             string filename = Path.Combine(path, "Benchmark/prime95.exe");
-            await Task.Delay(4000);
-            var proc = System.Diagnostics.Process.Start(filename, "-t");
-
-            await Task.Delay(900000);
-            proc.CloseMainWindow();
-            proc.Close();
-
             string resultsPath = Path.Combine(path, "Benchmark/results.txt");
+
+            // Clear results history (from previous builds)
             if (File.Exists(resultsPath))
             {
-                string results = File.ReadAllText(resultsPath).ToLower();
-                return !results.Contains("hardware failure");
+                File.Delete(resultsPath);
             }
-            return true;
+
+            await Task.Delay(4000);
+
+            try
+            {
+                var proc = System.Diagnostics.Process.Start(filename, "-t");
+
+                // Check prime logs every minute for 15min
+                for (int i = 0; i < 15; i++)
+                {
+                    await Task.Delay(60000);
+                    if (File.Exists(resultsPath))
+                    {
+                        string results = File.ReadAllText(resultsPath).ToLower();
+                        if (results.Contains("hardware failure")) { return false; }
+                    }
+                }
+
+                proc.CloseMainWindow();
+                proc.Close();
+            }
+            catch
+            {
+                Prompt.ShowDialog("Prime95 not found", "Error");
+                return false;
+            }
+           
+           
+            return true; // We made it!
         }
     }
 }
