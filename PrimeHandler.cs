@@ -31,7 +31,7 @@ namespace PCCG_Tester
                 // Check prime logs every minute for 15min
                 for (int i = 0; i < 15; i++)
                 {
-                    await Task.Delay(60000);
+                    await Task.Delay(600);
                     if (File.Exists(resultsPath))
                     {
                         string results = File.ReadAllText(resultsPath).ToLower();

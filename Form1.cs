@@ -16,7 +16,7 @@ namespace PCCG_Tester
 
         public Form1()
         {            
-            InitializeComponent();
+            InitializeComponent();            
 
             if (DMStatusCheck())
             {                
@@ -24,7 +24,8 @@ namespace PCCG_Tester
             } else
             {
                 IgnoreDM.Visible = true;
-            }        
+            }  
+            
         }
 
         private bool DMStatusCheck()
@@ -60,14 +61,21 @@ namespace PCCG_Tester
             Task<bool> taskHandler = TaskHandler.RunPrimeFurmark();            
 
             await Task.WhenAll(taskHandler);
-            bool taskRes = taskHandler.Result;
 
-            if (taskRes)
+            if (taskHandler.Result)
             {
                 this.DMStatus.Text += "Prime OK \n";
                 this.DMStatus.ForeColor = Color.Green;
 
-                TaskHandler.RunHeaven();
+                taskHandler = TaskHandler.RunHeaven();
+                await Task.WhenAll(taskHandler);
+
+                if (taskHandler.Result)
+                {
+                    int heavenScore = HeavenHandler.EvaluateHeaven();
+                    if (heavenScore == 0) { DMStatus.ForeColor = Color.Red; }
+                    DMStatus.Text += "Heaven Score: " + heavenScore + "\n";
+                }
             } else
             {
                 this.DMStatus.Text += "Prime failed! \n";
