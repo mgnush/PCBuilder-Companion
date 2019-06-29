@@ -12,12 +12,16 @@ namespace PCCG_Tester
         private const string _path = "C://Users/Mgnus/Desktop/AAA Testing";
 
         public async static Task<bool> RunPrimeFurmark()
-        {
-            TempHandler.InitTemp(_path);
+        {            
             FurmarkHandler.InitFurmark(_path);
+            TempHandler.InitTemp(_path);
             Task<bool> primeTask = PrimeHandler.RunPrime(_path);
 
+            await Task.Delay(12000);
+            TempHandler.ReadTemp(_path);
+
             await Task.WhenAll(primeTask);
+
             return primeTask.Result;
         }
 

@@ -70,19 +70,9 @@ namespace PCCG_Tester
 
         public static void ReadTemp(string path)
         {
-            TempLogWatcher(path);
-
-            using (var fs = new FileStream(fullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                using (var sr = new StreamReader(fs, Encoding.Default))
-            {
-                sr.
-            }
-        }
-
-        private static void TempLogWatcher(string path)
-        {
-            string ctFolder = Path.Combine(path, "CoreTemp64");
             string partialName = "CT-Log";
+            string ctFolder = Path.Combine(path, "CoreTemp64");
+
             DirectoryInfo folder = new DirectoryInfo(ctFolder);
             FileInfo[] results = folder.GetFiles(partialName + "*.csv");
             if (results.Length == 0)
@@ -95,17 +85,25 @@ namespace PCCG_Tester
             FileSystemWatcher watcher = new FileSystemWatcher();
             watcher.Path = ctFolder;
             watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-            watcher.Filter = fullName;
+            watcher.Filter = results.Last().Name;
             watcher.Changed += new FileSystemEventHandler(TempUpdate);
             watcher.EnableRaisingEvents = true;
+
+
         }
 
         private static void TempUpdate(object source, FileSystemEventArgs e)
         {
-            int totalLines = File.ReadLines(path).Count();
-            int newLinesCount = totalLines - ReadLinesCount;
-            File.ReadLines(path).Skip(ReadLinesCount).Take(newLinesCount);
-            ReadLinesCount = totalLines;
+            using (var fs = new FileStream(e.FullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var sr = new StreamReader(fs, Encoding.Default))
+            {
+                /*int totalLines = File.ReadLines(e.FullPath).Count();
+                int newLinesCount = totalLines - ReadLinesCount;
+                File.ReadLines(e.FullPath).Skip(ReadLinesCount).Take(newLinesCount);
+                ReadLinesCount = totalLines;
+                */
+            }
+          
         }
     }    
      
