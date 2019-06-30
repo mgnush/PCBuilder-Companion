@@ -17,7 +17,7 @@ namespace PCCG_Tester
             TempHandler.InitTemp(_path);
             Task<bool> primeTask = PrimeHandler.RunPrime(_path);
 
-            await Task.Delay(12000);
+            await Task.Delay(2000);
             TempHandler.ReadTemp(_path);
 
             await Task.WhenAll(primeTask);

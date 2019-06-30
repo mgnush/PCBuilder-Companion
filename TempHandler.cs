@@ -16,8 +16,6 @@ namespace PCCG_Tester
     // this might migrate to abstract class
     public static class TempHandler
     {
-        private static int ReadLinesCount = 0;   
-
         public static void InitTemp(string path)
         {
             // CoreTemp for logging purposes (they agree on clock speeds & temps)
@@ -70,6 +68,7 @@ namespace PCCG_Tester
 
         public static void ReadTemp(string path)
         {
+            // Acquire full name of newest log
             string partialName = "CT-Log";
             string ctFolder = Path.Combine(path, "CoreTemp64");
 
@@ -77,34 +76,40 @@ namespace PCCG_Tester
             FileInfo[] results = folder.GetFiles(partialName + "*.csv");
             if (results.Length == 0)
             {
-                Prompt.ShowDialog("No temp logs were found", "Error");
+                Prompt.ShowDialog("No temp log file was found", "Error");
                 return;
             }
-            string fullName = results.Last().FullName;   // Choose latest log file
+            string fullName = results.Last().FullName;   // Choose latest log file            
 
+            // Trigger read every time CT updates log
             FileSystemWatcher watcher = new FileSystemWatcher();
             watcher.Path = ctFolder;
             watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
             watcher.Filter = results.Last().Name;
+            //watcher.Changed += new FileSystemEventHandler((sender, e) => TempUpdate(sender, e, fs, sr));
             watcher.Changed += new FileSystemEventHandler(TempUpdate);
             watcher.EnableRaisingEvents = true;
-
-
         }
 
+        // This method declares a new streamreader at every update. Global and parameter streams seem to
+        // either stop CT from writing to the file, or crash this program.
+        // Consider async read if cpu usage becomes noticeable
         private static void TempUpdate(object source, FileSystemEventArgs e)
         {
             using (var fs = new FileStream(e.FullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var sr = new StreamReader(fs, Encoding.Default))
             {
-                /*int totalLines = File.ReadLines(e.FullPath).Count();
-                int newLinesCount = totalLines - ReadLinesCount;
-                File.ReadLines(e.FullPath).Skip(ReadLinesCount).Take(newLinesCount);
-                ReadLinesCount = totalLines;
-                */
+                string newLine = "";
+                while(!sr.EndOfStream)
+                {
+                    newLine = sr.ReadLine();
+                }
+
+                Prompt.ShowDialog(newLine, "new line");
             }
           
         }
-    }    
-     
+
+    }
+
 }
