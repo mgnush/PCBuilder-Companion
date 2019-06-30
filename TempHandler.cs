@@ -16,6 +16,11 @@ namespace PCCG_Tester
     // this might migrate to abstract class
     public static class TempHandler
     {
+
+        public static int MaxTemp = 0;
+        public static double MaxSpeed = 0;
+        public static double MaxPwr = 0;
+
         public static void InitTemp(string path)
         {
             // CoreTemp for logging purposes (they agree on clock speeds & temps)
@@ -71,43 +76,99 @@ namespace PCCG_Tester
             // Acquire full name of newest log
             string partialName = "CT-Log";
             string ctFolder = Path.Combine(path, "CoreTemp64");
+            string fullName = "";
+            string lastFile = "";
 
-            DirectoryInfo folder = new DirectoryInfo(ctFolder);
-            FileInfo[] results = folder.GetFiles(partialName + "*.csv");
-            if (results.Length == 0)
+            try
+            {
+                DirectoryInfo folder = new DirectoryInfo(ctFolder);
+                FileInfo[] results = folder.GetFiles(partialName + "*.csv");
+                fullName = results.Last().FullName;   // Choose latest log file  
+                lastFile = results.Last().Name;
+            } catch
             {
                 Prompt.ShowDialog("No temp log file was found", "Error");
                 return;
-            }
-            string fullName = results.Last().FullName;   // Choose latest log file            
+            }                    
 
             // Trigger read every time CT updates log
             FileSystemWatcher watcher = new FileSystemWatcher();
             watcher.Path = ctFolder;
             watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-            watcher.Filter = results.Last().Name;
+            watcher.Filter = lastFile;
             //watcher.Changed += new FileSystemEventHandler((sender, e) => TempUpdate(sender, e, fs, sr));
             watcher.Changed += new FileSystemEventHandler(TempUpdate);
             watcher.EnableRaisingEvents = true;
         }
 
-        // This method declares a new streamreader at every update. Global and parameter streams seem to
-        // either stop CT from writing to the file, or crash this program.
         // Consider async read if cpu usage becomes noticeable
         private static void TempUpdate(object source, FileSystemEventArgs e)
         {
+            bool FirstUpdate = true;
+            List<int> TempIndeces = new List<int>();
+            List<int> SpeedIndeces = new List<int>();
+            int CPUPowerIndex = 0;
+            string newLine = "";
+
             using (var fs = new FileStream(e.FullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var sr = new StreamReader(fs, Encoding.Default))
-            {
-                string newLine = "";
+            {                
                 while(!sr.EndOfStream)
-                {
+                {                    
                     newLine = sr.ReadLine();
-                }
 
-                Prompt.ShowDialog(newLine, "new line");
+                    // Retrieve data positions on first file read
+                    if (FirstUpdate)
+                    {
+                        if (newLine.Contains("Time"))   // This is the data entry header line
+                        {
+                            string[] headers = newLine.Split(',');
+                            for (int i = 0; i < headers.Length; i++)
+                            {
+                                if (headers[i].Contains("High temp"))
+                                {
+                                    TempIndeces.Add(i);
+                                }
+                                if (headers[i].Contains("Core speed"))
+                                {
+                                    SpeedIndeces.Add(i);
+                                }
+                                if (headers[i].Contains("Power"))
+                                {
+                                    CPUPowerIndex = i;
+                                }
+                            }
+                            FirstUpdate = false;
+                        }                        
+                    }                     
+                }       
             }
-          
+            // Update maximum values
+            if (!FirstUpdate)
+            {
+                int temp;
+                double speed, pwr;
+                string[] data = newLine.Split(',');
+                if (data.Length > 2)
+                {
+                    foreach (int index in TempIndeces)
+                    {
+                        Int32.TryParse(data[index], out temp);
+                        if (temp > MaxTemp) { MaxTemp = temp; }
+                    }
+                    foreach (int index in SpeedIndeces)
+                    {
+                        Double.TryParse(data[index], out speed);
+                        if (speed > MaxSpeed) { MaxSpeed = speed; }
+                    }
+                    Double.TryParse(data[CPUPowerIndex], out pwr);
+                    if (pwr > MaxPwr) { MaxPwr = pwr; }
+                }
+            }
+
+            // For debugging only:
+            //Prompt.ShowDialog(MaxTemp.ToString(), "max temp");
+
         }
 
     }

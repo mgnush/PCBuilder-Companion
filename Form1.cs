@@ -13,10 +13,12 @@ namespace PCCG_Tester
 {
     public partial class Form1 : Form
     {
+        private bool _overheating;
 
         public Form1()
         {            
-            InitializeComponent();            
+            InitializeComponent();
+            _overheating = false;
 
             if (DMStatusCheck())
             {                
@@ -46,6 +48,21 @@ namespace PCCG_Tester
         private void IgnoreDM_Click(object sender, EventArgs e)
         {
             TestHandler();
+            IgnoreDM.Visible = false;
+        }
+
+        private void IgnoreTemp_Click(object sender, EventArgs e)
+        {
+            DMStatus.ForeColor = Color.Green;
+            IgnoreTemp.Visible = false;
+            TestHeaven();            
+        }
+
+        private void UpdateCPU()
+        {
+            CPUSpeed.Text = TempHandler.MaxSpeed + "MHz";
+            CPUPwr.Text = TempHandler.MaxPwr + "W";
+            CPUTemp.Text = TempHandler.MaxTemp + "°";
         }
 
         private void SetPowerControl()
@@ -60,27 +77,50 @@ namespace PCCG_Tester
 
             Task<bool> taskHandler = TaskHandler.RunPrimeFurmark();            
 
+            while (!taskHandler.IsCompleted)
+            {
+                await Task.Delay(10000);
+                UpdateCPU();
+                if ((TempHandler.MaxTemp > 95) && !_overheating)
+                {
+                    DMStatus.Text += "Overheating! Check Cooling \n";
+                    DMStatus.ForeColor = Color.Red;
+                    _overheating = true;
+                }
+            }
+
+            await Task.WhenAll(taskHandler);
+
+            switch (taskHandler.Result)
+            {
+                case false:
+                    DMStatus.Text += "Prime failed! \n";
+                    DMStatus.ForeColor = Color.Red;
+                    break;
+                case true when _overheating:
+                    DMStatus.Text += "Prime OK \n";
+                    DMStatus.ForeColor = Color.Red;
+                    IgnoreTemp.Visible = true;
+                    break;
+                case true when !_overheating:
+                    DMStatus.Text += "Prime OK \n";
+                    DMStatus.ForeColor = Color.Green;
+                    TestHeaven();
+                    break;
+            }
+        }
+
+        private async void TestHeaven()
+        {
+            Task<bool> taskHandler = TaskHandler.RunHeaven();
             await Task.WhenAll(taskHandler);
 
             if (taskHandler.Result)
             {
-                this.DMStatus.Text += "Prime OK \n";
-                this.DMStatus.ForeColor = Color.Green;
-
-                taskHandler = TaskHandler.RunHeaven();
-                await Task.WhenAll(taskHandler);
-
-                if (taskHandler.Result)
-                {
-                    int heavenScore = HeavenHandler.EvaluateHeaven();
-                    if (heavenScore == 0) { DMStatus.ForeColor = Color.Red; }
-                    DMStatus.Text += "Heaven Score: " + heavenScore + "\n";
-                }
-            } else
-            {
-                this.DMStatus.Text += "Prime failed! \n";
-                this.DMStatus.ForeColor = Color.Red;
-            }            
+                int heavenScore = HeavenHandler.EvaluateHeaven();
+                if (heavenScore == 0) { DMStatus.ForeColor = Color.Red; }
+                DMStatus.Text += "Heaven Score: " + heavenScore + "\n";
+            }
         }
     }
 }

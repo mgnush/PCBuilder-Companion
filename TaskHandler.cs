@@ -9,7 +9,7 @@ namespace PCCG_Tester
 {
     public static class TaskHandler
     {
-        private const string _path = "C://Users/Mgnus/Desktop/AAA Testing";
+        private const string _path = "C://Users/User/Desktop/AAA Testing";
 
         public async static Task<bool> RunPrimeFurmark()
         {            
