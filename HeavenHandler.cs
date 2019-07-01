@@ -27,9 +27,15 @@ namespace PCCG_Tester
         public static int EvaluateHeaven()
         {
             // Get the most recent benchmark file
-            string resultFolder = "C://Users/Mgnus";
+            string resultFolder = "C://Users/User";
             string partialName = "Unigine_Heaven_Benchmark";
+
             DirectoryInfo folder = new DirectoryInfo(resultFolder);
+            if (!folder.Exists)
+            {
+                Prompt.ShowDialog("Heaven Benchmark folder does not exist", "Error");
+                return 0;
+            }
             FileInfo[] results = folder.GetFiles(partialName + "*.*");
             if (results.Length == 0)
             {

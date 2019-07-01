@@ -13,12 +13,9 @@ namespace PCCG_Tester
 {
     public partial class Form1 : Form
     {
-        private bool _overheating;
-
         public Form1()
         {            
             InitializeComponent();
-            _overheating = false;
 
             if (DMStatusCheck())
             {                
@@ -26,21 +23,18 @@ namespace PCCG_Tester
             } else
             {
                 IgnoreDM.Visible = true;
-            }  
-            
+            }              
         }
 
         private bool DMStatusCheck()
         {
             if (DMChecker.GetStatus())
             {
-                this.DMStatus.Text = "Device Manager OK \n";
-                this.DMStatus.ForeColor = Color.Green;
+                TestInfo.AppendText("Device Manager OK \n", Color.Green);
                 return true;
             } else
             {
-                this.DMStatus.Text = "Check Device Manager! \n";
-                this.DMStatus.ForeColor = Color.Red;
+                TestInfo.AppendText("Check Device Manager! \n", Color.Red);
                 return false;
             }
         }
@@ -53,7 +47,7 @@ namespace PCCG_Tester
 
         private void IgnoreTemp_Click(object sender, EventArgs e)
         {
-            DMStatus.ForeColor = Color.Green;
+            TestInfo.ForeColor = Color.Green;
             IgnoreTemp.Visible = false;
             TestHeaven();            
         }
@@ -68,24 +62,29 @@ namespace PCCG_Tester
         private void SetPowerControl()
         {
             PowerControl.SetToPerformance();
-            this.DMStatus.Text += "Power mode was changed to Performace \n";
+            TestInfo.AppendText("Power mode was changed to Performance \n", Color.Green);
         }
 
         private async void TestHandler()
         {
-            SetPowerControl();
+            bool overheating = false;
+            bool highdraw = false;
 
+            SetPowerControl();
             Task<bool> taskHandler = TaskHandler.RunPrimeFurmark();            
 
             while (!taskHandler.IsCompleted)
             {
                 await Task.Delay(10000);
                 UpdateCPU();
-                if ((TempHandler.MaxTemp > 95) && !_overheating)
+                if ((TempHandler.MaxTemp > 95) && !overheating)
                 {
-                    DMStatus.Text += "Overheating! Check Cooling \n";
-                    DMStatus.ForeColor = Color.Red;
-                    _overheating = true;
+                    TestInfo.AppendText("Overheating! Check cooling \n", Color.Red);
+                    overheating = true;
+                }
+                if ((TempHandler.MaxPwr > 185) && !highdraw) {
+                    TestInfo.AppendText("High wattage, check MCE \n", Color.Yellow);
+                    highdraw = true;
                 }
             }
 
@@ -94,17 +93,14 @@ namespace PCCG_Tester
             switch (taskHandler.Result)
             {
                 case false:
-                    DMStatus.Text += "Prime failed! \n";
-                    DMStatus.ForeColor = Color.Red;
+                    TestInfo.AppendText("Prime failed! \n", Color.Red);
                     break;
-                case true when _overheating:
-                    DMStatus.Text += "Prime OK \n";
-                    DMStatus.ForeColor = Color.Red;
+                case true when overheating:
+                    TestInfo.AppendText("Prime OK \n", Color.Green);
                     IgnoreTemp.Visible = true;
                     break;
-                case true when !_overheating:
-                    DMStatus.Text += "Prime OK \n";
-                    DMStatus.ForeColor = Color.Green;
+                case true when !overheating:
+                    TestInfo.AppendText("Prime OK \n", Color.Green);
                     TestHeaven();
                     break;
             }
@@ -118,8 +114,7 @@ namespace PCCG_Tester
             if (taskHandler.Result)
             {
                 int heavenScore = HeavenHandler.EvaluateHeaven();
-                if (heavenScore == 0) { DMStatus.ForeColor = Color.Red; }
-                DMStatus.Text += "Heaven Score: " + heavenScore + "\n";
+                TestInfo.AppendText("Heaven Score: " + heavenScore + "\n", Color.Black);
             }
         }
     }

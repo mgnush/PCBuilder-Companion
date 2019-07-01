@@ -96,7 +96,6 @@ namespace PCCG_Tester
             watcher.Path = ctFolder;
             watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
             watcher.Filter = lastFile;
-            //watcher.Changed += new FileSystemEventHandler((sender, e) => TempUpdate(sender, e, fs, sr));
             watcher.Changed += new FileSystemEventHandler(TempUpdate);
             watcher.EnableRaisingEvents = true;
         }
