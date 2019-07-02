@@ -19,6 +19,8 @@ namespace PCCG_Tester
     //Consider embedding in partial form class
     public partial class Form1: Form
     {
+        private bool _updateSessionFinished = false;
+
         public UpdateSession updateSession;
         #region<------- Search Section ------->
 
@@ -96,6 +98,7 @@ namespace PCCG_Tester
             {
                 WUP.Text = "Windows up to date";
                 WUP.ForeColor = Color.Green;
+                _updateSessionFinished = true;
             }
         }
 
@@ -141,6 +144,7 @@ namespace PCCG_Tester
             {
                 // Complete
                 WUP.Text = "Installation Complete...";
+                _updateSessionFinished = true;
             }
             else
             {
