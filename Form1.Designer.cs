@@ -35,6 +35,7 @@
             this.CPUPwr = new System.Windows.Forms.Label();
             this.IgnoreTemp = new System.Windows.Forms.Button();
             this.TestInfo = new System.Windows.Forms.RichTextBox();
+            this.WUP = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // IgnoreDM
@@ -116,11 +117,23 @@
             this.TestInfo.TabStop = false;
             this.TestInfo.Text = "";
             // 
+            // WUP
+            // 
+            this.WUP.AutoSize = true;
+            this.WUP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.WUP.Location = new System.Drawing.Point(383, 414);
+            this.WUP.Name = "WUP";
+            this.WUP.Size = new System.Drawing.Size(135, 20);
+            this.WUP.TabIndex = 8;
+            this.WUP.Text = "Windows Update";
+            this.WUP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(922, 443);
+            this.Controls.Add(this.WUP);
             this.Controls.Add(this.TestInfo);
             this.Controls.Add(this.IgnoreTemp);
             this.Controls.Add(this.CPUPwr);
@@ -143,6 +156,7 @@
         private System.Windows.Forms.Label CPUPwr;
         private System.Windows.Forms.Button IgnoreTemp;
         private System.Windows.Forms.RichTextBox TestInfo;
+        private System.Windows.Forms.Label WUP;
     }
 }
 

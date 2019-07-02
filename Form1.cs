@@ -16,6 +16,7 @@ namespace PCCG_Tester
         public Form1()
         {            
             InitializeComponent();
+            DoUpdates();
 
             if (DMStatusCheck())
             {                
