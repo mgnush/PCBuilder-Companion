@@ -143,7 +143,8 @@ namespace PCCG_Tester
             if (iInstallationResult.ResultCode == OperationResultCode.orcSucceeded)
             {
                 // Complete
-                WUP.Text = "Installation Complete...";
+                WUP.Text = "Updates installation complete...";
+                WUP.ForeColor = Color.Green;
                 _updateSessionFinished = true;
             }
             else

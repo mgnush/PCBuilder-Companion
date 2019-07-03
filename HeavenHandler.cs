@@ -13,12 +13,12 @@ namespace PCCG_Tester
 {
     public static class HeavenHandler
     {
-        public static void InitHeaven(string path)
+        public static void InitHeaven()
         {
-            string filename = Path.Combine(path, "UAC_CONTROL.exe");
+            string filename = Path.Combine(Paths.TEST, Paths.HEAVEN_SCRIPT);
             ProcessStartInfo pInfo = new ProcessStartInfo();
             pInfo.FileName = filename;
-            pInfo.WorkingDirectory = path;
+            pInfo.WorkingDirectory = Paths.TEST;
 
             Process proc = Process.Start(pInfo);
 
@@ -27,7 +27,7 @@ namespace PCCG_Tester
         public static int EvaluateHeaven()
         {
             // Get the most recent benchmark file
-            string resultFolder = "C://Users/User";
+            string resultFolder = Paths.HEAVEN_RESULTS_FOLDER;
             string partialName = "Unigine_Heaven_Benchmark";
 
             DirectoryInfo folder = new DirectoryInfo(resultFolder);

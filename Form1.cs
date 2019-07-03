@@ -15,12 +15,13 @@ namespace PCCG_Tester
     {        
         public Form1()
         {            
-            InitializeComponent();
-            DoUpdates();
+            InitializeComponent();            
 
             if (DMStatusCheck())
-            {                
-                TestHandler();                
+            {
+                SystemInfo.RetrieveSystemInfo();
+                TestHandler();
+                DoUpdates();
             } else
             {
                 IgnoreDM.Visible = true;
@@ -43,6 +44,7 @@ namespace PCCG_Tester
         private void IgnoreDM_Click(object sender, EventArgs e)
         {
             TestHandler();
+            DoUpdates();
             IgnoreDM.Visible = false;
         }
 
@@ -58,6 +60,7 @@ namespace PCCG_Tester
             CPUSpeed.Text = TempHandler.MaxSpeed + "MHz";
             CPUPwr.Text = TempHandler.MaxPwr + "W";
             CPUTemp.Text = TempHandler.MaxTemp + "°";
+            GPUTempValue.Text = TempHandler.MaxGPUTemp + "°";
         }
 
         private void SetPowerControl()
@@ -69,6 +72,7 @@ namespace PCCG_Tester
         private async void TestHandler()
         {
             bool overheating = false;
+            bool overheatingGPU = false;
             bool highdraw = false;
 
             SetPowerControl();
@@ -84,8 +88,13 @@ namespace PCCG_Tester
                     overheating = true;
                 }
                 if ((TempHandler.MaxPwr > 185) && !highdraw) {
-                    TestInfo.AppendText("High wattage, check MCE \n", Color.Yellow);
+                    TestInfo.AppendText("High wattage, check MCE \n", Color.YellowGreen);
                     highdraw = true;
+                }
+                if ((TempHandler.MaxGPUTemp > 90) && !overheatingGPU)
+                {
+                    TestInfo.AppendText("Overheating GPU! \n", Color.Red);
+                    overheatingGPU = true;
                 }
             }
 
@@ -96,11 +105,11 @@ namespace PCCG_Tester
                 case false:
                     TestInfo.AppendText("Prime failed! \n", Color.Red);
                     break;
-                case true when overheating:
+                case true when (overheating || overheatingGPU):
                     TestInfo.AppendText("Prime OK \n", Color.Green);
                     IgnoreTemp.Visible = true;
                     break;
-                case true when !overheating:
+                case true when !(overheating || overheatingGPU):
                     TestInfo.AppendText("Prime OK \n", Color.Green);
                     TestHeaven();
                     break;
@@ -115,7 +124,8 @@ namespace PCCG_Tester
             if (taskHandler.Result)
             {
                 int heavenScore = HeavenHandler.EvaluateHeaven();
-                TestInfo.AppendText("Heaven Score: " + heavenScore + "\n", Color.Black);
+                TestInfo.AppendText("Heaven Score: " + heavenScore, Color.Black);
+                TestInfo.AppendText(" (" + SystemInfo.Gpu.Name + ")\n", Color.Black);
             }
         }
     }

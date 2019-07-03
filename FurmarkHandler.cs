@@ -11,10 +11,17 @@ namespace PCCG_Tester
 {
     public static class FurmarkHandler
     {
-        public static void InitFurmark(string path)
+        public static void InitFurmark()
         {
-            string filename = Path.Combine(path, "Benchmark/FurMark.exe");
-            string xmlPath = Path.Combine(path, "Benchmark/startup_options.xml");
+            string filename = Path.Combine(Paths.TEST, Paths.FURMARK_EXE);
+            string xmlPath = Path.Combine(Paths.TEST, Paths.FURMARK_XML);
+            string tempPath = Path.Combine(Paths.TEST, Paths.FURMARK_TEMP);
+
+            // Clear old temp results to prepare for temp readings handled by TempHandler
+            if (File.Exists(tempPath))
+            {
+                File.Delete(tempPath);
+            }
 
             XmlDocument fmSettings = new XmlDocument();
             try {
@@ -40,7 +47,14 @@ namespace PCCG_Tester
             
             fmSettings.Save(xmlPath);
 
-            var proc = System.Diagnostics.Process.Start(filename, "/enable_dyn_bkg=1 /bkg_img_id=2 /nogui");
+            try
+            {
+                var proc = System.Diagnostics.Process.Start(filename, "/enable_dyn_bkg=1 /bkg_img_id=2 /nogui");
+            } catch
+            {
+                Prompt.ShowDialog("Furmark application not found", "Error");
+            }
+            
 
         }
     }

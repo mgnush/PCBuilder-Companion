@@ -9,16 +9,16 @@ namespace PCCG_Tester
 {
     public static class TaskHandler
     {
-        private const string _path = "C://Users/User/Desktop/AAA Testing";
-
         public async static Task<bool> RunPrimeFurmark()
         {            
-            FurmarkHandler.InitFurmark(_path);
-            TempHandler.InitTemp(_path);
-            Task<bool> primeTask = PrimeHandler.RunPrime(_path);
+            FurmarkHandler.InitFurmark();
+            TempHandler.InitTemp();
 
             await Task.Delay(2000);
-            TempHandler.ReadTemp(_path);
+            TempHandler.ReadTemp();
+            await Task.Delay(2000);
+
+            Task<bool> primeTask = PrimeHandler.RunPrime();
 
             await Task.WhenAll(primeTask);
 
@@ -27,7 +27,7 @@ namespace PCCG_Tester
 
         public async static Task<bool> RunHeaven()
         {
-            HeavenHandler.InitHeaven(_path);
+            HeavenHandler.InitHeaven();
             await Task.Delay(14000 * 2 + 300000 + (1000 * 3));   // This delay matches the heaven run-time script
 
             return true;

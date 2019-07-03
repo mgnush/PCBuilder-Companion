@@ -17,6 +17,29 @@ namespace PCCG_Tester
         }
 
         Console.Read();*/
+
+        public static string GetGPUName()
+        {
+            List<DeviceInfo> devices = new List<DeviceInfo>();
+
+            ManagementObjectCollection collection;
+            using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_PnPEntity WHERE PNPClass = 'Display'"))
+                collection = searcher.Get();
+
+            foreach (var device in collection)
+            {
+                devices.Add(new DeviceInfo(
+                (string)device.GetPropertyValue("DeviceID"),
+                (string)device.GetPropertyValue("PNPDeviceID"),
+                (string)device.GetPropertyValue("Description"),
+                (string)device.GetPropertyValue("Status")
+                ));
+
+            }
+
+            collection.Dispose();
+            return devices.First().Description;
+        }
         
 
         public static bool GetStatus()

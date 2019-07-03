@@ -11,18 +11,16 @@ namespace PCCG_Tester
 {
     public static class PrimeHandler
     {               
-        public static async Task<bool> RunPrime(string path)
+        public static async Task<bool> RunPrime()
         {            
-            string filename = Path.Combine(path, "Benchmark/prime95.exe");
-            string resultsPath = Path.Combine(path, "Benchmark/results.txt");
+            string filename = Path.Combine(Paths.TEST, Paths.PRIME_EXE);
+            string resultsPath = Path.Combine(Paths.TEST, Paths.PRIME_RESULT);
 
-            // Clear results history (from previous builds)
+            // Clear results history (from previous builds / prior failed session)
             if (File.Exists(resultsPath))
             {
                 File.Delete(resultsPath);
             }
-
-            await Task.Delay(4000);
 
             try
             {

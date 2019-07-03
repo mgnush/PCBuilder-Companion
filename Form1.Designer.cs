@@ -36,6 +36,8 @@
             this.IgnoreTemp = new System.Windows.Forms.Button();
             this.TestInfo = new System.Windows.Forms.RichTextBox();
             this.WUP = new System.Windows.Forms.Label();
+            this.GPULabel = new System.Windows.Forms.Label();
+            this.GPUTempValue = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // IgnoreDM
@@ -128,11 +130,33 @@
             this.WUP.Text = "Windows Update";
             this.WUP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // GPULabel
+            // 
+            this.GPULabel.AutoSize = true;
+            this.GPULabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GPULabel.Location = new System.Drawing.Point(715, 80);
+            this.GPULabel.Name = "GPULabel";
+            this.GPULabel.Size = new System.Drawing.Size(115, 16);
+            this.GPULabel.TabIndex = 9;
+            this.GPULabel.Text = "GPU Temp (Max):";
+            // 
+            // GPUTempValue
+            // 
+            this.GPUTempValue.AutoSize = true;
+            this.GPUTempValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GPUTempValue.Location = new System.Drawing.Point(834, 80);
+            this.GPUTempValue.Name = "GPUTempValue";
+            this.GPUTempValue.Size = new System.Drawing.Size(19, 16);
+            this.GPUTempValue.TabIndex = 10;
+            this.GPUTempValue.Text = "0°";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(922, 443);
+            this.Controls.Add(this.GPUTempValue);
+            this.Controls.Add(this.GPULabel);
             this.Controls.Add(this.WUP);
             this.Controls.Add(this.TestInfo);
             this.Controls.Add(this.IgnoreTemp);
@@ -157,6 +181,8 @@
         private System.Windows.Forms.Button IgnoreTemp;
         private System.Windows.Forms.RichTextBox TestInfo;
         private System.Windows.Forms.Label WUP;
+        private System.Windows.Forms.Label GPULabel;
+        private System.Windows.Forms.Label GPUTempValue;
     }
 }
 

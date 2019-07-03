@@ -9,6 +9,7 @@ using System.Runtime;
 using System.Security.Principal;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 
 namespace PCCG_Tester
@@ -16,15 +17,18 @@ namespace PCCG_Tester
     // this might migrate to abstract class
     public static class TempHandler
     {
-
         public static int MaxTemp = 0;
         public static double MaxSpeed = 0;
         public static double MaxPwr = 0;
 
-        public static void InitTemp(string path)
+        public static double MaxGPUTemp = 0;
+
+        private static string furmarkTemp = Path.Combine(Paths.TEST, Paths.FURMARK_TEMP);
+
+        public static void InitTemp()
         {
             // CoreTemp for logging purposes (they agree on clock speeds & temps)
-            string filename = Path.Combine(path, "CoreTemp64/Core Temp.exe");
+            string filename = Path.Combine(Paths.TEST, Paths.CT);
             try
             {
                 var proc = System.Diagnostics.Process.Start(filename);
@@ -34,11 +38,11 @@ namespace PCCG_Tester
             }
 
             // HWMonitor for details, does not support logging natively
-            string configPath = Path.Combine(path, "Benchmark/hwmonitorw.ini");
+            string configPath = Path.Combine(Paths.TEST, Paths.HWMONITOR_INI);
             INIFile hwConfig = new INIFile(configPath);
             hwConfig.Write("UPDATES", "0", "HWMonitor");   // Disable update prompts
 
-            filename = Path.Combine(path, "Benchmark/HWMonitor_x64");
+            filename = Path.Combine(Paths.TEST, Paths.HWMONITOR_EXE);
             try
             {
                 var proc = System.Diagnostics.Process.Start(filename);
@@ -49,10 +53,10 @@ namespace PCCG_Tester
             }
 
             // Launch script to enable logging, see commented section below
-            filename = Path.Combine(path, "TEMP_LOGGING.exe");
+            filename = Path.Combine(Paths.TEST, Paths.TEMP_SCRIPT);
             ProcessStartInfo pInfo = new ProcessStartInfo();
             pInfo.FileName = filename;
-            pInfo.WorkingDirectory = path;
+            pInfo.WorkingDirectory = Paths.TEST;
             try
             {
                 Process script = Process.Start(pInfo);
@@ -61,21 +65,21 @@ namespace PCCG_Tester
             {
                 Console.WriteLine("File {0} not found.", filename);
             }
-            
-            
+
             //---Below code enables logging by INI-tampering, but CoreTemp uses a corrupted INI-file. 
             //---Uncomment code if future update addresses this (or manually declare DTD)
             //---This approach is favourable to script above
 
             //INIFile tempConfig = new INIFile(@"C://Users/User/Desktop/AAA Testing/CoreTemp64/CoreTemp.ini");
             //tempConfig.Write("EnLog", "1", "Core temp settings");
+
         }
 
-        public static void ReadTemp(string path)
+        public static void ReadTemp()
         {
             // Acquire full name of newest log
             string partialName = "CT-Log";
-            string ctFolder = Path.Combine(path, "CoreTemp64");
+            string ctFolder = Path.Combine(Paths.TEST, Paths.CT_FOLDER);
             string fullName = "";
             string lastFile = "";
 
@@ -87,7 +91,7 @@ namespace PCCG_Tester
                 lastFile = results.Last().Name;
             } catch
             {
-                Prompt.ShowDialog("No temp log file was found", "Error");
+                Prompt.ShowDialog("No CT temp log file was found", "Error");
                 return;
             }                    
 
@@ -100,9 +104,40 @@ namespace PCCG_Tester
             watcher.EnableRaisingEvents = true;
         }
 
+        //This is only called from the CT event handler to reduce threads & load
+        private static void ReadFurmarkTemp()
+        {
+            string newLine = "";
+
+            using (var fs = new FileStream(furmarkTemp, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var sr = new StreamReader(fs, Encoding.Default))
+            {
+                while (!sr.EndOfStream)
+                {
+                    newLine = sr.ReadLine();
+                }
+
+                string[] entries = newLine.Split(' ');
+                foreach (string entry in entries)
+                {
+                    if (entry.Contains("core_temp") && !entry.Contains("fahrenheit"))
+                    {
+                        Match number = Regex.Match(entry, @"\d+");
+                        double temp = Convert.ToDouble(number.Value);
+                        if (temp > MaxGPUTemp)
+                        {
+                            MaxGPUTemp = temp;
+                        }
+                    }
+                }
+            }
+        }
+
         // Consider async read if cpu usage becomes noticeable
         private static void TempUpdate(object source, FileSystemEventArgs e)
         {
+            ReadFurmarkTemp();
+
             bool FirstUpdate = true;
             List<int> TempIndeces = new List<int>();
             List<int> SpeedIndeces = new List<int>();
