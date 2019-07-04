@@ -15,17 +15,22 @@ namespace PCCG_Tester
     {        
         public Form1()
         {            
-            InitializeComponent();            
+            InitializeComponent();
+            InitChecks();          
+        }
 
+        private void InitChecks()
+        {
             if (DMStatusCheck())
             {
-                SystemInfo.RetrieveSystemInfo();
                 TestHandler();
                 DoUpdates();
-            } else
+            }
+            else
             {
                 IgnoreDM.Visible = true;
-            }              
+                DMResync.Visible = true;
+            }
         }
 
         private bool DMStatusCheck()
@@ -41,11 +46,19 @@ namespace PCCG_Tester
             }
         }
 
+        private void DMResync_Click(object sender, EventArgs e)
+        {
+            InitChecks();
+            IgnoreDM.Visible = false;
+            DMResync.Visible = false;
+        }
+
         private void IgnoreDM_Click(object sender, EventArgs e)
         {
             TestHandler();
             DoUpdates();
             IgnoreDM.Visible = false;
+            DMResync.Visible = false;
         }
 
         private void IgnoreTemp_Click(object sender, EventArgs e)
@@ -71,6 +84,11 @@ namespace PCCG_Tester
 
         private async void TestHandler()
         {
+            SystemInfo.RetrieveSystemInfo();
+            CPUMonitor.Text = SystemInfo.Cpu.Name + " (Max values)";
+            GPULabel.Text = SystemInfo.Gpu.Name + " (Max temp)";
+            GPUDriverLabel.Text = SystemInfo.Gpu.Driver;
+
             bool overheating = false;
             bool overheatingGPU = false;
             bool highdraw = false;
@@ -125,7 +143,6 @@ namespace PCCG_Tester
             {
                 int heavenScore = HeavenHandler.EvaluateHeaven();
                 TestInfo.AppendText("Heaven Score: " + heavenScore, Color.Black);
-                TestInfo.AppendText(" (" + SystemInfo.Gpu.Name + ")\n", Color.Black);
             }
         }
     }

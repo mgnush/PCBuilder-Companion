@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
+using WUApiLib;
+using System.Data;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Management;
-using WUApiLib;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Windows.Forms;
+using System.ComponentModel;
+using System.Collections.Generic;
 
 // Exit Codes:
 //   0 = scripting failure
@@ -53,12 +53,18 @@ namespace PCCG_Tester
         public IInstallationResult iInstallationResult;
         #endregion <------- Installer Section ------->
 
+        public delegate void UpdStatus();
+        public UpdStatus updStatus;
+
         protected int count = 0;
 
         /* WUp Entry point
-         */ 
+         */
         public void DoUpdates()
         {
+            updStatus = new UpdStatus(setWUPA);
+            WUP.Text = "Enabling Update Services...";
+
             // Check for iAutomaticUpdates.ServiceEnabled
             IAutomaticUpdates iAutomaticUpdates = new AutomaticUpdates();
             if (!iAutomaticUpdates.ServiceEnabled)
@@ -72,8 +78,10 @@ namespace PCCG_Tester
             iSearchJob = iUpdateSearcher.BeginSearch("IsInstalled=0 AND IsPresent=0", new tSearcher_onCompleted(this), new tSearcher_state(this));
         }
 
-        private void SearchComplete()
+        private void SearchComplete(Form1 mainForm)
         {
+            Form1 formRef = mainForm;
+
             NewUpdatesCollection = new UpdateCollection();
             NewUpdatesSearchResult = iUpdateSearcher.EndSearch(iSearchJob);
             count = NewUpdatesSearchResult.Updates.Count;
@@ -93,11 +101,10 @@ namespace PCCG_Tester
 
             if (NewUpdatesSearchResult.Updates.Count > 0)
             {
-                UpdatesDownload();
+                UpdatesDownload();                
             } else
             {
-                WUP.Text = "Windows up to date";
-                WUP.ForeColor = Color.Green;
+                formRef.Invoke(formRef.updStatus);
                 _updateSessionFinished = true;
             }
         }
@@ -140,20 +147,40 @@ namespace PCCG_Tester
         public void InstallationComplete()
         {
             iInstallationResult = iUpdateInstaller.EndInstall(iInstallationJob);
-            if (iInstallationResult.ResultCode == OperationResultCode.orcSucceeded)
+            switch (iInstallationResult.ResultCode)
             {
-                // Complete
-                WUP.Text = "Updates installation complete...";
-                WUP.ForeColor = Color.Green;
-                _updateSessionFinished = true;
-            }
-            else
-            {
-                string message = "The Installation has failed: " + iInstallationResult.ResultCode + ".";
-                string caption = "DownInstallationload Failed!";
-                Prompt.ShowDialog(message, caption);
+                case OperationResultCode.orcSucceeded:
+                    // Complete
+                    WUP.Text = "Updates installation complete...";
+                    WUP.ForeColor = Color.Green;
+                    _updateSessionFinished = true;
+                    break;
+                case OperationResultCode.orcSucceededWithErrors:
+                    // Need reboot
+                    WUP.Text = "Reboot system";
+                    WUP.ForeColor = Color.GreenYellow;
+                    break;
+                default:
+                    string message = "The Installation has failed: " + iInstallationResult.ResultCode + ".";
+                    string caption = "DownInstallationload Failed!";
+                    Prompt.ShowDialog(message, caption);
+                    break;
             }
         }
+
+        #region <------- Notification Methods ------->
+        public void setWUPA()
+        {
+            WUP.Text = "Windows up to date";
+            WUP.ForeColor = Color.Green;
+        }
+
+        public void setWUP(string status)
+        {
+            WUP.Text = status;
+        }                                 
+        #endregion <------- Notification Methods ------->
+
 
         public class tSearcher_onCompleted : ISearchCompletedCallback
         {
@@ -166,7 +193,7 @@ namespace PCCG_Tester
 
             public void Invoke(ISearchJob sJob, ISearchCompletedCallbackArgs e)
             {
-                _form.SearchComplete();
+                _form.SearchComplete(_form);
             }
         }
 
@@ -177,7 +204,7 @@ namespace PCCG_Tester
             public tSearcher_state(Form1 form)
             {
                 _form = form;
-                _form.WUP.Text = "Searching for updates...";
+                _form.setWUP("Searching for updates...");
             }
         }
 
@@ -197,7 +224,7 @@ namespace PCCG_Tester
                 bDone = decimal.Round(bDone, 2);
                 bLeft = decimal.Round(bLeft, 2);
 
-                _form.WUP.Text = ("Downloading Update: "
+                _form.setWUP("Downloading update: "
                      + e.Progress.CurrentUpdateIndex
                      + "/"
                      + _form.count
@@ -230,7 +257,7 @@ namespace PCCG_Tester
             public tDownload_state(Form1 form)
             {
                 _form = form;
-                _form.WUP.Text = "Updates download started...";
+                _form.setWUP("Updates download started...");
             }
         }
 
@@ -245,12 +272,12 @@ namespace PCCG_Tester
 
             public void Invoke(IInstallationJob iJob, IInstallationProgressChangedCallbackArgs e)
             {                
-                _form.WUP.Text = ("Installing Update: "
+                _form.setWUP("Installing update: "
                     + e.Progress.CurrentUpdateIndex
                     + " / "
                     + _form.count
                     + " - "
-                    + e.Progress.CurrentUpdatePercentComplete + "% Complete");
+                    + e.Progress.CurrentUpdatePercentComplete + "% complete");
                     
             }
         }
@@ -277,7 +304,7 @@ namespace PCCG_Tester
             public tInstall_state(Form1 form)
             {
                 _form = form;
-                _form.WUP.Text = "Updates install started...";
+                _form.setWUP("Updates install started...");
             }
         }
     }

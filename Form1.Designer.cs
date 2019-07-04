@@ -38,11 +38,13 @@
             this.WUP = new System.Windows.Forms.Label();
             this.GPULabel = new System.Windows.Forms.Label();
             this.GPUTempValue = new System.Windows.Forms.Label();
+            this.GPUDriverLabel = new System.Windows.Forms.Label();
+            this.DMResync = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // IgnoreDM
             // 
-            this.IgnoreDM.Location = new System.Drawing.Point(490, 9);
+            this.IgnoreDM.Location = new System.Drawing.Point(490, 32);
             this.IgnoreDM.Name = "IgnoreDM";
             this.IgnoreDM.Size = new System.Drawing.Size(75, 23);
             this.IgnoreDM.TabIndex = 1;
@@ -144,17 +146,38 @@
             // 
             this.GPUTempValue.AutoSize = true;
             this.GPUTempValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GPUTempValue.Location = new System.Drawing.Point(834, 80);
+            this.GPUTempValue.Location = new System.Drawing.Point(887, 80);
             this.GPUTempValue.Name = "GPUTempValue";
             this.GPUTempValue.Size = new System.Drawing.Size(19, 16);
             this.GPUTempValue.TabIndex = 10;
             this.GPUTempValue.Text = "0°";
+            // 
+            // GPUDriverLabel
+            // 
+            this.GPUDriverLabel.AutoSize = true;
+            this.GPUDriverLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GPUDriverLabel.Location = new System.Drawing.Point(716, 96);
+            this.GPUDriverLabel.Name = "GPUDriverLabel";
+            this.GPUDriverLabel.Size = new System.Drawing.Size(0, 16);
+            this.GPUDriverLabel.TabIndex = 11;
+            // 
+            // DMResync
+            // 
+            this.DMResync.Location = new System.Drawing.Point(490, 9);
+            this.DMResync.Name = "DMResync";
+            this.DMResync.Size = new System.Drawing.Size(75, 23);
+            this.DMResync.TabIndex = 12;
+            this.DMResync.Text = "Resync";
+            this.DMResync.UseVisualStyleBackColor = true;
+            this.DMResync.Visible = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(922, 443);
+            this.Controls.Add(this.DMResync);
+            this.Controls.Add(this.GPUDriverLabel);
             this.Controls.Add(this.GPUTempValue);
             this.Controls.Add(this.GPULabel);
             this.Controls.Add(this.WUP);
@@ -183,6 +206,8 @@
         private System.Windows.Forms.Label WUP;
         private System.Windows.Forms.Label GPULabel;
         private System.Windows.Forms.Label GPUTempValue;
+        private System.Windows.Forms.Label GPUDriverLabel;
+        private System.Windows.Forms.Button DMResync;
     }
 }
 
