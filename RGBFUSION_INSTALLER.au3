@@ -4,14 +4,12 @@
  Author:         Magnus Hjorth
 
  Script Function:
-	Enable CoreTemp logging
+	Install RGB Fusion
 
 #ce ----------------------------------------------------------------------------
 
-WinActivate("Core Temp 1.14")
-Sleep(300)
-Send("{F4}")
+#RequireAdmin
+Run("UpdPack.exe")
 
-WinWaitActive("Prime95")
 
-WinActivate("PCCG Companion")
+Sleep("5000")

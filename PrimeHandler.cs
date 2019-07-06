@@ -11,7 +11,7 @@ namespace PCCG_Tester
 {
     public static class PrimeHandler
     {               
-        public static async Task<bool> RunPrime()
+        public static async Task<bool> RunPrime(int durationMin)
         {            
             string filename = Path.Combine(Paths.TEST, Paths.PRIME_EXE);
             string resultsPath = Path.Combine(Paths.TEST, Paths.PRIME_RESULT);
@@ -26,8 +26,10 @@ namespace PCCG_Tester
             {
                 var proc = System.Diagnostics.Process.Start(filename, "-t");
 
-                // Check prime logs every minute for 15min
-                for (int i = 0; i < 15; i++)
+
+
+                // Check prime logs every minute
+                for (int i = 0; i < durationMin; i++)
                 {
                     await Task.Delay(60000);
                     if (File.Exists(resultsPath))

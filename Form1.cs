@@ -7,7 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Security.Permissions;
+using System.Diagnostics;
+
 
 namespace PCCG_Tester
 {
@@ -21,20 +22,50 @@ namespace PCCG_Tester
 
         private void InitChecks()
         {
-            if (DMStatusCheck())
+            if (!DMStatusCheck())
             {
-                TestHandler();
-                DoUpdates();
-            }
-            else
-            {
-                IgnoreDM.Visible = true;
+                Process.Start("devmgmt.msc");   // Launch device manager
                 DMResync.Visible = true;
             }
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.RGBLabel.AppendText("R", Color.Red);
+            this.RGBLabel.AppendText("G", Color.Green);
+            this.RGBLabel.AppendText("B", Color.Blue);
+            this.RGBLabel.AppendText(" Stuff", Color.Black);
+
+            RGBInstaller.ReadRGBSoftware();
+            foreach (string rgbSoftware in RGBInstaller.software)
+            {
+                this.RGBList.Items.Add(rgbSoftware);
+            }
+        }
+
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            DoUpdates();
+            //rgb software 
+            //RGBInstaller.InstallSelectedSoftware(RGBList.SelectedIndices);
+            RGBList.Enabled = false;
+
+            int minDuration = 7;
+            int maxDuration = 29;
+            // Calculate the test duratin in minutes
+            int durationMin = minDuration + (int)((maxDuration - minDuration) * (TestDuration.Value / 100));
+            
+            StartButton.Visible = false;
+            TestDuration.Visible = false;
+            TestDurationLabel.Text += "\n" + durationMin + "min";
+            //easter egg opp.
+
+            TestHandler(durationMin);
+        }
+
         private bool DMStatusCheck()
         {
+            TestInfo.Text = "";
             if (DMChecker.GetStatus())
             {
                 TestInfo.AppendText("Device Manager OK \n", Color.Green);
@@ -49,15 +80,6 @@ namespace PCCG_Tester
         private void DMResync_Click(object sender, EventArgs e)
         {
             InitChecks();
-            IgnoreDM.Visible = false;
-            DMResync.Visible = false;
-        }
-
-        private void IgnoreDM_Click(object sender, EventArgs e)
-        {
-            TestHandler();
-            DoUpdates();
-            IgnoreDM.Visible = false;
             DMResync.Visible = false;
         }
 
@@ -82,7 +104,7 @@ namespace PCCG_Tester
             TestInfo.AppendText("Power mode was changed to Performance \n", Color.Green);
         }
 
-        private async void TestHandler()
+        private async void TestHandler(int durationMin)
         {
             SystemInfo.RetrieveSystemInfo();
             CPUMonitor.Text = SystemInfo.Cpu.Name + " (Max values)";
@@ -94,7 +116,7 @@ namespace PCCG_Tester
             bool highdraw = false;
 
             SetPowerControl();
-            Task<bool> taskHandler = TaskHandler.RunPrimeFurmark();            
+            Task<bool> taskHandler = TaskHandler.RunPrimeFurmark(durationMin);            
 
             while (!taskHandler.IsCompleted)
             {
@@ -144,6 +166,11 @@ namespace PCCG_Tester
                 int heavenScore = HeavenHandler.EvaluateHeaven();
                 TestInfo.AppendText("Heaven Score: " + heavenScore, Color.Black);
             }
+        }
+
+        private void RGBList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Globalization;
 
 // Exit Codes:
 //   0 = scripting failure
@@ -62,7 +63,7 @@ namespace PCCG_Tester
          */
         public void DoUpdates()
         {
-            updStatus = new UpdStatus(setWUPA);
+            updStatus = new UpdStatus(SetWUPDone);
             WUP.Text = "Enabling Update Services...";
 
             // Check for iAutomaticUpdates.ServiceEnabled
@@ -96,7 +97,12 @@ namespace PCCG_Tester
                     iUpdate.AcceptEula();
                 }
 
-                NewUpdatesCollection.Add(iUpdate);
+                // Experimental, intended to avoid installing optional updates
+                /*
+                if (iUpdate.DownloadPriority > DownloadPriority.dpLow)
+                {
+                    NewUpdatesCollection.Add(iUpdate);
+                }        */       
             }
 
             if (NewUpdatesSearchResult.Updates.Count > 0)
@@ -122,17 +128,22 @@ namespace PCCG_Tester
         public void DownloadComplete()
         {
             iDownloadResult = iUpdateDownloader.EndDownload(iDownloadJob);
-            if (iDownloadResult.ResultCode == OperationResultCode.orcSucceeded)
-            {
-                WUP.Text = "Starting updates installation...";
 
-                Installation();
-            }
-            else
-            {                
-                string message = "The Download has failed: " + iDownloadResult.ResultCode + ". Please check your internet connection then Re-Start the application.";
-                string caption = "Download Failed!";
-                Prompt.ShowDialog(message, caption);
+            switch (iDownloadResult.ResultCode)
+            {
+                case OperationResultCode.orcSucceeded:
+                    // Complete
+                    Installation();
+                    break;
+                case OperationResultCode.orcSucceededWithErrors:
+                    // Need reboot
+                    WUP.Text = "Reboot system";
+                    WUP.ForeColor = Color.GreenYellow;
+                    break;
+                default:
+                    WUP.Text = "Updates download error";
+                    WUP.ForeColor = Color.YellowGreen;
+                    break;
             }
         }
 
@@ -161,21 +172,20 @@ namespace PCCG_Tester
                     WUP.ForeColor = Color.GreenYellow;
                     break;
                 default:
-                    string message = "The Installation has failed: " + iInstallationResult.ResultCode + ".";
-                    string caption = "DownInstallationload Failed!";
-                    Prompt.ShowDialog(message, caption);
+                    WUP.Text = "There was a problem installing updates";
+                    WUP.ForeColor = Color.YellowGreen;
                     break;
             }
         }
 
         #region <------- Notification Methods ------->
-        public void setWUPA()
+        public void SetWUPDone()
         {
             WUP.Text = "Windows up to date";
             WUP.ForeColor = Color.Green;
         }
 
-        public void setWUP(string status)
+        public void SetWUP(string status)
         {
             WUP.Text = status;
         }                                 
@@ -204,7 +214,7 @@ namespace PCCG_Tester
             public tSearcher_state(Form1 form)
             {
                 _form = form;
-                _form.setWUP("Searching for updates...");
+                _form.SetWUP("Searching for updates...");
             }
         }
 
@@ -224,7 +234,7 @@ namespace PCCG_Tester
                 bDone = decimal.Round(bDone, 2);
                 bLeft = decimal.Round(bLeft, 2);
 
-                _form.setWUP("Downloading update: "
+                _form.SetWUP("Downloading update: "
                      + e.Progress.CurrentUpdateIndex
                      + "/"
                      + _form.count
@@ -257,7 +267,7 @@ namespace PCCG_Tester
             public tDownload_state(Form1 form)
             {
                 _form = form;
-                _form.setWUP("Updates download started...");
+                _form.SetWUP("Updates download started...");
             }
         }
 
@@ -272,7 +282,7 @@ namespace PCCG_Tester
 
             public void Invoke(IInstallationJob iJob, IInstallationProgressChangedCallbackArgs e)
             {                
-                _form.setWUP("Installing update: "
+                _form.SetWUP("Installing update: "
                     + e.Progress.CurrentUpdateIndex
                     + " / "
                     + _form.count
@@ -304,7 +314,7 @@ namespace PCCG_Tester
             public tInstall_state(Form1 form)
             {
                 _form = form;
-                _form.setWUP("Updates install started...");
+                _form.SetWUP("Updates installation started...");
             }
         }
     }

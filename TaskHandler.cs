@@ -9,16 +9,16 @@ namespace PCCG_Tester
 {
     public static class TaskHandler
     {
-        public async static Task<bool> RunPrimeFurmark()
+        public async static Task<bool> RunPrimeFurmark(int durationMin)
         {            
-            FurmarkHandler.InitFurmark();
+            FurmarkHandler.InitFurmark(durationMin);
             TempHandler.InitTemp();
 
             await Task.Delay(2000);
             TempHandler.ReadTemp();
             await Task.Delay(2000);
 
-            Task<bool> primeTask = PrimeHandler.RunPrime();
+            Task<bool> primeTask = PrimeHandler.RunPrime(durationMin);
 
             await Task.WhenAll(primeTask);
 

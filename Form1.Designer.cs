@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.IgnoreDM = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.CPUMonitor = new System.Windows.Forms.Label();
             this.CPUSpeed = new System.Windows.Forms.Label();
             this.CPUTemp = new System.Windows.Forms.Label();
@@ -39,19 +39,13 @@
             this.GPULabel = new System.Windows.Forms.Label();
             this.GPUTempValue = new System.Windows.Forms.Label();
             this.GPUDriverLabel = new System.Windows.Forms.Label();
+            this.RGBList = new System.Windows.Forms.CheckedListBox();
+            this.RGBLabel = new System.Windows.Forms.RichTextBox();
+            this.StartButton = new System.Windows.Forms.Button();
             this.DMResync = new System.Windows.Forms.Button();
+            this.TestDuration = new System.Windows.Forms.HScrollBar();
+            this.TestDurationLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // IgnoreDM
-            // 
-            this.IgnoreDM.Location = new System.Drawing.Point(490, 32);
-            this.IgnoreDM.Name = "IgnoreDM";
-            this.IgnoreDM.Size = new System.Drawing.Size(75, 23);
-            this.IgnoreDM.TabIndex = 1;
-            this.IgnoreDM.Text = "Ignore";
-            this.IgnoreDM.UseVisualStyleBackColor = true;
-            this.IgnoreDM.Visible = false;
-            this.IgnoreDM.Click += new System.EventHandler(this.IgnoreDM_Click);
             // 
             // CPUMonitor
             // 
@@ -95,7 +89,7 @@
             // 
             // IgnoreTemp
             // 
-            this.IgnoreTemp.Location = new System.Drawing.Point(490, 60);
+            this.IgnoreTemp.Location = new System.Drawing.Point(490, 73);
             this.IgnoreTemp.Name = "IgnoreTemp";
             this.IgnoreTemp.Size = new System.Drawing.Size(75, 23);
             this.IgnoreTemp.TabIndex = 6;
@@ -161,6 +155,48 @@
             this.GPUDriverLabel.Size = new System.Drawing.Size(0, 16);
             this.GPUDriverLabel.TabIndex = 11;
             // 
+            // RGBList
+            // 
+            this.RGBList.BackColor = System.Drawing.SystemColors.Control;
+            this.RGBList.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.RGBList.CheckOnClick = true;
+            this.RGBList.FormattingEnabled = true;
+            this.RGBList.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.RGBList.Location = new System.Drawing.Point(719, 194);
+            this.RGBList.Name = "RGBList";
+            this.RGBList.Size = new System.Drawing.Size(188, 90);
+            this.RGBList.TabIndex = 13;
+            this.RGBList.SelectedIndexChanged += new System.EventHandler(this.RGBList_SelectedIndexChanged);
+            // 
+            // RGBLabel
+            // 
+            this.RGBLabel.BackColor = System.Drawing.SystemColors.Control;
+            this.RGBLabel.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.RGBLabel.Cursor = System.Windows.Forms.Cursors.Default;
+            this.RGBLabel.Enabled = false;
+            this.RGBLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RGBLabel.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.RGBLabel.Location = new System.Drawing.Point(718, 159);
+            this.RGBLabel.Name = "RGBLabel";
+            this.RGBLabel.ReadOnly = true;
+            this.RGBLabel.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.RGBLabel.Size = new System.Drawing.Size(153, 29);
+            this.RGBLabel.TabIndex = 15;
+            this.RGBLabel.TabStop = false;
+            this.RGBLabel.Text = "";
+            // 
+            // StartButton
+            // 
+            this.StartButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.StartButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.StartButton.Location = new System.Drawing.Point(797, 386);
+            this.StartButton.Name = "StartButton";
+            this.StartButton.Size = new System.Drawing.Size(113, 48);
+            this.StartButton.TabIndex = 16;
+            this.StartButton.Text = "START";
+            this.StartButton.UseVisualStyleBackColor = false;
+            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
+            // 
             // DMResync
             // 
             this.DMResync.Location = new System.Drawing.Point(490, 9);
@@ -170,12 +206,37 @@
             this.DMResync.Text = "Resync";
             this.DMResync.UseVisualStyleBackColor = true;
             this.DMResync.Visible = false;
+            this.DMResync.Click += new System.EventHandler(this.DMResync_Click);
+            // 
+            // TestDuration
+            // 
+            this.TestDuration.Location = new System.Drawing.Point(702, 402);
+            this.TestDuration.Name = "TestDuration";
+            this.TestDuration.Size = new System.Drawing.Size(82, 32);
+            this.TestDuration.SmallChange = 5;
+            this.TestDuration.TabIndex = 17;
+            this.TestDuration.Value = 100;
+            // 
+            // TestDurationLabel
+            // 
+            this.TestDurationLabel.AutoSize = true;
+            this.TestDurationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TestDurationLabel.Location = new System.Drawing.Point(699, 386);
+            this.TestDurationLabel.Name = "TestDurationLabel";
+            this.TestDurationLabel.Size = new System.Drawing.Size(96, 16);
+            this.TestDurationLabel.TabIndex = 18;
+            this.TestDurationLabel.Text = "Prime Duration";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(922, 443);
+            this.Controls.Add(this.TestDurationLabel);
+            this.Controls.Add(this.TestDuration);
+            this.Controls.Add(this.StartButton);
+            this.Controls.Add(this.RGBLabel);
+            this.Controls.Add(this.RGBList);
             this.Controls.Add(this.DMResync);
             this.Controls.Add(this.GPUDriverLabel);
             this.Controls.Add(this.GPUTempValue);
@@ -187,16 +248,17 @@
             this.Controls.Add(this.CPUTemp);
             this.Controls.Add(this.CPUSpeed);
             this.Controls.Add(this.CPUMonitor);
-            this.Controls.Add(this.IgnoreDM);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "PCCG Tester";
+            this.Text = "PCCG Companion";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Button IgnoreDM;
         private System.Windows.Forms.Label CPUMonitor;
         private System.Windows.Forms.Label CPUSpeed;
         private System.Windows.Forms.Label CPUTemp;
@@ -207,7 +269,12 @@
         private System.Windows.Forms.Label GPULabel;
         private System.Windows.Forms.Label GPUTempValue;
         private System.Windows.Forms.Label GPUDriverLabel;
+        private System.Windows.Forms.CheckedListBox RGBList;
+        private System.Windows.Forms.RichTextBox RGBLabel;
+        private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Button DMResync;
+        private System.Windows.Forms.HScrollBar TestDuration;
+        private System.Windows.Forms.Label TestDurationLabel;
     }
 }
 

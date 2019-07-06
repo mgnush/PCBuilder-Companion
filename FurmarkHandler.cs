@@ -11,7 +11,7 @@ namespace PCCG_Tester
 {
     public static class FurmarkHandler
     {
-        public static void InitFurmark()
+        public static void InitFurmark(int durationMin)
         {
             string filename = Path.Combine(Paths.TEST, Paths.FURMARK_EXE);
             string xmlPath = Path.Combine(Paths.TEST, Paths.FURMARK_XML);
@@ -34,6 +34,8 @@ namespace PCCG_Tester
             
             XmlNode root = fmSettings.DocumentElement;
 
+            int durationMs = durationMin * 60 * 1000;
+
             // Change options
             root.SelectSingleNode("startup_options/@width").Value = "1280";
             root.SelectSingleNode("startup_options/@height").Value = "720";
@@ -41,7 +43,7 @@ namespace PCCG_Tester
             root.SelectSingleNode("startup_options/@fullscreen").Value = "0";
             root.SelectSingleNode("startup_options/@run_mode").Value = "BENCHMARK";
             root.SelectSingleNode("startup_options/@time_based_benchmark").Value = "1";
-            root.SelectSingleNode("startup_options/@max_time").Value = "900000";
+            root.SelectSingleNode("startup_options/@max_time").Value = durationMs.ToString();
             root.SelectSingleNode("startup_options/@burn_in").Value = "1";
             root.SelectSingleNode("startup_options/@log_temperature").Value = "1";
             

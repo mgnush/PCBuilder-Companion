@@ -80,11 +80,11 @@ namespace PCCG_Tester
                         _name = words[i + 2];
                         return;
                     }
-                    /*else if (words[i].Contains("AMD"))
+                    else if (words[i] == "AMD")
                     {
                         _name = words[i + 1] + " " + words[i + 2] + " " +  words[i + 3];
                         return;
-                    }*/
+                    }
                 }
                 _name = "Unknown CPU";
             }
