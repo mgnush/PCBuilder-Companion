@@ -8,9 +8,9 @@ namespace PCCG_Tester
 {
     public static class Paths
     {
-        public const string DESKTOP = "C://Users/Mgnus/Desktop";
-        public const string TEST = "C://Users/Mgnus/Desktop/AAA Testing";
-        public const string RGB = "C://Users/Mgnus/Desktop/RGB";
+        public const string DESKTOP = "C://Users/User/Desktop";
+        public const string TEST = "C://Users/User/Desktop/AAA Testing";
+        public const string RGB = "C://Users/User/Desktop/RGB";
 
         // Programs & settings
         public const string FILES = "Companion Files";
@@ -30,6 +30,7 @@ namespace PCCG_Tester
         // Scripts
         public const string HEAVEN_SCRIPT = "UAC_CONTROL.exe";
         public const string TEMP_SCRIPT = "TEMP_LOGGING.exe";
+        public const string POS_SCRIPT = "TEST_REPOSITION.exe";
 
         // NAS / Server
         public const string NAS = @"\\CustServiceNAS\SysbBuilds\_Software";

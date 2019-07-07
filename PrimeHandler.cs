@@ -26,8 +26,6 @@ namespace PCCG_Tester
             {
                 var proc = System.Diagnostics.Process.Start(filename, "-t");
 
-
-
                 // Check prime logs every minute
                 for (int i = 0; i < durationMin; i++)
                 {

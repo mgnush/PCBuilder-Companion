@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Permissions;
+using System.IO;
+using System.Diagnostics;
 
 namespace PCCG_Tester
 {
@@ -20,6 +22,14 @@ namespace PCCG_Tester
 
             Task<bool> primeTask = PrimeHandler.RunPrime(durationMin);
 
+            await Task.Delay(1500);
+
+            string positionScript = Path.Combine(Paths.TEST, Paths.FILES, Paths.POS_SCRIPT);
+            if (File.Exists(positionScript))
+            {
+                var proc = Process.Start(positionScript);
+            }
+
             await Task.WhenAll(primeTask);
 
             return primeTask.Result;
@@ -29,8 +39,8 @@ namespace PCCG_Tester
         {
             HeavenHandler.InitHeaven();
             await Task.Delay(14000 * 2 + 300000 + (1000 * 3));   // This delay matches the heaven run-time script
-
-            return true;
+            
+            return true;            
         }
     }
 }

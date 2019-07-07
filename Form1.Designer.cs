@@ -45,6 +45,7 @@
             this.DMResync = new System.Windows.Forms.Button();
             this.TestDuration = new System.Windows.Forms.HScrollBar();
             this.TestDurationLabel = new System.Windows.Forms.Label();
+            this.QCButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // CPUMonitor
@@ -227,11 +228,25 @@
             this.TestDurationLabel.TabIndex = 18;
             this.TestDurationLabel.Text = "Prime Duration";
             // 
+            // QCButton
+            // 
+            this.QCButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.QCButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.QCButton.Location = new System.Drawing.Point(797, 386);
+            this.QCButton.Name = "QCButton";
+            this.QCButton.Size = new System.Drawing.Size(113, 48);
+            this.QCButton.TabIndex = 19;
+            this.QCButton.Text = "QC";
+            this.QCButton.UseVisualStyleBackColor = false;
+            this.QCButton.Visible = false;
+            this.QCButton.Click += new System.EventHandler(this.QCButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(922, 443);
+            this.Controls.Add(this.QCButton);
             this.Controls.Add(this.TestDurationLabel);
             this.Controls.Add(this.TestDuration);
             this.Controls.Add(this.StartButton);
@@ -275,6 +290,7 @@
         private System.Windows.Forms.Button DMResync;
         private System.Windows.Forms.HScrollBar TestDuration;
         private System.Windows.Forms.Label TestDurationLabel;
+        private System.Windows.Forms.Button QCButton;
     }
 }
 

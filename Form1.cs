@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Windows;
 
 
 namespace PCCG_Tester
@@ -31,16 +32,26 @@ namespace PCCG_Tester
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.RGBLabel.AppendText("R", Color.Red);
-            this.RGBLabel.AppendText("G", Color.Green);
-            this.RGBLabel.AppendText("B", Color.Blue);
-            this.RGBLabel.AppendText(" Stuff", Color.Black);
-
-            RGBInstaller.ReadRGBSoftware();
-            foreach (string rgbSoftware in RGBInstaller.software)
+            /*if (Properties.Settings.Default.TestComplete)
             {
-                this.RGBList.Items.Add(rgbSoftware);
-            }
+                this.TestDurationLabel.Visible = false;
+                this.TestDuration.Visible = false;
+                this.StartButton.Visible = false;
+                LoadAllData();
+                DoUpdates();
+            } else
+            {*/
+                this.RGBLabel.AppendText("R", Color.Red);
+                this.RGBLabel.AppendText("G", Color.Green);
+                this.RGBLabel.AppendText("B", Color.Blue);
+                this.RGBLabel.AppendText(" Stuff", Color.Black);
+
+                RGBInstaller.ReadRGBSoftware();
+                foreach (string rgbSoftware in RGBInstaller.software)
+                {
+                    this.RGBList.Items.Add(rgbSoftware);
+                }
+            //}  
         }
 
         private void StartButton_Click(object sender, EventArgs e)
@@ -60,7 +71,12 @@ namespace PCCG_Tester
             TestDurationLabel.Text += "\n" + durationMin + "min";
             //easter egg opp.
 
-            TestHandler(durationMin);
+            TestHandler(durationMin);           
+        }
+
+        private void QCButton_Click(object sender, EventArgs e)
+        {
+            Restart();
         }
 
         private bool DMStatusCheck()
@@ -154,6 +170,9 @@ namespace PCCG_Tester
                     TestHeaven();
                     break;
             }
+
+            SaveAllData();
+            Restart();
         }
 
         private async void TestHeaven()
@@ -171,6 +190,43 @@ namespace PCCG_Tester
         private void RGBList_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        public void SaveAllData()
+        {
+            Properties.Settings.Default.TestComplete = true;
+            Properties.Settings.Default.TestInfo = this.TestInfo.Text;
+            Properties.Settings.Default.CPUInfo = this.CPUMonitor.Text;
+            Properties.Settings.Default.CPUPwr = this.CPUPwr.Text;
+            Properties.Settings.Default.CPUTemp = this.CPUTemp.Text;
+            Properties.Settings.Default.CPUSpeed = this.CPUSpeed.Text;
+            Properties.Settings.Default.GPUInfo = this.GPULabel.Text;
+            Properties.Settings.Default.GPUTemp = this.GPUTempValue.Text;
+            Properties.Settings.Default.GPUDriver = this.GPUDriverLabel.Text;
+
+            Properties.Settings.Default.Save();
+        }
+
+        public void LoadAllData()
+        {
+            this.TestInfo.Text = Properties.Settings.Default.TestInfo;
+            this.CPUMonitor.Text = Properties.Settings.Default.CPUInfo;
+            this.CPUPwr.Text = Properties.Settings.Default.CPUPwr;
+            this.CPUTemp.Text = Properties.Settings.Default.CPUTemp;
+            this.CPUSpeed.Text = Properties.Settings.Default.CPUSpeed;
+            this.GPULabel.Text = Properties.Settings.Default.GPUInfo;
+            this.GPULabel.Text = Properties.Settings.Default.GPUInfo;
+            this.GPUTempValue.Text = Properties.Settings.Default.GPUTemp;
+            this.GPUDriverLabel.Text = Properties.Settings.Default.GPUDriver;
+        }
+
+        private void Restart()
+        {
+            ProcessStartInfo restart = new ProcessStartInfo();
+            restart.WindowStyle = ProcessWindowStyle.Hidden;
+            restart.FileName = "cmd";
+            restart.Arguments = "/C shutdown -f -r";
+            Process.Start(restart);
         }
     }
 }

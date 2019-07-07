@@ -20,8 +20,6 @@ namespace PCCG_Tester
     //Consider embedding in partial form class
     public partial class Form1: Form
     {
-        private bool _updateSessionFinished = false;
-
         public UpdateSession updateSession;
         #region<------- Search Section ------->
 
@@ -57,6 +55,9 @@ namespace PCCG_Tester
         public delegate void UpdStatus();
         public UpdStatus updStatus;
 
+        public delegate void QCReady();
+        public QCReady qcReady;
+
         protected int count = 0;
 
         /* WUp Entry point
@@ -64,6 +65,7 @@ namespace PCCG_Tester
         public void DoUpdates()
         {
             updStatus = new UpdStatus(SetWUPDone);
+            qcReady = new QCReady(EnableQC);
             WUP.Text = "Enabling Update Services...";
 
             // Check for iAutomaticUpdates.ServiceEnabled
@@ -111,7 +113,7 @@ namespace PCCG_Tester
             } else
             {
                 formRef.Invoke(formRef.updStatus);
-                _updateSessionFinished = true;
+                formRef.Invoke(formRef.qcReady);
             }
         }
 
@@ -164,7 +166,6 @@ namespace PCCG_Tester
                     // Complete
                     WUP.Text = "Updates installation complete...";
                     WUP.ForeColor = Color.Green;
-                    _updateSessionFinished = true;
                     break;
                 case OperationResultCode.orcSucceededWithErrors:
                     // Need reboot
@@ -179,6 +180,11 @@ namespace PCCG_Tester
         }
 
         #region <------- Notification Methods ------->
+        public void EnableQC()
+        {
+            QCButton.Visible = true;
+        }
+
         public void SetWUPDone()
         {
             WUP.Text = "Windows up to date";
