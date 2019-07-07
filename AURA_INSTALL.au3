@@ -7,9 +7,13 @@
 	Install Aura
 
 #ce ----------------------------------------------------------------------------
+#include <Array.au3>
+#include <File.au3>
+#include <MsgBoxConstants.au3>
 
 #RequireAdmin
-Run("Setup.exe")
+
+Run($CmdLine[1])
 WinWaitActive("InstallShield Wizard", "The InstallShield® Wizard will install AURA on your computer.")
 Send("!n")
 

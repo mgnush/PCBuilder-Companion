@@ -164,7 +164,7 @@
             this.RGBList.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.RGBList.Location = new System.Drawing.Point(719, 194);
             this.RGBList.Name = "RGBList";
-            this.RGBList.Size = new System.Drawing.Size(188, 90);
+            this.RGBList.Size = new System.Drawing.Size(188, 180);
             this.RGBList.TabIndex = 13;
             this.RGBList.SelectedIndexChanged += new System.EventHandler(this.RGBList_SelectedIndexChanged);
             // 

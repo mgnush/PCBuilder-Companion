@@ -47,13 +47,13 @@ namespace PCCG_Tester
         {
             DoUpdates();
             //rgb software 
-            //RGBInstaller.InstallSelectedSoftware(RGBList.SelectedIndices);
+            RGBInstaller.InstallSelectedSoftware(RGBList.CheckedIndices);
             RGBList.Enabled = false;
 
-            int minDuration = 7;
-            int maxDuration = 29;
+            double minDuration = 7;
+            double maxDuration = 29;
             // Calculate the test duratin in minutes
-            int durationMin = minDuration + (int)((maxDuration - minDuration) * (TestDuration.Value / 100));
+            int durationMin = (int)(minDuration + ((maxDuration - minDuration) * ((double)TestDuration.Value / 100)));
             
             StartButton.Visible = false;
             TestDuration.Visible = false;

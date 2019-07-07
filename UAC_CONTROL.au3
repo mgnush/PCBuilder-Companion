@@ -4,7 +4,7 @@
 ; Author:         Magnus Hjorth
 ;
 ; Script Function:
-;   UAC Control
+;   UAC Control for Heaven
 ;
 #RequireAdmin
 

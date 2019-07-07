@@ -9,7 +9,8 @@
 #ce ----------------------------------------------------------------------------
 
 #RequireAdmin
-Run("Setup.exe")
+
+Run($CmdLine[1])
 
 WinWaitActive("InstallShield Wizard", "The InstallShield® Wizard will install Blitz")
 Send("!n")

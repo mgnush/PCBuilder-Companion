@@ -13,17 +13,16 @@ using System.Security.Principal;
 namespace PCCG_Tester
 {
     // This class collects all installation methods to be executed by stand-alone scripts.
-    // Listen for script process to determine progress. 
-    // Use enum? 
     public static class RGBInstaller
     {
-        public static List<string> software = new List<string>();
-        private static List<string> rgbPath = new List<string>();
+        public static List<string> software = new List<string>();   // Software name as defined in xml
+        private static List<string> setupName = new List<string>();   // Software setup filename as defined in xml
+        private static List<string> scriptName = new List<string>();   // Script name as defined in xml
 
         public static void ReadRGBSoftware()
         {          
             // Load in RGB options specified on server file
-            string rgbXmlPath = Path.Combine(Paths.TEST, Paths.RGB_XML);
+            string rgbXmlPath = Path.Combine(Paths.TEST, Paths.FILES, Paths.RGB_XML);
 
             XmlDocument rgbXml = new XmlDocument();
             try
@@ -41,46 +40,65 @@ namespace PCCG_Tester
             foreach (XmlNode node in root.ChildNodes)
             {
                 software.Add(node.SelectSingleNode(".//GUI").InnerText);
-                rgbPath.Add(node.SelectSingleNode(".//FILENAME").InnerText);
+                setupName.Add(node.SelectSingleNode(".//FILENAME").InnerText);
+                scriptName.Add(node.SelectSingleNode(".//SCRIPTNAME").InnerText);
             }
         }
 
-        public static void InstallSelectedSoftware(ListBox.SelectedIndexCollection indeces)
+        public static void InstallSelectedSoftware(CheckedListBox.CheckedIndexCollection indeces)
         {
             PullSoftware(indeces);
 
             string scriptPath = "";
+            string setupFolder = "";
+            string setupPath = "";
             ProcessStartInfo pInfo;
             Process script;
 
             foreach (int index in indeces)
             {
-                scriptPath = Path.Combine(Paths.TEST, rgbPath.ElementAt(index));
-                pInfo = new ProcessStartInfo();
-                pInfo.FileName = scriptPath;
-                pInfo.WorkingDirectory = Paths.TEST;
-                try
+                scriptPath = Path.Combine(Paths.TEST, Paths.RGB_SCRIPTS, scriptName.ElementAt(index));
+                setupFolder = Path.Combine(Paths.RGB, software.ElementAt(index));
+
+                // Find the (newest) setup file
+                foreach (string file in Directory.GetFiles(setupFolder, setupName.ElementAt(index), SearchOption.AllDirectories))
                 {
+                    string[] partialPaths = file.Split('/');
+                    setupPath = partialPaths.Last();
+                }
+
+                if (File.Exists(scriptPath))
+                {
+                    pInfo = new ProcessStartInfo();
+                    pInfo.FileName = scriptPath;
+                    pInfo.WorkingDirectory = Paths.DESKTOP;
+                    pInfo.Arguments = "\"" + setupPath + "\"";
                     script = Process.Start(pInfo);
                     script.WaitForExit();   // Stall entire program until the software is installed
-                }
-                catch (Exception e)
+                } else
                 {
-                    Console.WriteLine("File {0} not found.", scriptPath);
-                }     
-
+                    Prompt.ShowDialog(scriptName.ElementAt(index) + "\n Does not exist, install manually", "Warning");
+                }
+               
             }
         }
 
-        private static void PullSoftware(ListBox.SelectedIndexCollection indeces)
-        {            
+        private static void PullSoftware(CheckedListBox.CheckedIndexCollection indeces)
+        {  
+            if (!File.Exists(Paths.RGB))
+            {
+                Directory.CreateDirectory(Paths.RGB);
+            }
+
             using (new Impersonator ("BUILDER", Environment.MachineName, "pxe"))
             {
                 string softwarePath = "";
+                string destPath = "";
                 foreach (int index in indeces)
                 {
                     softwarePath = Path.Combine(Paths.NAS, software.ElementAt(index));   // Software names in xml must match folder names on NAS!
-                    File.Copy(softwarePath, Paths.TEST, true);
+                    destPath = Path.Combine(Paths.RGB, software.ElementAt(index));
+                    File.Copy(softwarePath, destPath, true);
                 }
             }
         }

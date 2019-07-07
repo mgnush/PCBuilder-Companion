@@ -11,7 +11,7 @@
 #RequireAdmin
 
 
-Run("MysticLight.exe")
+Run($CmdLine[1])
 
 WinWaitActive("Select Setup Language")
 Send("{ENTER}")

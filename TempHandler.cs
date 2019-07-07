@@ -28,7 +28,7 @@ namespace PCCG_Tester
         public static void InitTemp()
         {
             // CoreTemp for logging purposes (they agree on clock speeds & temps)
-            string filename = Path.Combine(Paths.TEST, Paths.CT);
+            string filename = Path.Combine(Paths.TEST, Paths.CT_EXE);
             try
             {
                 var proc = System.Diagnostics.Process.Start(filename);
@@ -53,7 +53,7 @@ namespace PCCG_Tester
             }
 
             // Launch script to enable logging, see commented section below
-            filename = Path.Combine(Paths.TEST, Paths.TEMP_SCRIPT);
+            filename = Path.Combine(Paths.TEST, Paths.FILES, Paths.TEMP_SCRIPT);
             ProcessStartInfo pInfo = new ProcessStartInfo();
             pInfo.FileName = filename;
             pInfo.WorkingDirectory = Paths.TEST;

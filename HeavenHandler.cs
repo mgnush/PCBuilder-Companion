@@ -15,7 +15,7 @@ namespace PCCG_Tester
     {
         public static void InitHeaven()
         {
-            string filename = Path.Combine(Paths.TEST, Paths.HEAVEN_SCRIPT);
+            string filename = Path.Combine(Paths.TEST, Paths.FILES, Paths.HEAVEN_SCRIPT);
             ProcessStartInfo pInfo = new ProcessStartInfo();
             pInfo.FileName = filename;
             pInfo.WorkingDirectory = Paths.TEST;

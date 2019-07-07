@@ -9,18 +9,7 @@
 #ce ----------------------------------------------------------------------------
 #include <MsgBoxConstants.au3>
 
-#RequireAdmin
-$search = FileFindFirstFile("iCUESetup_*.msi")
-If $search = -1 Then
-        MsgBox($MB_SYSTEMMODAL, "", "Error: No files/directories matched the search pattern.")
-		Exit
-EndIf
-
-$filename = FileFindNextFile($search)
-
-FileClose($search)
-
-ShellExecute($filename)
+ShellExecute($CmdLine[1])
 
 WinWaitActive("SELECT SETUP LANGUAGE")
 Send("{ENTER}")
@@ -48,4 +37,4 @@ Sleep(200)
 WinWaitActive("INSTALL CORSAIR iCUE Software")
 Send("{SPACE}")
 
-Sleep(15000)
+Sleep(25000)

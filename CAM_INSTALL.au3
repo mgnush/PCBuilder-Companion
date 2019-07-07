@@ -10,17 +10,8 @@
 #include <MsgBoxConstants.au3>
 
 #RequireAdmin
-$search = FileFindFirstFile("CAM_Installer *.exe")
-If $search = -1 Then
-        MsgBox($MB_SYSTEMMODAL, "", "Error: No files/directories matched the search pattern.")
-		Exit
-EndIf
 
-$filename = FileFindNextFile($search)
-
-FileClose($search)
-
-Run($filename)
+Run($CmdLine[1])
 
 WinWaitActive("CAM Setup", "Please select a language:")
 Send("{ENTER}")
