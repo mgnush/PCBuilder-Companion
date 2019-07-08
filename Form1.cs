@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Windows;
 
 
 namespace PCCG_Tester
@@ -32,7 +31,7 @@ namespace PCCG_Tester
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            /*if (Properties.Settings.Default.TestComplete)
+            if (Properties.Settings.Default.TestComplete)
             {
                 this.TestDurationLabel.Visible = false;
                 this.TestDuration.Visible = false;
@@ -40,7 +39,7 @@ namespace PCCG_Tester
                 LoadAllData();
                 DoUpdates();
             } else
-            {*/
+            {
                 this.RGBLabel.AppendText("R", Color.Red);
                 this.RGBLabel.AppendText("G", Color.Green);
                 this.RGBLabel.AppendText("B", Color.Blue);
@@ -51,7 +50,7 @@ namespace PCCG_Tester
                 {
                     this.RGBList.Items.Add(rgbSoftware);
                 }
-            //}  
+            }  
         }
 
         private void StartButton_Click(object sender, EventArgs e)
@@ -70,7 +69,7 @@ namespace PCCG_Tester
             TestDuration.Visible = false;
             TestDurationLabel.Text += "\n" + durationMin + "min";
             //easter egg opp.
-
+            
             TestHandler(durationMin);           
         }
 
@@ -170,9 +169,6 @@ namespace PCCG_Tester
                     TestHeaven();
                     break;
             }
-
-            SaveAllData();
-            Restart();
         }
 
         private async void TestHeaven()
@@ -185,6 +181,9 @@ namespace PCCG_Tester
                 int heavenScore = HeavenHandler.EvaluateHeaven();
                 TestInfo.AppendText("Heaven Score: " + heavenScore, Color.Black);
             }
+
+            SaveAllData();
+            Restart();
         }
 
         private void RGBList_SelectedIndexChanged(object sender, EventArgs e)

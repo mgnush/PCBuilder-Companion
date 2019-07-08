@@ -7,7 +7,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Diagnostics;
+using System.Threading;
+using System.ServiceProcess;
 
 // Exit Codes:
 //   0 = scripting failure
@@ -20,6 +22,8 @@ namespace PCCG_Tester
     //Consider embedding in partial form class
     public partial class Form1: Form
     {
+        private BackgroundWorker EnableServicesWorker;
+
         public UpdateSession updateSession;
         #region<------- Search Section ------->
 
@@ -55,26 +59,93 @@ namespace PCCG_Tester
         public delegate void UpdStatus();
         public UpdStatus updStatus;
 
-        public delegate void QCReady();
-        public QCReady qcReady;
+        private int count = 0;
 
-        protected int count = 0;
+        public int Count
+        {
+            get { return count; }
+            set { count = value; }
+        }
 
-        /* WUp Entry point
-         */
         public void DoUpdates()
         {
             updStatus = new UpdStatus(SetWUPDone);
-            qcReady = new QCReady(EnableQC);
-            WUP.Text = "Enabling Update Services...";
+            EnableServicesWorker = new BackgroundWorker();
+            EnableServicesWorker.DoWork += EnableServicesWorker_DoWork;
+            EnableServicesWorker.RunWorkerCompleted += EnableServicesWorker_RunWorkerCompleted;
 
-            // Check for iAutomaticUpdates.ServiceEnabled
+            this.WUP.Text = "Enabling Update Services...";
+
+            // Lets check Windows is up to that task...
+            EnableServicesWorker.RunWorkerAsync();
+        }
+
+        #region <------- Service Methods ------->
+        private void EnableServicesWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            // Get Services Collection...
+            ServiceController[] serviceController;
+            serviceController = ServiceController.GetServices();
+
+            // Loop through and check for a particular Service...
+            foreach (ServiceController scTemp in serviceController)
+            {
+                switch (scTemp.DisplayName)
+                {
+                    case "Windows Update":
+                        RestartService(scTemp.DisplayName, 5000);
+                        break;
+                    case "Automatic Updates":
+                        RestartService(scTemp.DisplayName, 5000);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            // Check for iAutomaticUpdates.ServiceEnabled...
             IAutomaticUpdates iAutomaticUpdates = new AutomaticUpdates();
             if (!iAutomaticUpdates.ServiceEnabled)
             {
                 iAutomaticUpdates.EnableService();
             }
+        }
 
+        private void EnableServicesWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            StartSearch();
+        }
+
+        public static void RestartService(string serviceName, int timeoutMilliseconds)
+        {
+            ServiceController serviceController = new ServiceController(serviceName);
+            try
+            {
+                int millisec1 = Environment.TickCount;
+                TimeSpan timeout = TimeSpan.FromMilliseconds(timeoutMilliseconds);
+
+                serviceController.Stop();
+                serviceController.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
+
+                // count the rest of the timeout
+                int millisec2 = Environment.TickCount;
+                timeout = TimeSpan.FromMilliseconds(timeoutMilliseconds - (millisec2 - millisec1));
+
+                serviceController.Start();
+                serviceController.WaitForStatus(ServiceControllerStatus.Running, timeout);
+            }
+            catch
+            {
+                // ...
+            }
+        }
+
+        #endregion <------- Service Methods ------->
+
+        /* WUp Entry point
+         */
+        private void StartSearch()
+        {
             updateSession = new UpdateSession();
             iUpdateSearcher = updateSession.CreateUpdateSearcher();
             //iUpdateSearcher.Online = true;   //Only search online
@@ -87,7 +158,7 @@ namespace PCCG_Tester
 
             NewUpdatesCollection = new UpdateCollection();
             NewUpdatesSearchResult = iUpdateSearcher.EndSearch(iSearchJob);
-            count = NewUpdatesSearchResult.Updates.Count;
+            Count = NewUpdatesSearchResult.Updates.Count;
 
             // Accept Eula code for each update
             for (int i = 0; i < NewUpdatesSearchResult.Updates.Count; i++)
@@ -99,12 +170,7 @@ namespace PCCG_Tester
                     iUpdate.AcceptEula();
                 }
 
-                // Experimental, intended to avoid installing optional updates
-                /*
-                if (iUpdate.DownloadPriority > DownloadPriority.dpLow)
-                {
-                    NewUpdatesCollection.Add(iUpdate);
-                }        */       
+                NewUpdatesCollection.Add(iUpdate);      
             }
 
             if (NewUpdatesSearchResult.Updates.Count > 0)
@@ -113,7 +179,6 @@ namespace PCCG_Tester
             } else
             {
                 formRef.Invoke(formRef.updStatus);
-                formRef.Invoke(formRef.qcReady);
             }
         }
 
@@ -180,15 +245,11 @@ namespace PCCG_Tester
         }
 
         #region <------- Notification Methods ------->
-        public void EnableQC()
-        {
-            QCButton.Visible = true;
-        }
-
         public void SetWUPDone()
         {
             WUP.Text = "Windows up to date";
             WUP.ForeColor = Color.Green;
+            QCButton.Visible = true;
         }
 
         public void SetWUP(string status)
@@ -219,7 +280,7 @@ namespace PCCG_Tester
 
             public tSearcher_state(Form1 form)
             {
-                _form = form;
+                this._form = form;
                 _form.SetWUP("Searching for updates...");
             }
         }
@@ -230,7 +291,7 @@ namespace PCCG_Tester
 
             public tDownload_onProgressChanged(Form1 form)
             {
-                _form = form;
+                this._form = form;
             }
 
             public void Invoke(IDownloadJob dj, IDownloadProgressChangedCallbackArgs e)
@@ -243,7 +304,7 @@ namespace PCCG_Tester
                 _form.SetWUP("Downloading update: "
                      + e.Progress.CurrentUpdateIndex
                      + "/"
-                     + _form.count
+                     + dj.Updates.Count
                      + " - "
                      + bDone + "Mb"
                      + " / "
@@ -257,7 +318,7 @@ namespace PCCG_Tester
 
             public tDownload_onCompleted(Form1 form)
             {
-                _form = form;
+                this._form = form;
             }
 
             public void Invoke(IDownloadJob dj, IDownloadCompletedCallbackArgs e)
@@ -272,7 +333,7 @@ namespace PCCG_Tester
 
             public tDownload_state(Form1 form)
             {
-                _form = form;
+                this._form = form;
                 _form.SetWUP("Updates download started...");
             }
         }
@@ -283,7 +344,7 @@ namespace PCCG_Tester
 
             public tInstall_onProgressChanged(Form1 form)
             {
-                _form = form;
+                this._form = form;
             }
 
             public void Invoke(IInstallationJob iJob, IInstallationProgressChangedCallbackArgs e)
@@ -291,10 +352,9 @@ namespace PCCG_Tester
                 _form.SetWUP("Installing update: "
                     + e.Progress.CurrentUpdateIndex
                     + " / "
-                    + _form.count
+                    + iJob.Updates.Count
                     + " - "
-                    + e.Progress.CurrentUpdatePercentComplete + "% complete");
-                    
+                    + e.Progress.CurrentUpdatePercentComplete + "% complete");                    
             }
         }
 
@@ -304,7 +364,7 @@ namespace PCCG_Tester
 
             public tInstall_onCompleted(Form1 form)
             {
-                _form = form;
+                this._form = form;
             }
 
             public void Invoke (IInstallationJob iIJob, IInstallationCompletedCallbackArgs e)
@@ -319,7 +379,7 @@ namespace PCCG_Tester
 
             public tInstall_state(Form1 form)
             {
-                _form = form;
+                this._form  = form;
                 _form.SetWUP("Updates installation started...");
             }
         }

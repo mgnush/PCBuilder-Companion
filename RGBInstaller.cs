@@ -47,7 +47,7 @@ namespace PCCG_Tester
 
         public static void InstallSelectedSoftware(CheckedListBox.CheckedIndexCollection indeces)
         {
-            PullSoftware(indeces);
+            //PullSoftware(indeces);
 
             string scriptPath = "";
             string setupFolder = "";
@@ -78,18 +78,33 @@ namespace PCCG_Tester
                 } else
                 {
                     Prompt.ShowDialog(scriptName.ElementAt(index) + "\n Does not exist, install manually", "Warning");
-                }
-               
+                }               
             }
         }
 
         private static void PullSoftware(CheckedListBox.CheckedIndexCollection indeces)
-        {  
+        {
+            string softwarePath = "";
+            string destPath = "";
+
             if (!File.Exists(Paths.RGB))
             {
                 Directory.CreateDirectory(Paths.RGB);
             }
 
+            NetworkShare.DisconnectFromShare(Paths.NAS, true);   // Disconnect in case we are currently connected with our credentials;
+            NetworkShare.ConnectToShare(Paths.NAS, "BUILDER", "pxe");   // Connect with the new credentials
+
+            foreach (int index in indeces)
+            {
+                softwarePath = Path.Combine(Paths.NAS, software.ElementAt(index));   // Software names in xml must match folder names on NAS!
+                destPath = Path.Combine(Paths.RGB, software.ElementAt(index));
+                File.Copy(softwarePath, destPath, true);
+            }
+
+            NetworkShare.DisconnectFromShare(Paths.NAS, false);   // Disconnect from the server.
+
+            /*
             using (new Impersonator ("BUILDER", Environment.MachineName, "pxe"))
             {
                 string softwarePath = "";
@@ -101,7 +116,7 @@ namespace PCCG_Tester
                     File.Copy(softwarePath, destPath, true);
                 }
             }
+            */
         }
-    }
- 
+    } 
 }
