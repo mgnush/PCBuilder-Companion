@@ -7,7 +7,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Reflection;
 
-namespace PCCG_Tester
+namespace Builder_Companion
 {
     public class INIFile
     {

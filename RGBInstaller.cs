@@ -9,8 +9,9 @@ using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Security.Principal;
+using Microsoft.VisualBasic;
 
-namespace PCCG_Tester
+namespace Builder_Companion
 {
     // This class collects all installation methods to be executed by stand-alone scripts.
     public static class RGBInstaller
@@ -47,7 +48,7 @@ namespace PCCG_Tester
 
         public static void InstallSelectedSoftware(CheckedListBox.CheckedIndexCollection indeces)
         {
-            //PullSoftware(indeces);
+            PullSoftware(indeces);
 
             string scriptPath = "";
             string setupFolder = "";
@@ -87,36 +88,33 @@ namespace PCCG_Tester
             string softwarePath = "";
             string destPath = "";
 
-            if (!File.Exists(Paths.RGB))
+            if (!Directory.Exists(Paths.RGB))
             {
                 Directory.CreateDirectory(Paths.RGB);
             }
 
             NetworkShare.DisconnectFromShare(Paths.NAS, true);   // Disconnect in case we are currently connected with our credentials;
-            NetworkShare.ConnectToShare(Paths.NAS, "BUILDER", "pxe");   // Connect with the new credentials
+
+            // Connect with the new credentials
+            if (NetworkShare.ConnectToShare(Paths.NAS, "BUILDER", "pxe") != null)
+            {
+                Prompt.ShowDialog("Could not connect to the sharepoint", "Error");
+                return;
+            }
 
             foreach (int index in indeces)
             {
-                softwarePath = Path.Combine(Paths.NAS, software.ElementAt(index));   // Software names in xml must match folder names on NAS!
+                softwarePath = Path.Combine(Paths.NAS, software.ElementAt(index));   // Software names in xml must match folder names on NAS!     
                 destPath = Path.Combine(Paths.RGB, software.ElementAt(index));
-                File.Copy(softwarePath, destPath, true);
+                if (!Directory.Exists(destPath))
+                {
+                    Directory.CreateDirectory(destPath);
+                }
+                //File.Copy(softwarePath, destPath, true);   
+                new Microsoft.VisualBasic.Devices.Computer().FileSystem.CopyDirectory(softwarePath, destPath, true);
             }
 
             NetworkShare.DisconnectFromShare(Paths.NAS, false);   // Disconnect from the server.
-
-            /*
-            using (new Impersonator ("BUILDER", Environment.MachineName, "pxe"))
-            {
-                string softwarePath = "";
-                string destPath = "";
-                foreach (int index in indeces)
-                {
-                    softwarePath = Path.Combine(Paths.NAS, software.ElementAt(index));   // Software names in xml must match folder names on NAS!
-                    destPath = Path.Combine(Paths.RGB, software.ElementAt(index));
-                    File.Copy(softwarePath, destPath, true);
-                }
-            }
-            */
         }
     } 
 }

@@ -17,7 +17,7 @@ using System.ServiceProcess;
 //   2 = installation successful, no further updates to install
 //   3 = reboot needed; rerun script after reboot
 
-namespace PCCG_Tester
+namespace Builder_Companion
 {
     //Consider embedding in partial form class
     public partial class Form1: Form
@@ -231,6 +231,10 @@ namespace PCCG_Tester
                     // Complete
                     WUP.Text = "Updates installation complete...";
                     WUP.ForeColor = Color.Green;
+                    if (Properties.Settings.Default.TestComplete)
+                    {
+                        Restart();
+                    }
                     break;
                 case OperationResultCode.orcSucceededWithErrors:
                     // Need reboot

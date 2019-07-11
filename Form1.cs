@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Management;
 
-
-namespace PCCG_Tester
+namespace Builder_Companion
 {
     public partial class Form1 : Form
     {        
@@ -20,17 +20,15 @@ namespace PCCG_Tester
             InitChecks();          
         }
 
-        private void InitChecks()
-        {
-            if (!DMStatusCheck())
-            {
-                Process.Start("devmgmt.msc");   // Launch device manager
-                DMResync.Visible = true;
-            }
-        }
-
+        #region<------- Event Handlers ------->
         private void Form1_Load(object sender, EventArgs e)
         {
+            
+            if (Properties.Settings.Default.QC)
+            {
+                QCHandler.LaunchManualChecks();
+            }
+
             if (Properties.Settings.Default.TestComplete)
             {
                 this.TestDurationLabel.Visible = false;
@@ -50,31 +48,36 @@ namespace PCCG_Tester
                 {
                     this.RGBList.Items.Add(rgbSoftware);
                 }
-            }  
+            } 
+            
         }
 
         private void StartButton_Click(object sender, EventArgs e)
         {
+            StartButton.Visible = false;
+
             DoUpdates();
             //rgb software 
             RGBInstaller.InstallSelectedSoftware(RGBList.CheckedIndices);
             RGBList.Enabled = false;
 
-            double minDuration = 7;
+            double minDuration = 9;
             double maxDuration = 29;
-            // Calculate the test duratin in minutes
-            int durationMin = (int)(minDuration + ((maxDuration - minDuration) * ((double)TestDuration.Value / 100)));
-            
-            StartButton.Visible = false;
+            // Calculate the test duration in minutes
+            int durationMin = (int)(minDuration + ((maxDuration - minDuration) * ((double)TestDuration.Value / 100)));            
+           
             TestDuration.Visible = false;
             TestDurationLabel.Text += "\n" + durationMin + "min";
             //easter egg opp.
             
-            TestHandler(durationMin);           
+            TestHandler(durationMin);            
         }
 
         private void QCButton_Click(object sender, EventArgs e)
         {
+            QCButton.Visible = false;
+            Properties.Settings.Default.QC = true;
+            Properties.Settings.Default.Save();
             Restart();
         }
 
@@ -103,6 +106,21 @@ namespace PCCG_Tester
             TestInfo.ForeColor = Color.Green;
             IgnoreTemp.Visible = false;
             TestHeaven();            
+        }
+
+        private void RGBList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        #endregion<------- Event Handlers ------->
+
+        private void InitChecks()
+        {
+            if (!DMStatusCheck())
+            {
+                Process.Start("devmgmt.msc");   // Launch device manager
+                DMResync.Visible = true;
+            }
         }
 
         private void UpdateCPU()
@@ -186,11 +204,6 @@ namespace PCCG_Tester
             Restart();
         }
 
-        private void RGBList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         public void SaveAllData()
         {
             Properties.Settings.Default.TestComplete = true;
@@ -227,5 +240,7 @@ namespace PCCG_Tester
             restart.Arguments = "/C shutdown -f -r";
             Process.Start(restart);
         }
+
+        
     }
 }

@@ -5,25 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
-namespace PCCG_Tester
+namespace Builder_Companion
 {
     public static class PowerControl
     {
-        /*[DllImport("PowrProf.dll", CharSet = CharSet.Unicode)]
-        static extern UInt32 PowerWriteDCValueIndex(IntPtr RootPowerKey,
-        [MarshalAs(UnmanagedType.LPStruct)] Guid SchemeGuid,
-        [MarshalAs(UnmanagedType.LPStruct)] Guid SubGroupOfPowerSettingsGuid,
-        [MarshalAs(UnmanagedType.LPStruct)] Guid PowerSettingGuid,
-        int AcValueIndex);
-
-        [DllImport("PowrProf.dll", CharSet = CharSet.Unicode)]
-        static extern UInt32 PowerWriteACValueIndex(IntPtr RootPowerKey,
-        [MarshalAs(UnmanagedType.LPStruct)] Guid SchemeGuid,
-        [MarshalAs(UnmanagedType.LPStruct)] Guid SubGroupOfPowerSettingsGuid,
-        [MarshalAs(UnmanagedType.LPStruct)] Guid PowerSettingGuid,
-        int AcValueIndex);
-        */
-
         [DllImport("PowrProf.dll", CharSet = CharSet.Unicode)]
         static extern UInt32 PowerSetActiveScheme(IntPtr RootPowerKey,
         [MarshalAs(UnmanagedType.LPStruct)] Guid SchemeGuid);
@@ -40,20 +25,6 @@ namespace PCCG_Tester
 
         public static void SetToPerformance()
         {
-            //IntPtr pActiveSchemeGuid;
-            //var hr = PowerGetActiveScheme(IntPtr.Zero, out pActiveSchemeGuid);
-            //Guid activeSchemeGuid = (Guid)Marshal.PtrToStructure(pActiveSchemeGuid, typeof(Guid));
-
-            /*hr = PowerWriteDCValueIndex(
-                 IntPtr.Zero,
-                 activeSchemeGuid,
-                 GUID_SYSTEM_BUTTON_SUBGROUP,
-                 GUID_POWERBUTTON,
-                 0);
-                 */
-            //PowerSetActiveScheme(IntPtr.Zero, activeSchemeGuid); //This is necessary to apply the current scheme.
-            //Guid activeSchemeGuide = (Guid)Marshal.PtrToStructure(, typeof(Guid));
-            //PowerSetActiveScheme()
             PowerSetActiveScheme(IntPtr.Zero, GUID_PERFORMANCEMODE);
         }
 

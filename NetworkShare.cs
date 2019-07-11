@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
-namespace PCCG_Tester
+namespace Builder_Companion
 {
     public static class NetworkShare
     {

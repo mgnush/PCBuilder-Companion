@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
 
-namespace PCCG_Tester
+namespace Builder_Companion
 {
     // this might migrate to abstract class
     public static class TempHandler

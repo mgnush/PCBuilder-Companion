@@ -7,7 +7,7 @@ using System.Security.Permissions;
 using System.IO;
 using System.Diagnostics;
 
-namespace PCCG_Tester
+namespace Builder_Companion
 {
     public static class TaskHandler
     {
@@ -21,14 +21,6 @@ namespace PCCG_Tester
             await Task.Delay(2000);
 
             Task<bool> primeTask = PrimeHandler.RunPrime(durationMin);
-
-            await Task.Delay(1500);
-
-            string positionScript = Path.Combine(Paths.TEST, Paths.FILES, Paths.POS_SCRIPT);
-            if (File.Exists(positionScript))
-            {
-                var proc = Process.Start(positionScript);
-            }
 
             await Task.WhenAll(primeTask);
 

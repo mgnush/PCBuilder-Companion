@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PCCG_Tester
+namespace Builder_Companion
 {
     public static class Paths
     {

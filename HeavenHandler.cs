@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.Xml;
 using HtmlAgilityPack;
 
-namespace PCCG_Tester
+namespace Builder_Companion
 {
     public static class HeavenHandler
     {

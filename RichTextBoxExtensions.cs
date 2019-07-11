@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace PCCG_Tester
+namespace Builder_Companion
 {
     public static class RichTextBoxExtensions
     {

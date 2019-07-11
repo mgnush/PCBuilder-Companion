@@ -1,4 +1,4 @@
-﻿namespace PCCG_Tester
+﻿namespace Builder_Companion
 {
     partial class Form1
     {
@@ -189,6 +189,7 @@
             // StartButton
             // 
             this.StartButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.StartButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.StartButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.StartButton.Location = new System.Drawing.Point(797, 386);
             this.StartButton.Name = "StartButton";
@@ -231,6 +232,7 @@
             // QCButton
             // 
             this.QCButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.QCButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.QCButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.QCButton.Location = new System.Drawing.Point(797, 386);
             this.QCButton.Name = "QCButton";
@@ -245,6 +247,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(922, 443);
             this.Controls.Add(this.QCButton);
             this.Controls.Add(this.TestDurationLabel);

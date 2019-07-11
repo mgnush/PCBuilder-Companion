@@ -7,7 +7,7 @@ using System.IO;
 using System.Timers;
 using System.Runtime;
 
-namespace PCCG_Tester
+namespace Builder_Companion
 {
     public static class PrimeHandler
     {               

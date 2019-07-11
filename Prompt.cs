@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-namespace PCCG_Tester
+namespace Builder_Companion
 {
     public static class Prompt
     {

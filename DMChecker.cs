@@ -5,18 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Management;
 
-namespace PCCG_Tester
+namespace Builder_Companion
 {
     public static class DMChecker
-    {
-        
-        /*foreach (var device in devices)
-        {
-            Console.WriteLine("Device ID: {0}, PNP Device ID: {1}, Description: {2}, Status: {3}",
-                device.DeviceID, device.PnpDeviceID, device.Description, device.Status);
-        }
-
-        Console.Read();*/
+    {     
 
         public static string GetGPUName()
         {

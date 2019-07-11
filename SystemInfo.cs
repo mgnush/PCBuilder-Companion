@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PCCG_Tester
+namespace Builder_Companion
 {
     public static class SystemInfo
     {
@@ -52,7 +52,8 @@ namespace PCCG_Tester
                     _driver = numbers[2].Substring(1) + numbers[3].Substring(0, 2) + "." + numbers[3].Substring(2, 2);
                 } else
                 {
-                    _driver = "Unknown driver";
+                    string[] numbers = gpudriver.Split('.');
+                    _driver = numbers[2].Substring(4, 1) + numbers[3].Substring(0, 1) + ".";   // NOT complete
                 }
                
             }

@@ -7,7 +7,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Schema;
 
-namespace PCCG_Tester
+namespace Builder_Companion
 {
     public static class FurmarkHandler
     {

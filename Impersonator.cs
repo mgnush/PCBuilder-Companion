@@ -1,4 +1,4 @@
-namespace PCCG_Tester
+namespace Builder_Companion
 {
 	#region Using directives.
 	// ----------------------------------------------------------------------
