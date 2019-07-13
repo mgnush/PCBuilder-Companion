@@ -116,9 +116,11 @@ Where the *GUI* node specifies the name of the superfolder in which the software
 
 The *FILENAME* node specifies the installer file of the software. This should ONLY be the filename, not a path. For example, "Setup.exe" (without quotes). If the superfolder contains multiple subfolders or multiple install files with similar or identical names, the newest version will be launched. The * character denotes wildcard characters if the executable name varies between versions.
 
-The *SCRIPTNAME* node specifies the scriptname of the installation script. If the 
+The *SCRIPTNAME* node specifies the scriptname of the installation script. If this is left blank, the software will be downloaded to the local machine, but not installed.
 
-### Creating new installation scripts with AutoIt3
+### Creating new installation scripts 
+
+
 
 ## Built With
 
@@ -135,6 +137,5 @@ Please contact Magnus Hjorth on mhjorthen@gmail.com to request becoming a collab
 ## Acknowledgments
 
 * [dahall](https://github.com/dahall/taskscheduler) - Used the Task Scheduler Wrapper to create Windows tasks
-* AutoIt3 ...
 * Inspiration & help from the Systems team including Robin, Nathan, Geoffrey & Travis
 
