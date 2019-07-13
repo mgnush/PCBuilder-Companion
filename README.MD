@@ -22,7 +22,7 @@ Stand-alone scripts need to be located in
 Desktop/AAA Testing/Companion Files
 ```
 
-The program comes with the ability to download and install user-selected software from a shared network location (see [Program Flow](https://github.com/mgnush/Builder-Companion#program-flow). The options displayed to the user are specified in
+The program comes with the ability to download and install user-selected software from a shared network location (see [Program Flow](https://github.com/mgnush/Builder-Companion#program-flow)). The options displayed to the user are specified in
 
 ```
 Desktop/AAA Testing/Companion Files/rgbs.xml
@@ -34,7 +34,7 @@ The scripts to install user-selected software need to be located in
 Desktop/AAA Testing/Companion Files/RGB Scripts
 ```
 
-For instructions on how to modify the software options and add installation scripts, see [Adding sharepoint software to the program]((https://github.com/mgnush/Builder-Companion#Adding-sharepoint-software-to-the-program).
+For instructions on how to modify the software options and add installation scripts, see [Adding sharepoint software to the program](https://github.com/mgnush/Builder-Companion#Adding-sharepoint-software-to-the-program).
 
 ## Program flow
 
@@ -58,7 +58,7 @@ The system monitoring tools are currently:
 
 If the stress testing tools return no errors, and the system isn't overheating, the program will automatically launch benchmarking software, which is currently
 
-* Heaven
+* [Heaven](https://benchmark.unigine.com/heaven)
 
 It's important to note that the heaven settings should be configured prior to running this program.
 
@@ -91,19 +91,22 @@ In this phase, the program will display the results obtained (temps, scores) in 
 
 It is important that the user (builder or QC'er) manually close this program during or after the QC procedure, as this will properly clean up any resources left on the machine, including the program itself.
 
-### Errors
+### Errors & flow interruptions
 
-If the software is found, but an install script is not, the user will be prompted to manually install that piece of software.
+Below is a list of errors or other intentional interruptions the user may encounter
+
+* **Device Manager corn chip** The Device manager status is checked every time the program is launched. If a corn chip is found, the program will launch Device Manager for the user to check.
+* **File not found** All files that are being referenced in the program will bring up a prompt if they are not found. Depending on the file, this will halt the program flow. If a software installation script is not found (for rgb software), execution will continue as normal.
+
+## Adding sharepoint software to the program
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [Fody Costura](https://github.com/Fody/Costura) - For embedding dll's
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Please contact Magnus Hjorth on mhjorthen@gmail.com to request becoming a collaborator.
 
 ## Versioning
 
@@ -115,6 +118,6 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* [dahall](https://github.com/dahall/taskscheduler) - Used the Task Scheduler Wrapper to create Windows tasks
+* Inspiration & help from Systems team including Robin, Nathan, Geoffrey & Travis
+
