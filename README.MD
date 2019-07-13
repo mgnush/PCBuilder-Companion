@@ -22,7 +22,7 @@ Stand-alone scripts need to be located in
 Desktop/AAA Testing/Companion Files
 ```
 
-The program comes with the ability to download and install user-selected software from a shared network location (see [Program FLow]https://github.com/mgnush/Builder-Companion#program-flow). The options displayed to the user are specified in
+The program comes with the ability to download and install user-selected software from a shared network location (see [Program FLow](https://github.com/mgnush/Builder-Companion#program-flow). The options displayed to the user are specified in
 
 ```
 Desktop/AAA Testing/Companion Files/rgbs.xml
