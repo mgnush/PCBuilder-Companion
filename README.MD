@@ -34,7 +34,7 @@ The scripts to install user-selected software need to be located in
 Desktop/AAA Testing/Companion Files/RGB Scripts
 ```
 
-For instructions on how to modify the software options and add installation scripts, see 'Software installation from sharepoint'.
+For instructions on how to modify the software options and add installation scripts, see [Adding sharepoint software to the program]((https://github.com/mgnush/Builder-Companion#Adding-sharepoint-software-to-the-program).
 
 ## Program flow
 
@@ -44,19 +44,19 @@ Below is a simplified summary of the flow of execution when using the software t
 
 When launched on a new system, the program will wait for the user to select the software to download and install from the server, and press start. Before pressing start, the user should select the duration of the stress testing using the slider. The default duration is the longest setting. 
 
-When the start button is pressed, the program will attempt to download and install the selected software from the server. See [Adding sharepoint software to the program]((https://github.com/mgnush/Builder-Companion#Adding-sharepoint-software-to-the-program).
+When the start button is pressed, the program will attempt to download and install the selected software from the server.
 
 When software downloads and installs have been completed by the program, it will automatically launch the stress testing tools, which are currently
 
-* Furmark
-* Prime95
+* [Furmark](https://geeks3d.com/furmark/downloads/)
+* [Prime95](https://www.mersenne.org/download/)
 
 The system monitoring tools are currently:
 
-* HWMonitor
-* CoreTemp
+* [HWMonitor](https://cpuid.com/softwares/hwmonitor.html)
+* [CoreTemp](https://www.alcpu.com/CoreTemp/)
 
-If the stress testing tools return no errors, and the system isn't overheating, the programm will automatically launch benchmarking software, which is currently
+If the stress testing tools return no errors, and the system isn't overheating, the program will automatically launch benchmarking software, which is currently
 
 * Heaven
 
@@ -64,13 +64,13 @@ It's important to note that the heaven settings should be configured prior to ru
 
 During phase 1, Windows updates will be downloaded and installed in the background.
 
-### Windows Update (Phase 2)
+### Windows update (Phase 2)
 
 Phase 1 finishes when benchmarks have run with no errors and the initial Windows update session is completed. 
 
 During phase 2, the system will reboot until Windows is up to date. Due to the "nature" of Windows updates, this phase may require user interaction, i.e. manual restart, if Windows updater gets stuck.
 
-### System Prep (Phase 3)
+### System prep (Phase 3)
 
 When Windows is up to date, the program will tell the user to test the audio. It is at this stage that the user is encouraged to configure any software such as RGB software installed at the start. When the user indicates that the audio works, the program will bring up Windows activation.
 
@@ -78,6 +78,18 @@ When the user has activated Windows, the "Restart (QC)" button may be pressed to
 
 ### QC (Phase 4)
 
+When the system has restarted, it will format drives, delete desktop files and bring up the manual QC information panes
+
+* System Control Panel
+* Device Manager
+* Disk Management
+* Windows Explorer
+* Windows Update
+* This program
+
+In this phase, the program will display the results obtained (temps, scores) in the testing phase.
+
+It is important that the user (builder or QC'er) manually close this program during or after the QC procedure, as this will properly clean up any resources left on the machine, including the program itself.
 
 ### Errors
 
