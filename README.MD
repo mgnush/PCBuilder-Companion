@@ -2,59 +2,51 @@
 
 This program assists builders with testing and system preparation procedures.
 
-## Getting Started
+## Using the software
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+To launch the software on a new system, simply run the "Builder Companion.exe" executable. You will need to allow admin rights when prompted.
 
-### Prerequisites
+### File hierarchy & naming requirements
 
-What things you need to install the software and how to install them
+The main program is compiled into a single executable, which must be named "Builder Companion.exe" for all stand-alone scripts to run correctly. All dll-dependencies are embedded in the executable. This executable may be placed anywhere on the local machine. 
 
-```
-Give examples
-```
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+The program looks for all external benchmark tools in
 
 ```
-Give the example
+Desktop/AAA Testing/Benchmark
 ```
 
-And repeat
+Stand-alone scripts need to be located in
 
 ```
-until finished
+Desktop/AAA Testing/Companion Files
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+The program comes with the ability to download and install user-selected software from a shared network location (see [Program FLow]https://github.com/mgnush/Builder-Companion#program-flow). The options displayed to the user are specified in
 
 ```
-Give an example
+Desktop/AAA Testing/Companion Files/rgbs.xml
 ```
 
-### And coding style tests
-
-Explain what these tests test and why
+The scripts to install user-selected software need to be located in
 
 ```
-Give an example
+Desktop/AAA Testing/Companion Files/RGB Scripts
 ```
 
-## Deployment
+For instructions on how to modify the software options and add installation scripts, see 'Software installation from sharepoint'.
 
-Add additional notes about how to deploy this on a live system
+## Program flow
+
+Below is a simplified summary of the flow of execution when using the software to test and prepare a new system.
+
+### Testing (Phase 1)
+
+When launched on a new system, the program will wait for the user to select the software to download and install from the server, and press start.
+
+When the start button is pressed, the program will attempt to download and install the selected software from the server. If the software is found, but an install script is not, the user will be prompted to manually install that piece of software. 
+
+
 
 ## Built With
 

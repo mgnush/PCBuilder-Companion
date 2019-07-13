@@ -34,8 +34,8 @@ namespace Builder_Companion
         public const string PRIME_EXE = "Benchmark/prime95.exe";
         public const string PRIME_RESULT = "Benchmark/results.txt";
         public const string HEAVEN_BAT = "Benchmark/Heaven/heaven.bat";
-        public const string CT_FOLDER = "CoreTemp64";
-        public const string CT_EXE = "CoreTemp64/Core Temp.exe";
+        public const string CT_FOLDER = "Benchmark/CoreTemp64";
+        public const string CT_EXE = "Benchmark/CoreTemp64/Core Temp.exe";
         public const string HWMONITOR_EXE = "Benchmark/HWMonitor_x64.exe";
         public const string HWMONITOR_INI = "Benchmark/hwmonitorw.ini";
         public const string RGB_XML = "rgbs.xml";

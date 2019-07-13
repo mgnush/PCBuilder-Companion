@@ -68,8 +68,7 @@ namespace Builder_Companion
 
         private void StartButton_Click(object sender, EventArgs e)
         {
-            StartButton.Visible = false;
-            TaskServicer.CreateTaskService();   // Program will now run automatically until QC button has been pressed
+            StartButton.Visible = false;           
 
             // Updates & software
             DoUpdates();
@@ -123,7 +122,8 @@ namespace Builder_Companion
 
         private void AudioButton_click(object sender, EventArgs e)
         {
-            // make green
+            string[] wupLines = TestInfo.Text.Split(new string[]{ "\n"}, StringSplitOptions.RemoveEmptyEntries);
+            TestInfo.AppendText("Audio OK", Color.Green);
         }
 
         public void WUPDone()
@@ -247,16 +247,27 @@ namespace Builder_Companion
                 TestInfo.AppendText("Heaven Score: " + heavenScore, Color.Black);
                 if (heavenScore > 0)
                 {
-                    SaveAllData();
-                    // Restart if testing and updating is finished
-                    // Need to account for cases where windows is up to date already
-                    if (_updateSessionComplete) { Restart(); }
+                    TestingComplete();
                 } else
                 {
                     TestInfo.AppendText("\nWrong heaven score, run manually \n", Color.Red);
                 }                       
             }
             // If heaven failed, let builder deal with it (do nothing)
+        }
+
+        private void TestingComplete()
+        {
+            SaveAllData();
+           
+            // Need to account for cases where windows is up to date already
+
+            TaskServicer.CreateTaskService();   // Program will now run automatically until QC button has been pressed
+            // Restart if testing and updating is finished
+            if (_updateSessionComplete)
+            {                
+                Restart();
+            }
         }
 
         public void SaveAllData()
@@ -296,7 +307,5 @@ namespace Builder_Companion
             restart.Arguments = "/C shutdown -f -r -t 1";
             Process.Start(restart);
         }
-
-
     }
 }
