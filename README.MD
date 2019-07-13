@@ -108,10 +108,6 @@ Below is a list of errors or other intentional interruptions the user may encoun
 
 Please contact Magnus Hjorth on mhjorthen@gmail.com to request becoming a collaborator.
 
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
 ## Authors
 
 * **Magnus Hjorth** - [mgnush](https://github.com/mgnush)
@@ -119,5 +115,5 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 ## Acknowledgments
 
 * [dahall](https://github.com/dahall/taskscheduler) - Used the Task Scheduler Wrapper to create Windows tasks
-* Inspiration & help from Systems team including Robin, Nathan, Geoffrey & Travis
+* Inspiration & help from the Systems team including Robin, Nathan, Geoffrey & Travis
 
