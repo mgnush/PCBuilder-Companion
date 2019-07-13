@@ -51,7 +51,7 @@ When software downloads and installs have been completed by the program, it will
 * [Furmark](https://geeks3d.com/furmark/downloads/)
 * [Prime95](https://www.mersenne.org/download/)
 
-The system monitoring tools are currently:
+The system monitoring tools are currently
 
 * [HWMonitor](https://cpuid.com/softwares/hwmonitor.html)
 * [CoreTemp](https://www.alcpu.com/CoreTemp/)
@@ -87,7 +87,7 @@ When the system has restarted, it will format drives, delete desktop files and b
 * Windows Update
 * This program
 
-In this phase, the program will display the results obtained (temps, scores) in the testing phase.
+In this phase, the program will display the results obtained (temps, scores) in the testing phase, as well as any relevant system information obtained.
 
 It is important that the user (builder or QC'er) manually close this program during or after the QC procedure, as this will properly clean up any resources left on the machine, including the program itself.
 
@@ -99,6 +99,26 @@ Below is a list of errors or other intentional interruptions the user may encoun
 * **File not found** All files that are being referenced in the program will bring up a prompt if they are not found. Depending on the file, this will halt the program flow. If a software installation script is not found (for rgb software), execution will continue as normal.
 
 ## Adding sharepoint software to the program
+
+To add sharepoint software (i.e. stored on NAS), the xml file listed in [File hierarchy](https://github.com/mgnush/Builder-Companion-Readme#file-hierarchy--naming-requirements) needs to be edited. 
+
+Add an entry by adding a record node to the file, such as the example below
+
+```
+<record>
+	<GUI>SoftwareFolderName</GUI>
+	<FILENAME>SoftwareInstaller*.exe</FILENAME>
+	<SCRIPTNAME>SOFTWARE_INSTALL.exe</SCRIPTNAME>
+</record>
+```
+
+Where the *GUI* node specifies the name of the superfolder in which the software to be installed lies in. For Aura, this could be "Aura" (without the quotes). 
+
+The *FILENAME* node specifies the installer file of the software. This should ONLY be the filename, not a path. For example, "Setup.exe" (without quotes). If the superfolder contains multiple subfolders or multiple install files with similar or identical names, the newest version will be launched. The * character denotes wildcard characters if the executable name varies between versions.
+
+The *SCRIPTNAME* node specifies the scriptname of the installation script. If the 
+
+### Creating new installation scripts with AutoIt3
 
 ## Built With
 
@@ -115,5 +135,6 @@ Please contact Magnus Hjorth on mhjorthen@gmail.com to request becoming a collab
 ## Acknowledgments
 
 * [dahall](https://github.com/dahall/taskscheduler) - Used the Task Scheduler Wrapper to create Windows tasks
+* AutoIt3 ...
 * Inspiration & help from the Systems team including Robin, Nathan, Geoffrey & Travis
 
