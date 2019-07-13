@@ -22,7 +22,7 @@ Stand-alone scripts need to be located in
 Desktop/AAA Testing/Companion Files
 ```
 
-The program comes with the ability to download and install user-selected software from a shared network location (see [Program FLow](https://github.com/mgnush/Builder-Companion#program-flow). The options displayed to the user are specified in
+The program comes with the ability to download and install user-selected software from a shared network location (see [Program Flow](https://github.com/mgnush/Builder-Companion#program-flow). The options displayed to the user are specified in
 
 ```
 Desktop/AAA Testing/Companion Files/rgbs.xml
@@ -42,11 +42,46 @@ Below is a simplified summary of the flow of execution when using the software t
 
 ### Testing (Phase 1)
 
-When launched on a new system, the program will wait for the user to select the software to download and install from the server, and press start.
+When launched on a new system, the program will wait for the user to select the software to download and install from the server, and press start. Before pressing start, the user should select the duration of the stress testing using the slider. The default duration is the longest setting. 
 
-When the start button is pressed, the program will attempt to download and install the selected software from the server. If the software is found, but an install script is not, the user will be prompted to manually install that piece of software. 
+When the start button is pressed, the program will attempt to download and install the selected software from the server. See [Adding sharepoint software to the program]((https://github.com/mgnush/Builder-Companion#Adding-sharepoint-software-to-the-program).
+
+When software downloads and installs have been completed by the program, it will automatically launch the stress testing tools, which are currently
+
+* Furmark
+* Prime95
+
+The system monitoring tools are currently:
+
+* HWMonitor
+* CoreTemp
+
+If the stress testing tools return no errors, and the system isn't overheating, the programm will automatically launch benchmarking software, which is currently
+
+* Heaven
+
+It's important to note that the heaven settings should be configured prior to running this program.
+
+During phase 1, Windows updates will be downloaded and installed in the background.
+
+### Windows Update (Phase 2)
+
+Phase 1 finishes when benchmarks have run with no errors and the initial Windows update session is completed. 
+
+During phase 2, the system will reboot until Windows is up to date. Due to the "nature" of Windows updates, this phase may require user interaction, i.e. manual restart, if Windows updater gets stuck.
+
+### System Prep (Phase 3)
+
+When Windows is up to date, the program will tell the user to test the audio. It is at this stage that the user is encouraged to configure any software such as RGB software installed at the start. When the user indicates that the audio works, the program will bring up Windows activation.
+
+When the user has activated Windows, the "Restart (QC)" button may be pressed to enter the QC phase.
+
+### QC (Phase 4)
 
 
+### Errors
+
+If the software is found, but an install script is not, the user will be prompted to manually install that piece of software.
 
 ## Built With
 
