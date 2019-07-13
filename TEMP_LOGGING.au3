@@ -14,4 +14,4 @@ Send("{F4}")
 
 WinWaitActive("Prime95")
 
-WinActivate("PCCG Companion")
+WinActivate("Builder Companion")
