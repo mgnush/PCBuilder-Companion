@@ -46,6 +46,8 @@
             this.TestDuration = new System.Windows.Forms.HScrollBar();
             this.TestDurationLabel = new System.Windows.Forms.Label();
             this.QCButton = new System.Windows.Forms.Button();
+            this.RestartQCButton = new System.Windows.Forms.Button();
+            this.AudioButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // CPUMonitor
@@ -243,6 +245,31 @@
             this.QCButton.Visible = false;
             this.QCButton.Click += new System.EventHandler(this.QCButton_Click);
             // 
+            // RestartQCButton
+            // 
+            this.RestartQCButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.RestartQCButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.RestartQCButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RestartQCButton.Location = new System.Drawing.Point(797, 386);
+            this.RestartQCButton.Name = "RestartQCButton";
+            this.RestartQCButton.Size = new System.Drawing.Size(113, 48);
+            this.RestartQCButton.TabIndex = 20;
+            this.RestartQCButton.Text = "Restart (QC)";
+            this.RestartQCButton.UseVisualStyleBackColor = false;
+            this.RestartQCButton.Visible = false;
+            this.RestartQCButton.Click += new System.EventHandler(this.RestartQCButton_Click);
+            // 
+            // AudioButton
+            // 
+            this.AudioButton.Location = new System.Drawing.Point(490, 144);
+            this.AudioButton.Name = "AudioButton";
+            this.AudioButton.Size = new System.Drawing.Size(75, 23);
+            this.AudioButton.TabIndex = 21;
+            this.AudioButton.Text = "Audio OK";
+            this.AudioButton.UseVisualStyleBackColor = true;
+            this.AudioButton.Visible = false;
+            this.AudioButton.Click += new System.EventHandler(this.AudioButton_click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -250,6 +277,8 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(922, 443);
+            this.Controls.Add(this.AudioButton);
+            this.Controls.Add(this.RestartQCButton);
             this.Controls.Add(this.QCButton);
             this.Controls.Add(this.TestDurationLabel);
             this.Controls.Add(this.TestDuration);
@@ -270,7 +299,8 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "PCCG Companion";
+            this.Text = "Builder Companion";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_Closed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -295,6 +325,8 @@
         private System.Windows.Forms.HScrollBar TestDuration;
         private System.Windows.Forms.Label TestDurationLabel;
         private System.Windows.Forms.Button QCButton;
+        private System.Windows.Forms.Button RestartQCButton;
+        private System.Windows.Forms.Button AudioButton;
     }
 }
 

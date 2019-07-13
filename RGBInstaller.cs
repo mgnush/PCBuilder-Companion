@@ -23,7 +23,7 @@ namespace Builder_Companion
         public static void ReadRGBSoftware()
         {          
             // Load in RGB options specified on server file
-            string rgbXmlPath = Path.Combine(Paths.TEST, Paths.FILES, Paths.RGB_XML);
+            string rgbXmlPath = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.FILES, Paths.RGB_XML);
 
             XmlDocument rgbXml = new XmlDocument();
             try
@@ -58,8 +58,8 @@ namespace Builder_Companion
 
             foreach (int index in indeces)
             {
-                scriptPath = Path.Combine(Paths.TEST, Paths.RGB_SCRIPTS, scriptName.ElementAt(index));
-                setupFolder = Path.Combine(Paths.RGB, software.ElementAt(index));
+                scriptPath = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.RGB_SCRIPTS, scriptName.ElementAt(index));
+                setupFolder = Path.Combine(Paths.Desktop(), Paths.RGB, software.ElementAt(index));
 
                 // Find the (newest) setup file
                 foreach (string file in Directory.GetFiles(setupFolder, setupName.ElementAt(index), SearchOption.AllDirectories))
@@ -72,7 +72,7 @@ namespace Builder_Companion
                 {
                     pInfo = new ProcessStartInfo();
                     pInfo.FileName = scriptPath;
-                    pInfo.WorkingDirectory = Paths.DESKTOP;
+                    pInfo.WorkingDirectory = Paths.Desktop();
                     pInfo.Arguments = "\"" + setupPath + "\"";
                     script = Process.Start(pInfo);
                     script.WaitForExit();   // Stall entire program until the software is installed
@@ -105,7 +105,7 @@ namespace Builder_Companion
             foreach (int index in indeces)
             {
                 softwarePath = Path.Combine(Paths.NAS, software.ElementAt(index));   // Software names in xml must match folder names on NAS!     
-                destPath = Path.Combine(Paths.RGB, software.ElementAt(index));
+                destPath = Path.Combine(Paths.Desktop(), Paths.RGB, software.ElementAt(index));
                 if (!Directory.Exists(destPath))
                 {
                     Directory.CreateDirectory(destPath);

@@ -13,9 +13,9 @@ namespace Builder_Companion
     {
         public static void InitFurmark(int durationMin)
         {
-            string filename = Path.Combine(Paths.TEST, Paths.FURMARK_EXE);
-            string xmlPath = Path.Combine(Paths.TEST, Paths.FURMARK_XML);
-            string tempPath = Path.Combine(Paths.TEST, Paths.FURMARK_TEMP);
+            string filename = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.FURMARK_EXE);
+            string xmlPath = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.FURMARK_XML);
+            string tempPath = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.FURMARK_TEMP);
 
             // Clear old temp results to prepare for temp readings handled by TempHandler
             if (File.Exists(tempPath))

@@ -9,6 +9,10 @@ using System.Diagnostics;
 
 namespace Builder_Companion
 {
+    // Class for managing asynchronous tasks.
+    // Heaven is handled by stand-alone script and does not need to be asynchronous.
+    // If logging (temps etc.) need be collected while heaven is runnning, it should
+    // be executed asynchronously.
     public static class TaskHandler
     {
         public async static Task<bool> RunPrimeFurmark(int durationMin)
@@ -25,14 +29,6 @@ namespace Builder_Companion
             await Task.WhenAll(primeTask);
 
             return primeTask.Result;
-        }
-
-        public async static Task<bool> RunHeaven()
-        {
-            HeavenHandler.InitHeaven();
-            await Task.Delay(14000 * 2 + 300000 + (1000 * 3));   // This delay matches the heaven run-time script
-            
-            return true;            
         }
     }
 }

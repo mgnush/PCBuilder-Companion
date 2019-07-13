@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
+using System.IO;
 using System.ServiceProcess;
 
 // Exit Codes:
@@ -18,10 +18,11 @@ using System.ServiceProcess;
 //   3 = reboot needed; rerun script after reboot
 
 namespace Builder_Companion
-{
+{    
     //Consider embedding in partial form class
     public partial class Form1: Form
     {
+        private bool _updateSessionComplete = false;
         private BackgroundWorker EnableServicesWorker;
 
         public UpdateSession updateSession;
@@ -69,7 +70,7 @@ namespace Builder_Companion
 
         public void DoUpdates()
         {
-            updStatus = new UpdStatus(SetWUPDone);
+            updStatus = new UpdStatus(WUPDone);
             EnableServicesWorker = new BackgroundWorker();
             EnableServicesWorker.DoWork += EnableServicesWorker_DoWork;
             EnableServicesWorker.RunWorkerCompleted += EnableServicesWorker_RunWorkerCompleted;
@@ -223,18 +224,14 @@ namespace Builder_Companion
         }
 
         public void InstallationComplete()
-        {
+        {            
             iInstallationResult = iUpdateInstaller.EndInstall(iInstallationJob);
             switch (iInstallationResult.ResultCode)
             {
                 case OperationResultCode.orcSucceeded:
-                    // Complete
+                    // Complete                   
                     WUP.Text = "Updates installation complete...";
-                    WUP.ForeColor = Color.Green;
-                    if (Properties.Settings.Default.TestComplete)
-                    {
-                        Restart();
-                    }
+                    WUP.ForeColor = Color.Green;                   
                     break;
                 case OperationResultCode.orcSucceededWithErrors:
                     // Need reboot
@@ -246,15 +243,14 @@ namespace Builder_Companion
                     WUP.ForeColor = Color.YellowGreen;
                     break;
             }
+            _updateSessionComplete = true;
+            if (Properties.Settings.Default.TestComplete)
+            {
+                Restart();
+            }
         }
 
-        #region <------- Notification Methods ------->
-        public void SetWUPDone()
-        {
-            WUP.Text = "Windows up to date";
-            WUP.ForeColor = Color.Green;
-            QCButton.Visible = true;
-        }
+        #region <------- Notification Methods ------->        
 
         public void SetWUP(string status)
         {

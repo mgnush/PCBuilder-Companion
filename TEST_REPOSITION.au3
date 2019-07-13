@@ -19,6 +19,6 @@ WinMove($furmark, "", 640, 360)
 $hwm = WinWait("CPUID HWMonitor")
 WinMove($hwm, "", 0, 0, 530, 1080)
 
-$pccg = WinWait("PCCG Companion")
+$program = WinWait("PCCG Companion")
 WinMove("PCCG Companion", "", 491, 299)
 WinActivate("PCCG Companion")

@@ -23,29 +23,29 @@ namespace Builder_Companion
 
         public static double MaxGPUTemp = 0;
 
-        private static string furmarkTemp = Path.Combine(Paths.TEST, Paths.FURMARK_TEMP);
+        private static string furmarkTemp = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.FURMARK_TEMP);
 
         public static void InitTemp()
         {
             // CoreTemp for logging purposes (they agree on clock speeds & temps)
-            string filename = Path.Combine(Paths.TEST, Paths.CT_EXE);
+            string filename = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.CT_EXE);
             try
             {
-                var proc = System.Diagnostics.Process.Start(filename);
+                var proc = Process.Start(filename);
             } catch (Exception e)
             {
                 Console.WriteLine("File {0} not found.", filename);
             }
 
             // HWMonitor for details, does not support logging natively
-            string configPath = Path.Combine(Paths.TEST, Paths.HWMONITOR_INI);
+            string configPath = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.HWMONITOR_INI);
             INIFile hwConfig = new INIFile(configPath);
             hwConfig.Write("UPDATES", "0", "HWMonitor");   // Disable update prompts
 
-            filename = Path.Combine(Paths.TEST, Paths.HWMONITOR_EXE);
+            filename = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.HWMONITOR_EXE);
             try
             {
-                var proc = System.Diagnostics.Process.Start(filename);
+                var proc = Process.Start(filename);
             }
             catch (Exception e)
             {
@@ -53,10 +53,10 @@ namespace Builder_Companion
             }
 
             // Launch script to enable logging, see commented section below
-            filename = Path.Combine(Paths.TEST, Paths.FILES, Paths.TEMP_SCRIPT);
+            filename = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.FILES, Paths.TEMP_SCRIPT);
             ProcessStartInfo pInfo = new ProcessStartInfo();
             pInfo.FileName = filename;
-            pInfo.WorkingDirectory = Paths.TEST;
+            pInfo.WorkingDirectory = Path.Combine(Paths.Desktop(), Paths.TEST);
             try
             {
                 Process script = Process.Start(pInfo);
@@ -66,7 +66,7 @@ namespace Builder_Companion
                 Console.WriteLine("File {0} not found.", filename);
             }
 
-            //---Below code enables logging by INI-tampering, but CoreTemp uses a corrupted INI-file. 
+            //---Code below enables logging by INI-tampering, but CoreTemp uses a corrupted INI-file. 
             //---Uncomment code if future update addresses this (or manually declare DTD)
             //---This approach is favourable to script above
 
@@ -79,7 +79,7 @@ namespace Builder_Companion
         {
             // Acquire full name of newest log
             string partialName = "CT-Log";
-            string ctFolder = Path.Combine(Paths.TEST, Paths.CT_FOLDER);
+            string ctFolder = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.CT_FOLDER);
             string fullName = "";
             string lastFile = "";
 
@@ -104,7 +104,7 @@ namespace Builder_Companion
             watcher.EnableRaisingEvents = true;
         }
 
-        //This is only called from the CT event handler to reduce threads & load
+        // This is only called from the CT event handler to reduce threads & load
         private static void ReadFurmarkTemp()
         {
             string newLine = "";

@@ -13,8 +13,8 @@ namespace Builder_Companion
     {               
         public static async Task<bool> RunPrime(int durationMin)
         {            
-            string filename = Path.Combine(Paths.TEST, Paths.PRIME_EXE);
-            string resultsPath = Path.Combine(Paths.TEST, Paths.PRIME_RESULT);
+            string filename = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.PRIME_EXE);
+            string resultsPath = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.PRIME_RESULT);
 
             // Clear results history (from previous builds / prior failed session)
             if (File.Exists(resultsPath))

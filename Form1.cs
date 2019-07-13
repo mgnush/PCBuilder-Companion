@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Management;
+using System.IO;
 
 namespace Builder_Companion
 {
@@ -17,16 +17,16 @@ namespace Builder_Companion
         public Form1()
         {            
             InitializeComponent();
-            InitChecks();          
+            DMStatusCheck();   // Check Device manager every time program is launched             
         }
 
         #region<------- Event Handlers ------->
+        // Control what content should be visible
         private void Form1_Load(object sender, EventArgs e)
-        {
-            
+        {   
             if (Properties.Settings.Default.QC)
             {
-                QCHandler.LaunchManualChecks();
+                this.QCButton.Visible = true;
             }
 
             if (Properties.Settings.Default.TestComplete)
@@ -43,24 +43,40 @@ namespace Builder_Companion
                 this.RGBLabel.AppendText("B", Color.Blue);
                 this.RGBLabel.AppendText(" Stuff", Color.Black);
 
+                // Load all software items from xml file
                 RGBInstaller.ReadRGBSoftware();
                 foreach (string rgbSoftware in RGBInstaller.software)
                 {
                     this.RGBList.Items.Add(rgbSoftware);
                 }
-            } 
-            
+            }             
+        }
+
+        private void Form1_Closed(object sender, FormClosedEventArgs e)
+        {
+            if (Properties.Settings.Default.QC)
+            {
+                // Delete this executable shortly after closing the application
+                ProcessStartInfo info = new ProcessStartInfo();
+                info.Arguments = "/C choice /C Y /N /D Y /T 2 & Del " + "\"" + Application.ExecutablePath + "\"";
+                info.WindowStyle = ProcessWindowStyle.Hidden;
+                info.CreateNoWindow = true;
+                info.FileName = "cmd.exe";
+                Process.Start(info);
+            }           
         }
 
         private void StartButton_Click(object sender, EventArgs e)
         {
             StartButton.Visible = false;
+            TaskServicer.CreateTaskService();   // Program will now run automatically until QC button has been pressed
 
+            // Updates & software
             DoUpdates();
-            //rgb software 
             RGBInstaller.InstallSelectedSoftware(RGBList.CheckedIndices);
             RGBList.Enabled = false;
 
+            // Testing
             double minDuration = 9;
             double maxDuration = 29;
             // Calculate the test duration in minutes
@@ -73,37 +89,29 @@ namespace Builder_Companion
             TestHandler(durationMin);            
         }
 
-        private void QCButton_Click(object sender, EventArgs e)
+        private void RestartQCButton_Click(object sender, EventArgs e)
         {
-            QCButton.Visible = false;
+            RestartQCButton.Visible = false;
             Properties.Settings.Default.QC = true;
             Properties.Settings.Default.Save();
             Restart();
         }
 
-        private bool DMStatusCheck()
+        private void QCButton_Click(object sender, EventArgs e)
         {
-            TestInfo.Text = "";
-            if (DMChecker.GetStatus())
-            {
-                TestInfo.AppendText("Device Manager OK \n", Color.Green);
-                return true;
-            } else
-            {
-                TestInfo.AppendText("Check Device Manager! \n", Color.Red);
-                return false;
-            }
+            TaskServicer.DeleteTaskService();   // Clean up task created  
+            QCHandler.FormatDrives();   // No effect if already formatted
+            QCHandler.LaunchManualChecks();
         }
 
         private void DMResync_Click(object sender, EventArgs e)
         {
-            InitChecks();
+            DMStatusCheck();
             DMResync.Visible = false;
         }
 
         private void IgnoreTemp_Click(object sender, EventArgs e)
         {
-            TestInfo.ForeColor = Color.Green;
             IgnoreTemp.Visible = false;
             TestHeaven();            
         }
@@ -112,12 +120,43 @@ namespace Builder_Companion
         {
 
         }
+
+        private void AudioButton_click(object sender, EventArgs e)
+        {
+            // make green
+        }
+
+        public void WUPDone()
+        {
+            WUP.Text = "Windows up to date";
+            WUP.ForeColor = Color.Green;
+            _updateSessionComplete = true;
+
+            if (!Properties.Settings.Default.QC && Properties.Settings.Default.TestComplete)
+            {        
+                TestInfo.AppendText("Test Audio \n", Color.Red);
+
+                string slui = Environment.GetFolderPath(Environment.SpecialFolder.System);
+                ProcessStartInfo sInfo = new ProcessStartInfo(Path.Combine(slui, "slui.exe"));
+                Process p = new Process();
+                p.StartInfo = sInfo;
+                p.Start();
+
+                RestartQCButton.Visible = true;
+            }
+        }
         #endregion<------- Event Handlers ------->
 
-        private void InitChecks()
+        private void DMStatusCheck()
         {
-            if (!DMStatusCheck())
+            TestInfo.Text = "";
+            if (DMChecker.GetStatus())
             {
+                TestInfo.AppendText("Device Manager OK \n", Color.Green);
+            }
+            else
+            {
+                TestInfo.AppendText("Check Device Manager! \n", Color.Red);
                 Process.Start("devmgmt.msc");   // Launch device manager
                 DMResync.Visible = true;
             }
@@ -131,14 +170,20 @@ namespace Builder_Companion
             GPUTempValue.Text = TempHandler.MaxGPUTemp + "°";
         }
 
-        private void SetPowerControl()
+        private void SetPowerPerformanceMode()
         {
             PowerControl.SetToPerformance();
             TestInfo.AppendText("Power mode was changed to Performance \n", Color.Green);
         }
 
+        /// <summary>
+        /// Handles the control flow of the testing procedure
+        /// </summary>
+        /// <param name="durationMin">The duration to run prime & furmark for</param>
+        /// <returns></returns>
         private async void TestHandler(int durationMin)
         {
+            // Populate system info labels
             SystemInfo.RetrieveSystemInfo();
             CPUMonitor.Text = SystemInfo.Cpu.Name + " (Max values)";
             GPULabel.Text = SystemInfo.Gpu.Name + " (Max temp)";
@@ -148,9 +193,11 @@ namespace Builder_Companion
             bool overheatingGPU = false;
             bool highdraw = false;
 
-            SetPowerControl();
-            Task<bool> taskHandler = TaskHandler.RunPrimeFurmark(durationMin);            
+            SetPowerPerformanceMode();
+            Task<bool> taskHandler = TaskHandler.RunPrimeFurmark(durationMin);   // Run testing asynchronously           
 
+            // Poll prime results and temps every (10) seconds
+            // Overheating will not stop testing immediately
             while (!taskHandler.IsCompleted)
             {
                 await Task.Delay(10000);
@@ -172,36 +219,44 @@ namespace Builder_Companion
             }
 
             await Task.WhenAll(taskHandler);
-
+            
             switch (taskHandler.Result)
             {
                 case false:
+                    // Halt program
                     TestInfo.AppendText("Prime failed! \n", Color.Red);
                     break;
                 case true when (overheating || overheatingGPU):
+                    // Do not advance automatically if overheating
                     TestInfo.AppendText("Prime OK \n", Color.Green);
                     IgnoreTemp.Visible = true;
                     break;
                 case true when !(overheating || overheatingGPU):
+                    // Advance when not overheating
                     TestInfo.AppendText("Prime OK \n", Color.Green);
                     TestHeaven();
                     break;
             }
         }
 
-        private async void TestHeaven()
+        private void TestHeaven()
         {
-            Task<bool> taskHandler = TaskHandler.RunHeaven();
-            await Task.WhenAll(taskHandler);
-
-            if (taskHandler.Result)
+            if (HeavenHandler.RunHeaven())
             {
                 int heavenScore = HeavenHandler.EvaluateHeaven();
                 TestInfo.AppendText("Heaven Score: " + heavenScore, Color.Black);
+                if (heavenScore > 0)
+                {
+                    SaveAllData();
+                    // Restart if testing and updating is finished
+                    // Need to account for cases where windows is up to date already
+                    if (_updateSessionComplete) { Restart(); }
+                } else
+                {
+                    TestInfo.AppendText("\nWrong heaven score, run manually \n", Color.Red);
+                }                       
             }
-
-            SaveAllData();
-            Restart();
+            // If heaven failed, let builder deal with it (do nothing)
         }
 
         public void SaveAllData()
@@ -232,15 +287,16 @@ namespace Builder_Companion
             this.GPUDriverLabel.Text = Properties.Settings.Default.GPUDriver;
         }
 
+        // Restart after 1 second
         private void Restart()
         {
             ProcessStartInfo restart = new ProcessStartInfo();
             restart.WindowStyle = ProcessWindowStyle.Hidden;
             restart.FileName = "cmd";
-            restart.Arguments = "/C shutdown -f -r";
+            restart.Arguments = "/C shutdown -f -r -t 1";
             Process.Start(restart);
         }
 
-        
+
     }
 }

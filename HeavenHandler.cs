@@ -13,21 +13,38 @@ namespace Builder_Companion
 {
     public static class HeavenHandler
     {
-        public static void InitHeaven()
+        // Launch heaven stand-alone script
+        public static bool RunHeaven()
         {
-            string filename = Path.Combine(Paths.TEST, Paths.FILES, Paths.HEAVEN_SCRIPT);
-            ProcessStartInfo pInfo = new ProcessStartInfo();
-            pInfo.FileName = filename;
-            pInfo.WorkingDirectory = Paths.TEST;
+            string heavenScript = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.FILES, Paths.HEAVEN_SCRIPT);
+            string heavenBat = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.HEAVEN_BAT);
 
-            Process proc = Process.Start(pInfo);
+            if (File.Exists(heavenScript) && File.Exists(heavenBat))
+            {
+                ProcessStartInfo pInfo = new ProcessStartInfo();
+                pInfo.FileName = heavenScript;
+                pInfo.WorkingDirectory = Path.Combine(Paths.Desktop(), Paths.TEST);
+                Process proc = Process.Start(pInfo);
 
+                proc.WaitForExit();
+            } else
+            {
+                Prompt.ShowDialog("Heaven Script or bat not found", "Error");
+                return false;
+            }
+
+            return true;
         }
 
+        /// <summary>
+        /// Retrieves the heaven score via the saved html file
+        /// </summary>
+        /// <param name="durationMin">The duration to run prime & furmark for</param>
+        /// <returns></returns>
         public static int EvaluateHeaven()
         {
             // Get the most recent benchmark file
-            string resultFolder = Paths.HEAVEN_RESULTS_FOLDER;
+            string resultFolder = Paths.User();   // Script saves at default location (user folder)
             string partialName = "Unigine_Heaven_Benchmark";
 
             DirectoryInfo folder = new DirectoryInfo(resultFolder);
