@@ -20,4 +20,4 @@ If ($fhndl) Then
 Endif
 
 WinActivate("Builder Companion")
-WinMove("Builder Companion", "", 1280,360)
+WinMove("Builder Companion", "", 491, 299)

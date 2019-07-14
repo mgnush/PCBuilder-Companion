@@ -23,6 +23,8 @@ namespace Builder_Companion
     public partial class Form1: Form
     {
         private bool _updateSessionComplete = false;
+        private bool _upToDate = false;
+
         private BackgroundWorker EnableServicesWorker;
 
         public UpdateSession updateSession;
@@ -244,7 +246,7 @@ namespace Builder_Companion
                     break;
             }
             _updateSessionComplete = true;
-            if (Properties.Settings.Default.TestComplete)
+            if (Properties.Settings.Default.CurrentPhase == Phase.Updating)
             {
                 Restart();
             }

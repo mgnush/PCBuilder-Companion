@@ -48,13 +48,14 @@
             this.QCButton = new System.Windows.Forms.Button();
             this.RestartQCButton = new System.Windows.Forms.Button();
             this.AudioButton = new System.Windows.Forms.Button();
+            this.RAMLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // CPUMonitor
             // 
             this.CPUMonitor.AutoSize = true;
             this.CPUMonitor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CPUMonitor.Location = new System.Drawing.Point(715, 9);
+            this.CPUMonitor.Location = new System.Drawing.Point(698, 9);
             this.CPUMonitor.Name = "CPUMonitor";
             this.CPUMonitor.Size = new System.Drawing.Size(195, 20);
             this.CPUMonitor.TabIndex = 2;
@@ -64,7 +65,7 @@
             // 
             this.CPUSpeed.AutoSize = true;
             this.CPUSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CPUSpeed.Location = new System.Drawing.Point(715, 38);
+            this.CPUSpeed.Location = new System.Drawing.Point(699, 38);
             this.CPUSpeed.Name = "CPUSpeed";
             this.CPUSpeed.Size = new System.Drawing.Size(49, 17);
             this.CPUSpeed.TabIndex = 3;
@@ -92,12 +93,13 @@
             // 
             // IgnoreTemp
             // 
+            this.IgnoreTemp.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.IgnoreTemp.Location = new System.Drawing.Point(490, 73);
             this.IgnoreTemp.Name = "IgnoreTemp";
             this.IgnoreTemp.Size = new System.Drawing.Size(75, 23);
             this.IgnoreTemp.TabIndex = 6;
             this.IgnoreTemp.Text = "Ignore";
-            this.IgnoreTemp.UseVisualStyleBackColor = true;
+            this.IgnoreTemp.UseVisualStyleBackColor = false;
             this.IgnoreTemp.Visible = false;
             this.IgnoreTemp.Click += new System.EventHandler(this.IgnoreTemp_Click);
             // 
@@ -107,13 +109,13 @@
             this.TestInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TestInfo.Cursor = System.Windows.Forms.Cursors.Default;
             this.TestInfo.Enabled = false;
-            this.TestInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TestInfo.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TestInfo.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.TestInfo.Location = new System.Drawing.Point(17, 9);
             this.TestInfo.Name = "TestInfo";
             this.TestInfo.ReadOnly = true;
             this.TestInfo.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.TestInfo.Size = new System.Drawing.Size(467, 275);
+            this.TestInfo.Size = new System.Drawing.Size(548, 275);
             this.TestInfo.TabIndex = 7;
             this.TestInfo.TabStop = false;
             this.TestInfo.Text = "";
@@ -132,20 +134,20 @@
             // GPULabel
             // 
             this.GPULabel.AutoSize = true;
-            this.GPULabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GPULabel.Location = new System.Drawing.Point(715, 80);
+            this.GPULabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.GPULabel.Location = new System.Drawing.Point(699, 80);
             this.GPULabel.Name = "GPULabel";
-            this.GPULabel.Size = new System.Drawing.Size(115, 16);
+            this.GPULabel.Size = new System.Drawing.Size(121, 17);
             this.GPULabel.TabIndex = 9;
             this.GPULabel.Text = "GPU Temp (Max):";
             // 
             // GPUTempValue
             // 
             this.GPUTempValue.AutoSize = true;
-            this.GPUTempValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GPUTempValue.Location = new System.Drawing.Point(887, 80);
+            this.GPUTempValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.GPUTempValue.Location = new System.Drawing.Point(884, 80);
             this.GPUTempValue.Name = "GPUTempValue";
-            this.GPUTempValue.Size = new System.Drawing.Size(19, 16);
+            this.GPUTempValue.Size = new System.Drawing.Size(22, 17);
             this.GPUTempValue.TabIndex = 10;
             this.GPUTempValue.Text = "0°";
             // 
@@ -165,9 +167,9 @@
             this.RGBList.CheckOnClick = true;
             this.RGBList.FormattingEnabled = true;
             this.RGBList.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.RGBList.Location = new System.Drawing.Point(719, 194);
+            this.RGBList.Location = new System.Drawing.Point(702, 194);
             this.RGBList.Name = "RGBList";
-            this.RGBList.Size = new System.Drawing.Size(188, 180);
+            this.RGBList.Size = new System.Drawing.Size(204, 180);
             this.RGBList.TabIndex = 13;
             this.RGBList.SelectedIndexChanged += new System.EventHandler(this.RGBList_SelectedIndexChanged);
             // 
@@ -179,7 +181,7 @@
             this.RGBLabel.Enabled = false;
             this.RGBLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RGBLabel.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.RGBLabel.Location = new System.Drawing.Point(718, 159);
+            this.RGBLabel.Location = new System.Drawing.Point(702, 159);
             this.RGBLabel.Name = "RGBLabel";
             this.RGBLabel.ReadOnly = true;
             this.RGBLabel.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -203,12 +205,13 @@
             // 
             // DMResync
             // 
+            this.DMResync.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.DMResync.Location = new System.Drawing.Point(490, 9);
             this.DMResync.Name = "DMResync";
             this.DMResync.Size = new System.Drawing.Size(75, 23);
             this.DMResync.TabIndex = 12;
             this.DMResync.Text = "Resync";
-            this.DMResync.UseVisualStyleBackColor = true;
+            this.DMResync.UseVisualStyleBackColor = false;
             this.DMResync.Visible = false;
             this.DMResync.Click += new System.EventHandler(this.DMResync_Click);
             // 
@@ -250,7 +253,7 @@
             this.RestartQCButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.RestartQCButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.RestartQCButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RestartQCButton.Location = new System.Drawing.Point(797, 386);
+            this.RestartQCButton.Location = new System.Drawing.Point(797, 387);
             this.RestartQCButton.Name = "RestartQCButton";
             this.RestartQCButton.Size = new System.Drawing.Size(113, 48);
             this.RestartQCButton.TabIndex = 20;
@@ -261,14 +264,25 @@
             // 
             // AudioButton
             // 
-            this.AudioButton.Location = new System.Drawing.Point(490, 144);
+            this.AudioButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.AudioButton.Location = new System.Drawing.Point(490, 117);
             this.AudioButton.Name = "AudioButton";
             this.AudioButton.Size = new System.Drawing.Size(75, 23);
             this.AudioButton.TabIndex = 21;
             this.AudioButton.Text = "Audio OK";
-            this.AudioButton.UseVisualStyleBackColor = true;
+            this.AudioButton.UseVisualStyleBackColor = false;
             this.AudioButton.Visible = false;
             this.AudioButton.Click += new System.EventHandler(this.AudioButton_click);
+            // 
+            // RAMLabel
+            // 
+            this.RAMLabel.AutoSize = true;
+            this.RAMLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.RAMLabel.Location = new System.Drawing.Point(699, 123);
+            this.RAMLabel.Name = "RAMLabel";
+            this.RAMLabel.Size = new System.Drawing.Size(38, 17);
+            this.RAMLabel.TabIndex = 22;
+            this.RAMLabel.Text = "RAM";
             // 
             // Form1
             // 
@@ -277,6 +291,7 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(922, 443);
+            this.Controls.Add(this.RAMLabel);
             this.Controls.Add(this.AudioButton);
             this.Controls.Add(this.RestartQCButton);
             this.Controls.Add(this.QCButton);
@@ -327,6 +342,7 @@
         private System.Windows.Forms.Button QCButton;
         private System.Windows.Forms.Button RestartQCButton;
         private System.Windows.Forms.Button AudioButton;
+        private System.Windows.Forms.Label RAMLabel;
     }
 }
 

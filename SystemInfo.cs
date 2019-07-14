@@ -10,12 +10,14 @@ namespace Builder_Companion
     {
         public static GPUInfo Gpu;
         public static CPUInfo Cpu;
+        public static RAMInfo Ram;
 
         // This method must be called before accessing fields
         public static void RetrieveSystemInfo()
         {
             Gpu = new GPUInfo(DMChecker.GetGPUName(), DMChecker.GetGPUDriver());
             Cpu = new CPUInfo(DMChecker.GetCPUName());
+            Ram = new RAMInfo(DMChecker.GetRAMDescription());
         }
 
         public class GPUInfo
@@ -91,6 +93,18 @@ namespace Builder_Companion
             }
 
             public string Name { get => _name; }
+        }
+
+        public class RAMInfo
+        {
+            private string _desc;
+
+            public RAMInfo(string desc)
+            {
+                _desc = desc;
+            }
+
+            public string Description { get => _desc; set => _desc = value; }
         }
     }    
 }

@@ -49,7 +49,7 @@ namespace Builder_Companion
             }
             catch (Exception e)
             {
-                Console.WriteLine("File {0} not found.", filename);
+                Prompt.ShowDialog("HWMonitor not found", "Error");
             }
 
             // Launch script to enable logging, see commented section below

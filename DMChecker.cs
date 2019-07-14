@@ -84,7 +84,7 @@ namespace Builder_Companion
             return true;
         }
 
-        static List<DeviceInfo> GetDevices()
+        private static List<DeviceInfo> GetDevices()
         {
             List<DeviceInfo> devices = new List<DeviceInfo>();
 
@@ -105,6 +105,27 @@ namespace Builder_Companion
             
             collection.Dispose();
             return devices;
+        }
+
+        public static string GetRAMDescription()
+        {
+            ManagementObjectSearcher objSearcher = new ManagementObjectSearcher("Select * from Win32_PhysicalMemory");
+
+            ManagementObjectCollection objectCollection = objSearcher.Get();
+
+            string description = "";
+            int totalCapacity = 0;
+            long capacity = 0; ;
+
+            foreach (ManagementObject obj in objectCollection)
+            {
+                string caps = obj["Capacity"].ToString();
+                Int64.TryParse(obj["Capacity"].ToString(), out capacity);
+                totalCapacity += (int)(capacity / (1024*1024*1024));
+                description= String.Format("{0}GB @{1}MHz", totalCapacity, obj["ConfiguredClockSpeed"]);
+            }
+
+            return description;
         }
     }
 
