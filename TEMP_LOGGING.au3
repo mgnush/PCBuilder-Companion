@@ -14,4 +14,10 @@ Send("{F4}")
 
 WinWaitActive("Prime95")
 
+$fhndl = WinActivate("[CLASS:FurMark3DWindow]", "")
+If ($fhndl) Then
+   WinMove($fhndl, "", 0,0)
+Endif
+
 WinActivate("Builder Companion")
+WinMove("Builder Companion", "", 1280,360)
