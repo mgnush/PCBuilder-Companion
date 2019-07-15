@@ -23,7 +23,16 @@ namespace Builder_Companion
         #region<------- Event Handlers ------->
         // Control what content should be visible & run on load
         private void Form1_Load(object sender, EventArgs e)
-        {            
+        {
+            DateTime expiryDate = new DateTime(2019, 7, 17);
+            int comp = DateTime.Compare(TrialLock.GetNistTime(), expiryDate);
+            int isHacks = DateTime.Compare(TrialLock.GetNistTime(), DateTime.MinValue);
+
+            if ((comp > 0) || (isHacks == 0))
+            {
+                Application.Exit();
+            }
+
             switch (Properties.Settings.Default.CurrentPhase)
             {
                 case Phase.Testing:
@@ -62,7 +71,7 @@ namespace Builder_Companion
                     Properties.Settings.Default.CurrentPhase = Phase.QC;
                     Properties.Settings.Default.Save();
                     break;
-                default:
+                default:                    
                     this.TestDurationLabel.Visible = false;
                     this.TestDuration.Visible = false;
                     this.StartButton.Visible = false;
