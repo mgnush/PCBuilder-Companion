@@ -41,7 +41,7 @@ namespace Builder_Companion
         public const string RGB_XML = "rgbs.xml";
 
         // Scripts
-        public const string HEAVEN_SCRIPT = "UAC_CONTROL.exe";
+        public const string HEAVEN_SCRIPT = "HEAVEN_RUN.exe";
         public const string TEMP_SCRIPT = "TEMP_LOGGING.exe";
         public const string SYSTEM_SCRIPT = "SYSTEM_LAUNCH.exe";
 

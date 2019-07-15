@@ -23,7 +23,7 @@ namespace Builder_Companion
         #region<------- Event Handlers ------->
         // Control what content should be visible & run on load
         private void Form1_Load(object sender, EventArgs e)
-        {   
+        {            
             switch (Properties.Settings.Default.CurrentPhase)
             {
                 case Phase.Testing:
@@ -50,10 +50,15 @@ namespace Builder_Companion
                     this.TestDurationLabel.Visible = false;
                     this.TestDuration.Visible = false;
                     this.StartButton.Visible = false;
+                    this.WUP.Visible = false;
+
+                    LoadAllData();
 
                     TaskServicer.DeleteTaskService();   // Clean up task created  
                     QCHandler.FormatDrives();   // No effect if already formatted
-                    QCHandler.LaunchManualChecks();
+                    QCHandler.LaunchManualChecks();                    
+                    QCHandler.ClearDesktop();
+                    QCHandler.ClearToasts();
                     Properties.Settings.Default.CurrentPhase = Phase.QC;
                     Properties.Settings.Default.Save();
                     break;
@@ -61,6 +66,9 @@ namespace Builder_Companion
                     this.TestDurationLabel.Visible = false;
                     this.TestDuration.Visible = false;
                     this.StartButton.Visible = false;
+                    this.WUP.Visible = false;
+
+                    LoadAllData();
                     break;
             }
             
@@ -192,6 +200,7 @@ namespace Builder_Companion
             TestInfo.AppendText("Power mode was changed to Performance \n", Color.Green);
         }
 
+        #region<------- Testing Methods ------->
         /// <summary>
         /// Handles the control flow of the testing procedure
         /// </summary>
@@ -294,6 +303,7 @@ namespace Builder_Companion
                 }
             }
         }
+        #endregion<------- Testing Methods ------->
 
         public void SaveAllData()
         {
@@ -305,6 +315,7 @@ namespace Builder_Companion
             Properties.Settings.Default.GPUInfo = this.GPULabel.Text;
             Properties.Settings.Default.GPUTemp = this.GPUTempValue.Text;
             Properties.Settings.Default.GPUDriver = this.GPUDriverLabel.Text;
+            Properties.Settings.Default.RAMInfo = this.RAMLabel.Text;
 
             Properties.Settings.Default.Save();
         }
@@ -320,6 +331,7 @@ namespace Builder_Companion
             this.GPULabel.Text = Properties.Settings.Default.GPUInfo;
             this.GPUTempValue.Text = Properties.Settings.Default.GPUTemp;
             this.GPUDriverLabel.Text = Properties.Settings.Default.GPUDriver;
+            this.RAMLabel.Text = Properties.Settings.Default.RAMInfo;
         }
 
         // Restart after 1 second

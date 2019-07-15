@@ -6,11 +6,18 @@ using System.Threading.Tasks;
 
 namespace Builder_Companion
 {
+    public enum CPUBrand
+    {
+        Intel,
+        AMD
+    }
+
     public static class SystemInfo
     {
         public static GPUInfo Gpu;
         public static CPUInfo Cpu;
         public static RAMInfo Ram;
+        public static CPUBrand CpuBrand;
 
         // This method must be called before accessing fields
         public static void RetrieveSystemInfo()
@@ -80,11 +87,13 @@ namespace Builder_Companion
                 {
                     if (words[i].ToLower().Contains("intel(r)"))
                     {
+                        CpuBrand = CPUBrand.Intel;
                         _name = words[i + 2];
                         return;
                     }
                     else if (words[i] == "AMD")
                     {
+                        CpuBrand = CPUBrand.AMD;
                         _name = words[i + 1] + " " + words[i + 2] + " " +  words[i + 3];
                         return;
                     }

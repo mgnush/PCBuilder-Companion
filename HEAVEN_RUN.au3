@@ -8,11 +8,6 @@
 ;
 #RequireAdmin
 
-;If NOT isadmin() Then
- ;       RunAs("Administrator","Mgnus", "", 0, @C:\ & " on", "", @SW_SHOWMINIMIZED)
-  ;      Exit
-;EndIf
-
 Run("Benchmark\Heaven\heaven.bat")
 
 

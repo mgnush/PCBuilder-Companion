@@ -8,6 +8,8 @@ using System.Management;
 using System.Threading;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using Windows.UI.Notifications;
 
 namespace Builder_Companion
 {
@@ -16,6 +18,7 @@ namespace Builder_Companion
         private const string HARD_DRIVE = "3";
         private const int MBR = 1;
         private const int GPT = 2;
+        private const String APP_ID = "Microsoft.Samples.DesktopToastsSample";
 
         [DllImport("user32.dll", EntryPoint = "SetWindowPos")]
         public static extern IntPtr SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int Y, int cx, int cy, int wFlags);
@@ -27,8 +30,13 @@ namespace Builder_Companion
 
             foreach (FileInfo file in di.EnumerateFiles())
             {
-                if (!IsLink(file.FullName))
+                // Delete all desktop files that are not shortcuts, NAS shortcuts or this program itself
+                if (!IsLink(file.FullName) && !file.Name.Contains("CustServiceNas") && 
+                    !file.Name.Equals(Path.GetFileNameWithoutExtension(Application.ExecutablePath)))
+                {
                     file.Delete();
+                }
+                    
             }
             foreach (DirectoryInfo dir in di.EnumerateDirectories())
             {
@@ -101,6 +109,17 @@ namespace Builder_Companion
             
         }
 
+        public static void ClearToasts()
+        {
+            var toastMngr = ToastNotificationManager.CreateToastNotifier(APP_ID);
+            var notifs = toastMngr.GetScheduledToastNotifications();
+
+            for (int i = 0; i < notifs.Count; i++)
+            {
+                toastMngr.RemoveFromSchedule(notifs[i]);
+            }
+            
+        }
 
         public static void FormatDrives()
         {
@@ -120,7 +139,7 @@ namespace Builder_Companion
                 }
             }
 
-            //Thread.Sleep(2000);  // Formatting is unstable if drive letters are not given time to be created
+            //Thread.Sleep(500);  // Formatting is unstable if drive letters are not given time to be created
             
             // Format 
             searcher = new ManagementObjectSearcher("select * from Win32_Volume");
@@ -129,12 +148,13 @@ namespace Builder_Companion
                 if ((m["DriveType"].ToString() == HARD_DRIVE) && (m["FileSystem"] == null))
                 {
                     // https://docs.microsoft.com/en-au/previous-versions/windows/desktop/stormgmt/format-msft-volume
-                    var res = m.InvokeMethod("Format", new object[] { "NTFS", true, 8192, "Disk", false });
+                    var res = m.InvokeMethod("Format", new object[] { "NTFS", true, 8192, "New Volume", false });
                 }
                 
             }
 
             // In case any drives are offline...
+            /*
             searcher = new ManagementObjectSearcher(@"Root/Microsoft/Windows/Storage", "select * from MSFT_Partition");
             foreach (ManagementObject m in searcher.Get())
             {
@@ -143,6 +163,7 @@ namespace Builder_Companion
                     var res = m.InvokeMethod("Online", new object[] { });
                 }
             }
+            */
         }
 
         /// <summary>

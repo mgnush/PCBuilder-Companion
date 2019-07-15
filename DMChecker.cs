@@ -115,13 +115,19 @@ namespace Builder_Companion
 
             string description = "";
             int totalCapacity = 0;
-            long capacity = 0; ;
+            long capacity = 0;
+            int speed = 0;
 
             foreach (ManagementObject obj in objectCollection)
             {
                 string caps = obj["Capacity"].ToString();
                 Int64.TryParse(obj["Capacity"].ToString(), out capacity);
                 totalCapacity += (int)(capacity / (1024*1024*1024));
+                Int32.TryParse(obj["ConfiguredClockSpeed"].ToString(), out speed);
+                if (SystemInfo.CpuBrand == CPUBrand.AMD)
+                {
+                    speed *= 2;
+                }
                 description= String.Format("{0}GB @{1}MHz", totalCapacity, obj["ConfiguredClockSpeed"]);
             }
 

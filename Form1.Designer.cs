@@ -265,7 +265,7 @@
             // AudioButton
             // 
             this.AudioButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.AudioButton.Location = new System.Drawing.Point(490, 117);
+            this.AudioButton.Location = new System.Drawing.Point(490, 123);
             this.AudioButton.Name = "AudioButton";
             this.AudioButton.Size = new System.Drawing.Size(75, 23);
             this.AudioButton.TabIndex = 21;
@@ -291,6 +291,7 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(922, 443);
+            this.Controls.Add(this.IgnoreTemp);
             this.Controls.Add(this.RAMLabel);
             this.Controls.Add(this.AudioButton);
             this.Controls.Add(this.RestartQCButton);
@@ -306,7 +307,6 @@
             this.Controls.Add(this.GPULabel);
             this.Controls.Add(this.WUP);
             this.Controls.Add(this.TestInfo);
-            this.Controls.Add(this.IgnoreTemp);
             this.Controls.Add(this.CPUPwr);
             this.Controls.Add(this.CPUTemp);
             this.Controls.Add(this.CPUSpeed);
