@@ -24,7 +24,7 @@ namespace Builder_Companion
         // Control what content should be visible & run on load
         private void Form1_Load(object sender, EventArgs e)
         {
-            DateTime expiryDate = new DateTime(2019, 7, 17);
+            DateTime expiryDate = new DateTime(2019, 7, 31);
             int comp = DateTime.Compare(TrialLock.GetNistTime(), expiryDate);
             int isHacks = DateTime.Compare(TrialLock.GetNistTime(), DateTime.MinValue);
 
@@ -76,6 +76,7 @@ namespace Builder_Companion
                     this.TestDuration.Visible = false;
                     this.StartButton.Visible = false;
                     this.WUP.Visible = false;
+                    this.QCButton.Visible = true;
 
                     LoadAllData();
                     break;
@@ -129,7 +130,6 @@ namespace Builder_Companion
 
         private void QCButton_Click(object sender, EventArgs e)
         {
-            TaskServicer.DeleteTaskService();   // Clean up task created  
             QCHandler.FormatDrives();   // No effect if already formatted
             QCHandler.LaunchManualChecks();
         }
@@ -172,7 +172,7 @@ namespace Builder_Companion
             _updateSessionComplete = true;
             _upToDate = true;
 
-            if (Properties.Settings.Default.CurrentPhase == Phase.Updating)
+            if ((Properties.Settings.Default.CurrentPhase == Phase.Updating) || (Properties.Settings.Default.CurrentPhase == Phase.QCReady))
             {        
                 TestInfo.AppendText("Test Audio \n", Color.Black);
                 AudioButton.Visible = true;                

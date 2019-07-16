@@ -26,13 +26,13 @@ namespace Builder_Companion
         public static void ClearDesktop()
         {
             DirectoryInfo di = new DirectoryInfo(Paths.Desktop());
-            //SetAttributesNormal(di);
+            //SetAttributesNormal(di);   // Uncomment if access isnt granted to non-exe files
 
             foreach (FileInfo file in di.EnumerateFiles())
             {
-                // Delete all desktop files that are not shortcuts, NAS shortcuts or this program itself
-                if (!IsLink(file.FullName) && !file.Name.Contains("CustServiceNas") && 
-                    !file.Name.Equals(Path.GetFileNameWithoutExtension(Application.ExecutablePath)))
+                // Delete all desktop files that are not shortcuts or this program itself (unless its a NAS-shortcut)
+                if ((!IsLink(file.FullName) || file.Name.Contains("CustService")) && 
+                    !file.Name.Equals(Path.GetFileName(Application.ExecutablePath)))
                 {
                     file.Delete();
                 }
@@ -109,6 +109,8 @@ namespace Builder_Companion
             
         }
 
+        /* Does not work
+         */
         public static void ClearToasts()
         {
             var toastMngr = ToastNotificationManager.CreateToastNotifier(APP_ID);

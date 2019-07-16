@@ -12,6 +12,13 @@ namespace Builder_Companion
         AMD
     }
 
+    public enum GPUBrand
+    {
+        nVIDIA,
+        AMD,
+        Unknown
+    }
+
     public static class SystemInfo
     {
         public static GPUInfo Gpu;
@@ -24,14 +31,14 @@ namespace Builder_Companion
         {
             Gpu = new GPUInfo(DMChecker.GetGPUName(), DMChecker.GetGPUDriver());
             Cpu = new CPUInfo(DMChecker.GetCPUName());
-            Ram = new RAMInfo(DMChecker.GetRAMDescription());
+            Ram = new RAMInfo(DMChecker.GetRAMDescription());   // Must be called after cpu (CpuBrand must be set)
         }
 
         public class GPUInfo
         {
             private string _name;
             private string _driver;
-            private bool nvidia = false; // True for nVIDIA, false for AMD
+            private GPUBrand _gpuBrand = GPUBrand.Unknown;
 
             public GPUInfo(string gpuname, string gpudriver)
             {
@@ -49,21 +56,28 @@ namespace Builder_Companion
                         {
                             edition = words[i + 3];
                         }
-                        if (words[i].Equals("GeForce")) { nvidia = true; }
+                        if (words[i].Equals("GeForce")) { _gpuBrand = GPUBrand.nVIDIA; }
+                        if (words[i].Equals("Radeon")) { _gpuBrand = GPUBrand.AMD; }
                         break;
                     }                    
                 }
                 _name = family + " " + model + " " + edition;
 
-                if (nvidia)
+                switch (_gpuBrand)
                 {
-                    string[] numbers = gpudriver.Split('.');
-                    _driver = numbers[2].Substring(1) + numbers[3].Substring(0, 2) + "." + numbers[3].Substring(2, 2);
-                } else
-                {
-                    string[] numbers = gpudriver.Split('.');
-                    _driver = numbers[2].Substring(4, 1) + numbers[3].Substring(0, 1) + ".";   // NOT complete
+                    case GPUBrand.nVIDIA:
+                        string[] numbersn = gpudriver.Split('.');
+                        _driver = numbersn[2].Substring(1) + numbersn[3].Substring(0, 2) + "." + numbersn[3].Substring(2, 2);
+                        break;
+                    case GPUBrand.AMD:
+                        string[] numbersa = gpudriver.Split('.');
+                        _driver = numbersa[2].Substring(4, 1) + numbersa[3].Substring(0, 1) + ".xx";   // NOT complete
+                        break;
+                    default:
+                        _driver = "Unknown driver";
+                        break;
                 }
+
                
             }
 
