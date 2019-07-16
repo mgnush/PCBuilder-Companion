@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 
 namespace Builder_Companion
 {
@@ -143,6 +144,7 @@ namespace Builder_Companion
         private void IgnoreTemp_Click(object sender, EventArgs e)
         {
             IgnoreTemp.Visible = false;
+            Thread.Sleep(1000); // Give user a chance to let go of mouse
             TestHeaven();            
         }
 

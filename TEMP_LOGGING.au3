@@ -9,10 +9,9 @@
 #ce ----------------------------------------------------------------------------
 
 WinActivate("Core Temp 1.14")
-Sleep(300)
 Send("{F4}")
 
-WinWaitActive("Prime95")
+WinWait("Prime95")
 
 $fhndl = WinActivate("[CLASS:FurMark3DWindow]", "")
 If ($fhndl) Then
