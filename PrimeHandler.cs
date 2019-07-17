@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Timers;
 using System.Runtime;
+using System.Diagnostics;
 
 namespace Builder_Companion
 {
@@ -22,29 +23,34 @@ namespace Builder_Companion
                 File.Delete(resultsPath);
             }
 
-            try
-            {
-                var proc = System.Diagnostics.Process.Start(filename, "-t");
-
-                // Check prime logs every minute
-                for (int i = 0; i < durationMin; i++)
-                {
-                    await Task.Delay(60000);
-                    if (File.Exists(resultsPath))
-                    {
-                        string results = File.ReadAllText(resultsPath).ToLower();
-                        if (results.Contains("hardware failure")) { return false; }
-                    }
-                }
-
-                proc.CloseMainWindow();
-                proc.Close();
-            }
-            catch
+            if (!File.Exists(filename))
             {
                 Prompt.ShowDialog("Prime95 not found", "Error");
                 return false;
             }
+
+      
+            Process proc = Process.Start(filename, "-t");
+
+            // Check prime logs every minute
+            for (int i = 0; i < durationMin; i++)
+            {
+                await Task.Delay(60000);
+                if (File.Exists(resultsPath))
+                {
+                    string results = File.ReadAllText(resultsPath).ToLower();
+                    if (results.Contains("hardware failure"))
+                    {
+                        proc.CloseMainWindow();
+                        proc.Close();
+                        return false;
+                    }
+                }
+            }
+
+            proc.CloseMainWindow();
+            proc.Close();
+ 
            
            
             return true; // We made it!

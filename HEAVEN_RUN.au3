@@ -18,7 +18,7 @@ Send("{F9}")
 Sleep(14000)
 Send("{F9}")
 
-Sleep(300000)
+Sleep(285000)
 Send("{ENTER}")
 Sleep(1000)
 Send("{ENTER}")

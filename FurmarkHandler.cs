@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml;
 using System.Xml.Schema;
+using System.Diagnostics;
 
 namespace Builder_Companion
 {
     public static class FurmarkHandler
     {
-        public static void InitFurmark(int durationMin)
+        public static Process InitFurmark(int durationMin)
         {
             string filename = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.FURMARK_EXE);
             string xmlPath = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.FURMARK_XML);
@@ -29,7 +30,7 @@ namespace Builder_Companion
             } catch
             {
                 Prompt.ShowDialog("Furmark startup_option file not found", "Error");
-                return;
+                return null;
             }
             
             XmlNode root = fmSettings.DocumentElement;
@@ -49,15 +50,14 @@ namespace Builder_Companion
             
             fmSettings.Save(xmlPath);
 
-            try
-            {
-                var proc = System.Diagnostics.Process.Start(filename, "/enable_dyn_bkg=1 /bkg_img_id=2 /nogui");
-            } catch
+            if (!File.Exists(filename))
             {
                 Prompt.ShowDialog("Furmark application not found", "Error");
             }
-            
 
+            Process proc = Process.Start(filename, "/enable_dyn_bkg=1 /bkg_img_id=2 /nogui");
+
+            return proc;
         }
     }
 }

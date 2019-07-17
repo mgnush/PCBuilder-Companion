@@ -43,12 +43,16 @@
             this.RGBLabel = new System.Windows.Forms.RichTextBox();
             this.StartButton = new System.Windows.Forms.Button();
             this.DMResync = new System.Windows.Forms.Button();
-            this.TestDuration = new System.Windows.Forms.HScrollBar();
             this.TestDurationLabel = new System.Windows.Forms.Label();
             this.QCButton = new System.Windows.Forms.Button();
             this.RestartQCButton = new System.Windows.Forms.Button();
             this.AudioButton = new System.Windows.Forms.Button();
             this.RAMLabel = new System.Windows.Forms.Label();
+            this.PhaseLabel = new System.Windows.Forms.Label();
+            this.PrimeDurationBar = new System.Windows.Forms.TrackBar();
+            this.BarDurationLabel = new System.Windows.Forms.Label();
+            this.ManualHeavenButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.PrimeDurationBar)).BeginInit();
             this.SuspendLayout();
             // 
             // CPUMonitor
@@ -215,20 +219,11 @@
             this.DMResync.Visible = false;
             this.DMResync.Click += new System.EventHandler(this.DMResync_Click);
             // 
-            // TestDuration
-            // 
-            this.TestDuration.Location = new System.Drawing.Point(702, 402);
-            this.TestDuration.Name = "TestDuration";
-            this.TestDuration.Size = new System.Drawing.Size(82, 32);
-            this.TestDuration.SmallChange = 5;
-            this.TestDuration.TabIndex = 17;
-            this.TestDuration.Value = 100;
-            // 
             // TestDurationLabel
             // 
             this.TestDurationLabel.AutoSize = true;
             this.TestDurationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TestDurationLabel.Location = new System.Drawing.Point(699, 386);
+            this.TestDurationLabel.Location = new System.Drawing.Point(692, 371);
             this.TestDurationLabel.Name = "TestDurationLabel";
             this.TestDurationLabel.Size = new System.Drawing.Size(96, 16);
             this.TestDurationLabel.TabIndex = 18;
@@ -284,6 +279,50 @@
             this.RAMLabel.TabIndex = 22;
             this.RAMLabel.Text = "RAM";
             // 
+            // PhaseLabel
+            // 
+            this.PhaseLabel.AutoSize = true;
+            this.PhaseLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PhaseLabel.Location = new System.Drawing.Point(12, 415);
+            this.PhaseLabel.Name = "PhaseLabel";
+            this.PhaseLabel.Size = new System.Drawing.Size(56, 20);
+            this.PhaseLabel.TabIndex = 23;
+            this.PhaseLabel.Text = "Phase";
+            this.PhaseLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // PrimeDurationBar
+            // 
+            this.PrimeDurationBar.Location = new System.Drawing.Point(687, 390);
+            this.PrimeDurationBar.Maximum = 29;
+            this.PrimeDurationBar.Minimum = 9;
+            this.PrimeDurationBar.Name = "PrimeDurationBar";
+            this.PrimeDurationBar.Size = new System.Drawing.Size(104, 45);
+            this.PrimeDurationBar.TabIndex = 24;
+            this.PrimeDurationBar.Value = 29;
+            this.PrimeDurationBar.ValueChanged += new System.EventHandler(this.PrimeDurationBar_onChanged);
+            // 
+            // BarDurationLabel
+            // 
+            this.BarDurationLabel.AutoSize = true;
+            this.BarDurationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BarDurationLabel.Location = new System.Drawing.Point(716, 419);
+            this.BarDurationLabel.Name = "BarDurationLabel";
+            this.BarDurationLabel.Size = new System.Drawing.Size(43, 16);
+            this.BarDurationLabel.TabIndex = 25;
+            this.BarDurationLabel.Text = "29min";
+            // 
+            // ManualHeavenButton
+            // 
+            this.ManualHeavenButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.ManualHeavenButton.Location = new System.Drawing.Point(490, 123);
+            this.ManualHeavenButton.Name = "ManualHeavenButton";
+            this.ManualHeavenButton.Size = new System.Drawing.Size(75, 23);
+            this.ManualHeavenButton.TabIndex = 26;
+            this.ManualHeavenButton.Text = "Heaven OK";
+            this.ManualHeavenButton.UseVisualStyleBackColor = false;
+            this.ManualHeavenButton.Visible = false;
+            this.ManualHeavenButton.Click += new System.EventHandler(this.ManualHeavenButton_onClick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -291,13 +330,16 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(922, 443);
+            this.Controls.Add(this.ManualHeavenButton);
+            this.Controls.Add(this.BarDurationLabel);
+            this.Controls.Add(this.PrimeDurationBar);
+            this.Controls.Add(this.PhaseLabel);
             this.Controls.Add(this.IgnoreTemp);
             this.Controls.Add(this.RAMLabel);
             this.Controls.Add(this.AudioButton);
             this.Controls.Add(this.RestartQCButton);
             this.Controls.Add(this.QCButton);
             this.Controls.Add(this.TestDurationLabel);
-            this.Controls.Add(this.TestDuration);
             this.Controls.Add(this.StartButton);
             this.Controls.Add(this.RGBLabel);
             this.Controls.Add(this.RGBList);
@@ -317,6 +359,7 @@
             this.Text = "Builder Companion";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_Closed);
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.PrimeDurationBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -337,12 +380,15 @@
         private System.Windows.Forms.RichTextBox RGBLabel;
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Button DMResync;
-        private System.Windows.Forms.HScrollBar TestDuration;
         private System.Windows.Forms.Label TestDurationLabel;
         private System.Windows.Forms.Button QCButton;
         private System.Windows.Forms.Button RestartQCButton;
         private System.Windows.Forms.Button AudioButton;
         private System.Windows.Forms.Label RAMLabel;
+        private System.Windows.Forms.Label PhaseLabel;
+        private System.Windows.Forms.TrackBar PrimeDurationBar;
+        private System.Windows.Forms.Label BarDurationLabel;
+        private System.Windows.Forms.Button ManualHeavenButton;
     }
 }
 

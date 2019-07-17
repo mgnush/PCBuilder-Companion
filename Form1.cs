@@ -21,9 +21,7 @@ namespace Builder_Companion
             DMStatusCheck();   // Check Device manager every time program is launched             
         }
 
-        #region<------- Event Handlers ------->
-        // Control what content should be visible & run on load
-        private void Form1_Load(object sender, EventArgs e)
+        public void EvaluateTrial()
         {
             DateTime expiryDate = new DateTime(2019, 7, 31);
             int comp = DateTime.Compare(TrialLock.GetNistTime(), expiryDate);
@@ -33,10 +31,17 @@ namespace Builder_Companion
             {
                 Application.Exit();
             }
+        }
 
+        #region<------- Event Handlers ------->
+        // Control what content should be visible & run on load
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            SetPhaseLabel();
             switch (Properties.Settings.Default.CurrentPhase)
             {
                 case Phase.Testing:
+                    EvaluateTrial();
                     this.RGBLabel.AppendText("R", Color.Red);
                     this.RGBLabel.AppendText("G", Color.Green);
                     this.RGBLabel.AppendText("B", Color.Blue);
@@ -51,14 +56,15 @@ namespace Builder_Companion
                     break;
                 case Phase.Updating:
                     this.TestDurationLabel.Visible = false;
-                    this.TestDuration.Visible = false;
+                    this.PrimeDurationBar.Visible = false;
                     this.StartButton.Visible = false;
                     LoadAllData();
                     DoUpdates();
+                    UpdatesTimeout();
                     break;
                 case Phase.QCReady:
                     this.TestDurationLabel.Visible = false;
-                    this.TestDuration.Visible = false;
+                    this.PrimeDurationBar.Visible = false;
                     this.StartButton.Visible = false;
                     this.WUP.Visible = false;
 
@@ -71,10 +77,11 @@ namespace Builder_Companion
                     QCHandler.ClearToasts();
                     Properties.Settings.Default.CurrentPhase = Phase.QC;
                     Properties.Settings.Default.Save();
+                    SetPhaseLabel();
                     break;
                 default:                    
                     this.TestDurationLabel.Visible = false;
-                    this.TestDuration.Visible = false;
+                    this.PrimeDurationBar.Visible = false;
                     this.StartButton.Visible = false;
                     this.WUP.Visible = false;
                     this.QCButton.Visible = true;
@@ -108,13 +115,11 @@ namespace Builder_Companion
             RGBInstaller.InstallSelectedSoftware(RGBList.CheckedIndices);
             RGBList.Enabled = false;
 
-            // Testing
-            double minDuration = 9;
-            double maxDuration = 29;
             // Calculate the test duration in minutes
-            int durationMin = (int)(minDuration + ((maxDuration - minDuration) * ((double)TestDuration.Value / 100)));            
+            int durationMin = PrimeDurationBar.Value;           
            
-            TestDuration.Visible = false;
+            PrimeDurationBar.Visible = false;
+            BarDurationLabel.Visible = false;
             TestDurationLabel.Text += "\n" + durationMin + "min";
             //easter egg opp.
             
@@ -126,6 +131,7 @@ namespace Builder_Companion
             RestartQCButton.Visible = false;
             Properties.Settings.Default.CurrentPhase = Phase.QCReady;
             Properties.Settings.Default.Save();
+            SetPhaseLabel();
             Restart();
         }
 
@@ -153,18 +159,30 @@ namespace Builder_Companion
 
         }
 
+        private void PrimeDurationBar_onChanged(object sender, EventArgs e)
+        {
+            BarDurationLabel.Text = PrimeDurationBar.Value.ToString() + "min";
+        }
+
+        private void ManualHeavenButton_onClick(object sender, EventArgs e)
+        {
+            ManualHeavenButton.Visible = false;
+            TestInfo.AppendText("Heaven OK", Color.Green);
+            TestingComplete();
+        }
+
         private void AudioButton_click(object sender, EventArgs e)
         {
             TestInfo.Undo();
             TestInfo.AppendText("Audio OK", Color.Green);
-            AudioButton.Visible = false;
-            RestartQCButton.Visible = true;
+            AudioButton.Visible = false;            
 
             string slui = Environment.GetFolderPath(Environment.SpecialFolder.System);
             ProcessStartInfo sInfo = new ProcessStartInfo(Path.Combine(slui, "slui.exe"));
             Process p = new Process();
             p.StartInfo = sInfo;
             p.Start();
+            RestartQCButton.Visible = true;
         }
 
         public void WUPDone()
@@ -177,7 +195,8 @@ namespace Builder_Companion
             if ((Properties.Settings.Default.CurrentPhase == Phase.Updating) || (Properties.Settings.Default.CurrentPhase == Phase.QCReady))
             {        
                 TestInfo.AppendText("Test Audio \n", Color.Black);
-                AudioButton.Visible = true;                
+                AudioButton.Visible = true;
+                PhaseLabel.Text += ": Configure RGB software if any!";
             }
         }
         #endregion<------- Event Handlers ------->
@@ -203,6 +222,11 @@ namespace Builder_Companion
             CPUPwr.Text = TempHandler.MaxPwr + "W";
             CPUTemp.Text = TempHandler.MaxTemp + "°";
             GPUTempValue.Text = TempHandler.MaxGPUTemp + "°";
+        }
+
+        private void SetPhaseLabel()
+        {
+            this.PhaseLabel.Text = "Phase: " +  Properties.Settings.Default.CurrentPhase.ToString();
         }
 
         private void SetPowerPerformanceMode()
@@ -288,6 +312,7 @@ namespace Builder_Companion
                 } else
                 {
                     TestInfo.AppendText("Wrong heaven score, run manually \n", Color.Red);
+                    ManualHeavenButton.Visible = true;
                 }                       
             }
             // If heaven failed, let builder deal with it (do nothing)
@@ -295,23 +320,21 @@ namespace Builder_Companion
 
         private void TestingComplete()
         {
-            Properties.Settings.Default.CurrentPhase = Phase.Updating;
+            Properties.Settings.Default.CurrentPhase = Phase.Updating;           
             SaveAllData();
-           
-            // Need to account for cases where windows is up to date already
+            SetPhaseLabel();
 
             TaskServicer.CreateTaskService();   // Program will now run automatically until QC button has been pressed
             // Restart if testing and updating is finished
-            if (_updateSessionComplete && !_upToDate)
-            {                
-                Restart();
-            }
             if (_updateSessionComplete && _upToDate)
             {               
                 {
                     TestInfo.AppendText("Test Audio \n", Color.Black);
                     AudioButton.Visible = true;
                 }
+            } else
+            {
+                Restart();
             }
         }
         #endregion<------- Testing Methods ------->
@@ -354,5 +377,7 @@ namespace Builder_Companion
             restart.Arguments = "/C shutdown -f -r -t 1";
             Process.Start(restart);
         }
+
+
     }
 }

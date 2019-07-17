@@ -17,7 +17,7 @@ namespace Builder_Companion
     {
         public async static Task<bool> RunPrimeFurmark(int durationMin)
         {            
-            FurmarkHandler.InitFurmark(durationMin);
+            Process furmark = FurmarkHandler.InitFurmark(durationMin);
             TempHandler.InitTemp();
 
             await Task.Delay(2000);
@@ -27,6 +27,11 @@ namespace Builder_Companion
             Task<bool> primeTask = PrimeHandler.RunPrime(durationMin);
 
             await Task.WhenAll(primeTask);
+            if (!primeTask.Result )
+            {
+                furmark.CloseMainWindow();
+                furmark.Close();
+            }
 
             return primeTask.Result;
         }

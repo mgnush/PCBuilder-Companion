@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.ServiceProcess;
+using System.Threading.Tasks;
 
 // Exit Codes:
 //   0 = scripting failure
@@ -68,6 +69,22 @@ namespace Builder_Companion
         {
             get { return count; }
             set { count = value; }
+        }
+
+        public async void UpdatesTimeout()
+        {
+            // Restart if still searching for updates after 2mins 30 sec
+            await Task.Delay(new TimeSpan(0, 2, 30));
+            if (GetWup().Equals("Searching for updates..."))
+            {
+                Restart();
+            }
+            // Restart if not finished updating after 15 mins
+            await Task.Delay(new TimeSpan(0, 12, 30));
+            if (!_updateSessionComplete)
+            {
+                Restart();
+            }
         }
 
         public void DoUpdates()
@@ -257,7 +274,12 @@ namespace Builder_Companion
         public void SetWUP(string status)
         {
             WUP.Text = status;
-        }                                 
+        }   
+        
+        public string GetWup()
+        {
+            return WUP.Text;
+        }
         #endregion <------- Notification Methods ------->
 
 
