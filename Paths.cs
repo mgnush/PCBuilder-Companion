@@ -42,10 +42,11 @@ namespace Builder_Companion
 
         // Scripts
         public const string HEAVEN_SCRIPT = "HEAVEN_RUN.exe";
+        public const string HEAVEN_EXIT_SCRIPT = "HEAVEN_EXIT.exe";
         public const string TEMP_SCRIPT = "TEMP_LOGGING.exe";
-        public const string SYSTEM_SCRIPT = "SYSTEM_LAUNCH.exe";
+        public const string QCWINDOWS_SCRIPT = "QC_WINDOWS.exe";
 
-        // NAS / Server
+        // NAS 
         public const string NAS = @"\\CustServiceNAS\SysbBuilds\_Software";
     }
 }

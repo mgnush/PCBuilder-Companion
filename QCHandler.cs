@@ -41,7 +41,35 @@ namespace Builder_Companion
             foreach (DirectoryInfo dir in di.EnumerateDirectories())
             {
                 dir.Delete(true);
-            }         
+            }
+
+            // Rearrange
+            // This simply moves all remaining items to a temporary folder and back -
+            // the alternative is a very long shell backdoor
+            // https://devblogs.microsoft.com/oldnewthing/?p=4933
+            DirectoryInfo tempDesktop = Directory.CreateDirectory(Path.Combine(Paths.User(), "TempDesktop"));
+            try
+            {
+                foreach (FileInfo file in di.EnumerateFiles())
+                {
+                    if (!file.Name.Equals(Path.GetFileName(Application.ExecutablePath)))
+                    {
+                        file.MoveTo(Path.Combine(tempDesktop.FullName, file.Name));
+                    }
+                }
+                foreach (FileInfo file in tempDesktop.EnumerateFiles())
+                {
+                    file.MoveTo(Path.Combine(di.FullName, file.Name));
+                }
+            }
+            catch {
+                foreach (FileInfo file in tempDesktop.EnumerateFiles())
+                {
+                    file.Delete();
+                }
+            }
+            
+            tempDesktop.Delete();
         }
 
         public static void LaunchManualChecks()
@@ -52,31 +80,18 @@ namespace Builder_Companion
             ProcessStartInfo devmInfo = new ProcessStartInfo("devmgmt.msc");
             Process devm = new Process();
             devm.StartInfo = devmInfo;
-            devm.Start();           
+            devm.Start();
 
             ProcessStartInfo diskmInfo = new ProcessStartInfo("diskmgmt.msc");
             Process diskm = new Process();
             diskm.StartInfo = diskmInfo;
-            diskm.Start();
-
-            ProcessStartInfo explInfo = new ProcessStartInfo("explorer.exe");
-            Process expl = new Process();
-            expl.StartInfo = explInfo;
-            expl.Start();
-            string explName = Path.GetFileNameWithoutExtension(explInfo.FileName);
-
-            // System info is handled by standalone script
-            try
-            {
-                ProcessStartInfo sysInfo = new ProcessStartInfo(Path.Combine(Paths.Desktop(), Paths.TEST, Paths.FILES, Paths.SYSTEM_SCRIPT));
-                Process sys = new Process();
-                sys.StartInfo = sysInfo;
-                sys.Start();
-            } catch { }
+            diskm.Start();     
             
             Thread.Sleep(1000);   // Need to wait for mainwindowtitles to correctly 'guess' the gui window
+                                  // Unfortunately, WaitForInputIdle is not sufficient!
 
             // Reposition mmc class processes
+            
             Process[] mmcProcs = Process.GetProcessesByName("mmc");
             foreach (var proc in mmcProcs)
             {
@@ -91,22 +106,25 @@ namespace Builder_Companion
                     SetWindowPos(handle, 0, 960, 540, 960, 540, SWP_SHOWWINDOW);
                 }
             }
-
-            // Reposition windows explorer - this does not work most of the time
-            Process[] explProcs = Process.GetProcessesByName(explName);
-            foreach (var proc in explProcs)
-            {
-                var handle = proc.MainWindowHandle;
-                SetWindowPos(handle, 0, 0, 0, 960, 540, SWP_SHOWWINDOW);                
-            }
-
+            
             // Launch windows update
             string systemFolder = Environment.GetFolderPath(Environment.SpecialFolder.System);
             ProcessStartInfo wupInfo = new ProcessStartInfo(Path.Combine(systemFolder, "control.exe"), "/name Microsoft.WindowsUpdate");
             Process wup = new Process();
             wup.StartInfo = wupInfo;
             wup.Start();
-            
+            wup.WaitForInputIdle();
+
+            // System info, explorer is handled by standalone script
+            string sysInfoScript = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.FILES, Paths.QCWINDOWS_SCRIPT);
+            if (File.Exists(sysInfoScript))
+            {
+                ProcessStartInfo sysInfo = new ProcessStartInfo(sysInfoScript);
+                Process sys = new Process();
+                sys.StartInfo = sysInfo;
+                sys.Start();
+                sys.WaitForExit();
+            }
         }
 
         /* Does not work
@@ -137,11 +155,11 @@ namespace Builder_Companion
                     // https://docs.microsoft.com/en-au/previous-versions/windows/desktop/stormgmt/createpartition-msft-disk
                     // Use 1MB alignment = 1048576 bytes
                     var parRes = m.InvokeMethod("CreatePartition", new object[] { null, true, null, 1048576, null, true, null, null, false, false });
-                    //Thread.Sleep(1000);
+                    // Thread.Sleep(1000);
                 }
             }
 
-            //Thread.Sleep(500);  // Formatting is unstable if drive letters are not given time to be created
+            // Thread.Sleep(500);  // Formatting is unstable if drive letters are not given time to be created
             
             // Format 
             searcher = new ManagementObjectSearcher("select * from Win32_Volume");

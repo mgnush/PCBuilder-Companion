@@ -359,6 +359,7 @@
             this.Text = "Builder Companion";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_Closed);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Shown += new System.EventHandler(this.Form1_Loaded);
             ((System.ComponentModel.ISupportInitialize)(this.PrimeDurationBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

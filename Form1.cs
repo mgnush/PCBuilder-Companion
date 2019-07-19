@@ -21,31 +21,18 @@ namespace Builder_Companion
             DMStatusCheck();   // Check Device manager every time program is launched             
         }
 
-        public void EvaluateTrial()
-        {
-            DateTime expiryDate = new DateTime(2019, 7, 31);
-            int comp = DateTime.Compare(TrialLock.GetNistTime(), expiryDate);
-            int isHacks = DateTime.Compare(TrialLock.GetNistTime(), DateTime.MinValue);
-
-            if ((comp > 0) || (isHacks == 0))
-            {
-                Application.Exit();
-            }
-        }
-
         #region<------- Event Handlers ------->
-        // Control what content should be visible & run on load
+        // Control what content should be visible
         private void Form1_Load(object sender, EventArgs e)
         {
             SetPhaseLabel();
             switch (Properties.Settings.Default.CurrentPhase)
             {
                 case Phase.Testing:
-                    EvaluateTrial();
                     this.RGBLabel.AppendText("R", Color.Red);
                     this.RGBLabel.AppendText("G", Color.Green);
                     this.RGBLabel.AppendText("B", Color.Blue);
-                    this.RGBLabel.AppendText(" Stuff", Color.Black);
+                    this.RGBLabel.AppendText(" & Stuff", Color.Black);
 
                     // Load all software items from xml file
                     RGBInstaller.ReadRGBSoftware();
@@ -57,39 +44,57 @@ namespace Builder_Companion
                 case Phase.Updating:
                     this.TestDurationLabel.Visible = false;
                     this.PrimeDurationBar.Visible = false;
+                    this.BarDurationLabel.Visible = false;
                     this.StartButton.Visible = false;
                     LoadAllData();
-                    DoUpdates();
-                    UpdatesTimeout();
                     break;
                 case Phase.QCReady:
                     this.TestDurationLabel.Visible = false;
                     this.PrimeDurationBar.Visible = false;
+                    this.BarDurationLabel.Visible = false;
                     this.StartButton.Visible = false;
                     this.WUP.Visible = false;
 
                     LoadAllData();
+                    SetPhaseLabel();
+                    break;
+                default:                    
+                    this.TestDurationLabel.Visible = false;
+                    this.PrimeDurationBar.Visible = false;
+                    this.BarDurationLabel.Visible = false;
+                    this.StartButton.Visible = false;
+                    this.WUP.Visible = false;
+                    this.QCButton.Visible = true;
 
+                    LoadAllData();
+                    SetPhaseLabel();
+                    break;
+            }
+            
+        }
+
+        // Control action to take after app has started
+        private void Form1_Loaded(object sender, EventArgs e)
+        {
+            switch (Properties.Settings.Default.CurrentPhase)
+            {
+                case Phase.Updating:
+                    DoUpdates();
+                    UpdatesTimeout();
+                    break;
+                case Phase.QCReady:
                     TaskServicer.DeleteTaskService();   // Clean up task created  
                     QCHandler.FormatDrives();   // No effect if already formatted
-                    QCHandler.LaunchManualChecks();                    
+                    QCHandler.LaunchManualChecks();
                     QCHandler.ClearDesktop();
                     QCHandler.ClearToasts();
                     Properties.Settings.Default.CurrentPhase = Phase.QC;
                     Properties.Settings.Default.Save();
                     SetPhaseLabel();
                     break;
-                default:                    
-                    this.TestDurationLabel.Visible = false;
-                    this.PrimeDurationBar.Visible = false;
-                    this.StartButton.Visible = false;
-                    this.WUP.Visible = false;
-                    this.QCButton.Visible = true;
-
-                    LoadAllData();
+                default:
                     break;
             }
-            
         }
 
         private void Form1_Closed(object sender, FormClosedEventArgs e)
@@ -138,6 +143,7 @@ namespace Builder_Companion
         private void QCButton_Click(object sender, EventArgs e)
         {
             QCHandler.FormatDrives();   // No effect if already formatted
+            QCHandler.ClearDesktop();
             QCHandler.LaunchManualChecks();
         }
 
@@ -185,6 +191,7 @@ namespace Builder_Companion
             RestartQCButton.Visible = true;
         }
 
+        // This is called when the updater agent search comes up empty (windows up to date)
         public void WUPDone()
         {
             WUP.Text = "Windows up to date";
@@ -192,6 +199,7 @@ namespace Builder_Companion
             _updateSessionComplete = true;
             _upToDate = true;
 
+            // If testing is complete, begin next step
             if ((Properties.Settings.Default.CurrentPhase == Phase.Updating) || (Properties.Settings.Default.CurrentPhase == Phase.QCReady))
             {        
                 TestInfo.AppendText("Test Audio \n", Color.Black);
@@ -300,23 +308,43 @@ namespace Builder_Companion
             }
         }
 
+        
         private void TestHeaven()
         {
-            if (HeavenHandler.RunHeaven())
+            if (!HeavenHandler.RunHeaven(this))
+            {
+                TestInfo.AppendText("Couldn't start heaven, run manually \n", Color.Red);
+                ManualHeavenButton.Visible = true;
+            } else
             {
                 int heavenScore = HeavenHandler.EvaluateHeaven();
                 TestInfo.AppendText("Heaven Score: " + heavenScore + "\n", Color.Black);
                 if (heavenScore > 0)
                 {
                     TestingComplete();
-                } else
+                }
+                else
                 {
                     TestInfo.AppendText("Wrong heaven score, run manually \n", Color.Red);
                     ManualHeavenButton.Visible = true;
-                }                       
+                }
             }
-            // If heaven failed, let builder deal with it (do nothing)
         }
+
+        public void ReportHeavenScore(int score)
+        {
+            TestInfo.AppendText("Heaven Score: " + score + "\n", Color.Black);
+            if (score > 0)
+            {
+                TestingComplete();
+            }
+            else
+            {
+                TestInfo.AppendText("Wrong heaven score, run manually \n", Color.Red);
+                ManualHeavenButton.Visible = true;
+            }
+        }
+        
 
         private void TestingComplete()
         {
@@ -377,7 +405,5 @@ namespace Builder_Companion
             restart.Arguments = "/C shutdown -f -r -t 1";
             Process.Start(restart);
         }
-
-
     }
 }

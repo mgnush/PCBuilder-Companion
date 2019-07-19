@@ -8,7 +8,7 @@ To launch the software on a new system, simply run the "Builder Companion.exe" e
 
 ### File hierarchy & naming requirements
 
-The main program is compiled into a single executable, which must be named "Builder Companion.exe" for all stand-alone scripts to run correctly. All dll-dependencies are embedded in the executable. This executable may be placed anywhere on the local machine. 
+The main program is compiled into a single executable, which must be named "Builder Companion.exe" for all stand-alone scripts to run correctly. All dll-dependencies are embedded in the executable. This executable may be placed anywhere on the local machine. If run from the desktop, it is recommended to place the executable away from the upper left corner. This will allow RGB-software to be organised neatly during the [QC-phase](https://github.com/mgnush/Builder-Companion#qc-phase-4). 
 
 The program looks for all external benchmark tools in
 
@@ -97,6 +97,9 @@ Below is a list of errors or other intentional interruptions the user may encoun
 
 * **Device Manager corn chip** The Device manager status is checked every time the program is launched. If a corn chip is found, the program will launch Device Manager for the user to check.
 * **File not found** All files that are being referenced in the program will bring up a prompt if they are not found. Depending on the file, this will halt the program flow. If a software installation script is not found (for rgb software), execution will continue as normal.
+* **Overheating** If the CPU or GPU is overheating, a warning message in red will appear. Testing will continue - however, at the end of stress-testing, the user will have to manually press the 'ignore' button to advance to benchmarking.
+* **Couldn't connect to sharepoint** This error occurs when the program cannot establish a connection to the NAS.
+* **Prime failed** If Prime fails, the program will detect it within 1 minute of the failure. When this is detected, red text will appear and all stress testing programs will exit. The program cannot advance from this event, as it's expected the user start over with new/changed hardware.
 
 ## Adding sharepoint software to the program
 
@@ -120,11 +123,14 @@ The *SCRIPTNAME* node specifies the scriptname of the installation script. If th
 
 ### Creating new installation scripts 
 
+To add installation scripts for software found on the NAS, it is recommended to use AutoIt3. [This tutorial](https://www.autoitscript.com/autoit3/docs/tutorials/winzip/winzip.htm) explains well how most software install wizards can be automated with just a few lines of code. 
 
+Create a single script for each program to be automated, and add its name to the software xml file in the procedure described above. 
 
 ## Built With
 
 * [Fody Costura](https://github.com/Fody/Costura) - For embedding dll's
+* [AutoIt3](https://www.autoitscript.com/site/autoit/) - For writing and compiling stand-alone scripts to go with this software
 
 ## Contributing
 

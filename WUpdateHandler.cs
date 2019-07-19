@@ -168,8 +168,14 @@ namespace Builder_Companion
         {
             updateSession = new UpdateSession();
             iUpdateSearcher = updateSession.CreateUpdateSearcher();
-            //iUpdateSearcher.Online = true;   //Only search online
-            iSearchJob = iUpdateSearcher.BeginSearch("IsInstalled=0 AND IsPresent=0", new tSearcher_onCompleted(this), new tSearcher_state(this));
+            try
+            {
+                iSearchJob = iUpdateSearcher.BeginSearch("IsInstalled=0 AND IsPresent=0", new tSearcher_onCompleted(this), new tSearcher_state(this));
+            }
+            catch {
+                iUpdateSearcher.Online = true;
+                iSearchJob = iUpdateSearcher.BeginSearch("IsInstalled=0 AND IsPresent=0", new tSearcher_onCompleted(this), new tSearcher_state(this));
+            }
         }
 
         private void SearchComplete(Form1 mainForm)
@@ -199,7 +205,7 @@ namespace Builder_Companion
             } else
             {
                 formRef.Invoke(formRef.updStatus);
-            }
+                }
         }
 
         private void UpdatesDownload()
