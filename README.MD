@@ -143,4 +143,4 @@ Please contact Magnus Hjorth on mhjorthen@gmail.com to request becoming a collab
 ## Acknowledgments
 
 * [dahall](https://github.com/dahall/taskscheduler) - Used the Task Scheduler Wrapper to create Windows tasks
-* Inspiration & help from the Systems team including Robin, Nathan, Geoffrey & Travis
+* Inspiration & help from the Systems team including Robin, Nathan, Geoffrey, Haohan & Travis
