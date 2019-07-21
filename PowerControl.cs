@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * PowerControl.cs
+ * 
+ * @Author  Magnus Hjorth
+ * 
+ * File Description: This class holds all required static methods to manipulate the Windows10 power modes
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +30,9 @@ namespace Builder_Companion
         static readonly Guid GUID_PERFORMANCEMODE = new Guid("8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c");
         static readonly Guid GUID_BATTERYSAVERMODE = new Guid("a1841308-3541-4fab-bc81-f71556f20b4a");
 
-
+        /// <summary>
+        /// Sets the Windows powermode to performance.
+        /// </summary>
         public static void SetToPerformance()
         {
             PowerSetActiveScheme(IntPtr.Zero, GUID_PERFORMANCEMODE);

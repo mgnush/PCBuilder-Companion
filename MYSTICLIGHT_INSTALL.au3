@@ -11,7 +11,7 @@
 #RequireAdmin
 
 
-Run($CmdLine[1])
+$pid = Run($CmdLine[1])
 
 WinWaitActive("Select Setup Language")
 Send("{ENTER}")
@@ -29,3 +29,5 @@ WinWaitActive("Setup - MysticLight", "Completing the MysticLight Setup Wizard")
 Send("{DOWN}")
 Send("{SPACE}")
 Send("{ENTER}")
+
+ProcessWaitClose($pid)

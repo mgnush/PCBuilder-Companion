@@ -1,26 +1,22 @@
-﻿using System;
+﻿/*
+ * WUpdateHandler.cs
+ * 
+ * @Author  Magnus Hjorth
+ * 
+ * File Description: This partial form class will start asynchronous download and installation 
+ * of Windows Updates when the entry method is called.
+ */
+
+using System;
 using WUApiLib;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 
-// Exit Codes:
-//   0 = scripting failure
-//   1 = error obtaining or installing updates
-//   2 = installation successful, no further updates to install
-//   3 = reboot needed; rerun script after reboot
-
 namespace Builder_Companion
 {    
-    //Consider embedding in partial form class
     public partial class Form1: Form
     {
         private bool _updateSessionComplete = false;
@@ -71,6 +67,10 @@ namespace Builder_Companion
             set { count = value; }
         }
 
+        /// <summary>
+        /// Implements a timeout which will force a reboot if the worker is stuck on searching for updates,
+        /// or the session has not finished after a longer period.
+        /// </summary>
         public async void UpdatesTimeout()
         {
             // Restart if still searching for updates after 2mins 30 sec
@@ -87,6 +87,9 @@ namespace Builder_Companion
             }
         }
 
+        /// <summary>
+        /// The entry-point for all Windows Update operations. The caller should only call this method.
+        /// </summary>
         public void DoUpdates()
         {
             updStatus = new UpdStatus(WUPDone);
@@ -162,8 +165,6 @@ namespace Builder_Companion
 
         #endregion <------- Service Methods ------->
 
-        /* WUp Entry point
-         */
         private void StartSearch()
         {
             updateSession = new UpdateSession();
@@ -205,7 +206,7 @@ namespace Builder_Companion
             } else
             {
                 formRef.Invoke(formRef.updStatus);
-                }
+            }
         }
 
         private void UpdatesDownload()

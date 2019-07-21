@@ -13,7 +13,8 @@
 
 #RequireAdmin
 
-Run($CmdLine[1])
+$pid = Run($CmdLine[1])
+
 WinWaitActive("InstallShield Wizard", "The InstallShield® Wizard will install AURA on your computer.")
 Send("!n")
 
@@ -26,5 +27,7 @@ Send("{ENTER}")
 WinWaitActive("Restarting Windows", "Setup has finished copying files to your computer.")
 Send("{DOWN}")
 Send("{ENTER}")
+
+ProcessWaitClose($pid)
 
 

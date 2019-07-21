@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * TaskHandler.cs
+ * 
+ * @Author  Magnus Hjorth
+ * 
+ * File Description: This class manages all asynchronous stress testing methods
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +17,14 @@ using System.Diagnostics;
 
 namespace Builder_Companion
 {
-    // Class for managing asynchronous tasks.
-    // Heaven is handled by stand-alone script and does not need to be asynchronous.
-    // If logging (temps etc.) need be collected while heaven is runnning, it should
-    // be executed asynchronously.
     public static class TaskHandler
     {
+        /// <summary>
+        /// Runs Prime95 and FurMark for a specified duration. If Prime fails before both has finished,
+        /// Both programs are terminated.
+        /// </summary>
+        /// <param name="durationMin">The duration to run the programs for in minutes.</param>
+        /// <returns>True if Prime completed without errors, false if prime errors.</returns>
         public async static Task<bool> RunPrimeFurmark(int durationMin)
         {            
             Process furmark = FurmarkHandler.InitFurmark(durationMin);

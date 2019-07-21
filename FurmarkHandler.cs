@@ -1,11 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+ * FurmarkHandler.cs
+ * 
+ * @Author  Magnus Hjorth
+ * 
+ * File Description: All static methods needed to launch and interact with FurMark3D
+ */
+
 using System.IO;
 using System.Xml;
-using System.Xml.Schema;
+
 using System.Diagnostics;
 
 namespace Builder_Companion

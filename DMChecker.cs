@@ -1,8 +1,15 @@
-﻿using System;
+﻿/*
+ * DMChecker.cs
+ * 
+ * @Author  Magnus Hjorth
+ * 
+ * File Description: This class holds a collection of static methods that retrieve specific information
+ * from the Win32 API Library.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Management;
 
 namespace Builder_Companion
@@ -126,7 +133,7 @@ namespace Builder_Companion
                 Int32.TryParse(obj["ConfiguredClockSpeed"].ToString(), out speed);
                 if (SystemInfo.CpuBrand == CPUBrand.AMD)
                 {
-                    speed *= 2;
+                    speed *= 2;   // On AMD systems, the reported speed is half the actual setting
                 }
                 description= String.Format("{0}GB @{1}MHz", totalCapacity, obj["ConfiguredClockSpeed"]);
             }

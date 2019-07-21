@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+ * TrialLock.cs
+ * 
+ * @Author  Magnus Hjorth
+ * 
+ * File Description: This class provides a means to restrict the application after a certain date.
+ * Depending on the caller, parts of or the entire program may be halted after the date specified
+ * by the caller.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +22,10 @@ namespace Builder_Companion
 {
     public static class TrialLock
     {
+        /// <summary>
+        /// Gets the NIST time from time.nist.gov.
+        /// </summary>
+        /// <returns>The NIST DateTime. If connection failed, DateTime.MinValue</returns>
         public static DateTime GetNistTime()
         {
             DateTime dateTime = DateTime.MinValue;
@@ -28,10 +42,9 @@ namespace Builder_Companion
             } catch
             {
 
-            }
-          
+            }          
 
-            return dateTime;
+            return dateTime;   
         }
     }
 }

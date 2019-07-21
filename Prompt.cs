@@ -1,15 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿/*
+ * Prompt.cs
+ * 
+ * @Author  Magnus Hjorth
+ * 
+ * File Description: This class hosts static methods that will bring up information boxes in a separate form
+ */
 
+using System.Windows.Forms;
 
 namespace Builder_Companion
 {
     public static class Prompt
     {
+        /// <summary>
+        /// Displays a textbox with an OK button in a separate form.
+        /// </summary>
+        /// <returns>The user response.</returns>
         public static string ShowDialog(string text, string caption)
         {
             Form prompt = new Form()

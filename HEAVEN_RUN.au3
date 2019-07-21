@@ -18,15 +18,15 @@ Send("{F9}")
 Sleep(14000)
 Send("{F9}")
 
-Sleep(300000)   ; Wait for at least 3 minutes for heaven to finish
+Sleep(180000)   ; Wait for at least 3 minutes for heaven to finish
 ; Then spam enter for 3 minutes
-;For $m = 1 To 90 Step 1
+For $m = 1 To 90 Step 1
    Send("{ENTER}")
    Sleep(1000)
    Send("{ENTER}")
    Sleep(1000)
-;Next
+Next
 ; Shouldn't take this long to finish, but just in case
 Send("!{F4}")
 
-;Heaven benchmark should now be in Users/User
+;Heaven benchmark should now be in User folder

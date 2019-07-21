@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿/*
+ * Program.cs
+ * 
+ * @Author Magnus Hjorth
+ * 
+ * File Description: Entry point of the application
+ */
+
+using System;
 using System.Windows.Forms;
 
 namespace Builder_Companion
 {
-
-
     static class Program
     {
         /// <summary>

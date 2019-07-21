@@ -1,8 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+ * QCHandler.cs
+ * 
+ * @Author  Magnus Hjorth
+ * 
+ * File Description: This class holds all static methods to do with the QC and system cleanup procedures
+ * Each cleanup method should be called individually because the exact point of program termination may vary
+ * on a use to use basis.
+ */
+
+using System;
 using System.Diagnostics;
 using System.Management;
 using System.Threading;
@@ -23,6 +29,9 @@ namespace Builder_Companion
         [DllImport("user32.dll", EntryPoint = "SetWindowPos")]
         public static extern IntPtr SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int Y, int cx, int cy, int wFlags);
 
+        /// <summary>
+        /// Deletes all folders and files from desktop, except links and 'blacklisted' items.
+        /// </summary>
         public static void ClearDesktop()
         {
             DirectoryInfo di = new DirectoryInfo(Paths.Desktop());
@@ -45,7 +54,7 @@ namespace Builder_Companion
 
             // Rearrange
             // This simply moves all remaining items to a temporary folder and back -
-            // the alternative is a very long shell backdoor
+            // the alternative is a very long shell aproach
             // https://devblogs.microsoft.com/oldnewthing/?p=4933
             DirectoryInfo tempDesktop = Directory.CreateDirectory(Path.Combine(Paths.User(), "TempDesktop"));
             try
@@ -72,6 +81,27 @@ namespace Builder_Companion
             tempDesktop.Delete();
         }
 
+        /// <summary>
+        /// Deletes the appsettings folder for this application for the local user.
+        /// </summary>
+        public static void ClearSettings()
+        {
+            DirectoryInfo di = new DirectoryInfo(Path.Combine(Paths.User(), Paths.APPDATA));
+            foreach (FileInfo file in di.EnumerateFiles())
+            {
+                file.Delete();            
+
+            }
+            foreach (DirectoryInfo dir in di.EnumerateDirectories())
+            {
+                dir.Delete(true);
+            }
+            di.Delete();
+        }
+
+        /// <summary>
+        /// Launch all windows used for manual QC by the QC'er.
+        /// </summary>
         public static void LaunchManualChecks()
         {
             const int SWP_SHOWWINDOW = 0x0040;
@@ -127,8 +157,9 @@ namespace Builder_Companion
             }
         }
 
-        /* Does not work
-         */
+        /// <summary>
+        /// NEEDS IMPLEMENTATION. Clears all current toasts from Windows Center.
+        /// </summary>
         public static void ClearToasts()
         {
             var toastMngr = ToastNotificationManager.CreateToastNotifier(APP_ID);
@@ -141,6 +172,10 @@ namespace Builder_Companion
             
         }
 
+        /// <summary>
+        /// Initializes all uninitialised hard drives, and formats all unformatted hard drives. 
+        /// Has no effect if all drives are online, initialised and formatted.
+        /// </summary>
         public static void FormatDrives()
         {
             // Create partitions

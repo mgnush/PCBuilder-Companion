@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.Principal;
-using System.Management;
-using System.Threading;
-using System.IO;
-using System.Runtime.InteropServices;
+﻿/*
+ * Paths.cs
+ * 
+ * @Author  Magnus Hjorth
+ * 
+ * File Description: This class holds all full and partial paths used in the program.
+ */
+
+
+using System;
 
 namespace Builder_Companion
 {
@@ -24,6 +24,7 @@ namespace Builder_Companion
         }
         public const string TEST = "AAA Testing";
         public const string RGB = "RGB";
+        public const string APPDATA = "AppData/Local/Builder_Companion";
 
         // Programs & settings
         public const string FILES = "Companion Files";

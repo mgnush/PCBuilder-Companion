@@ -10,7 +10,7 @@
 
 #RequireAdmin
 
-Run($CmdLine[1])
+$pid = Run($CmdLine[1])
 
 WinWaitActive("InstallShield Wizard", "The InstallShield® Wizard will install Blitz")
 Send("!n")
@@ -22,3 +22,4 @@ WinWaitActive("Restarting Windows", "Setup has finished copying files to your co
 Send("{DOWN}")
 Send("{ENTER}")
 
+ProcessWaitClose($pid)

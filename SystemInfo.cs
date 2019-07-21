@@ -1,8 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+ * SystemInfo.cs
+ * 
+ * @Author  Magnus Hjorth
+ * 
+ * File Description: This file holds the enums and classes that are used to retrieve and
+ * interpret system information from device manager and MSINFO. Raw information is pulled 
+ * from the DMChecker class.
+ */
 
 namespace Builder_Companion
 {
@@ -40,6 +44,11 @@ namespace Builder_Companion
             private string _driver;
             private GPUBrand _gpuBrand = GPUBrand.Unknown;
 
+            /// <summary>
+            /// Instantiates a GPU in the system, with name, driver and brand information.
+            /// </summary>
+            /// <param name="gpuname">The raw GPU name.</param>
+            /// <param name="gpudriver">The raw driver name.</param>
             public GPUInfo(string gpuname, string gpudriver)
             {
                 string family = ""; 
@@ -84,6 +93,11 @@ namespace Builder_Companion
             public string Name { get => _name;}
             public string Driver { get => _driver; }
 
+            /// <summary>
+            /// NOT IMPLEMENTED. Evaluates the given Heaven score against this GPU Model.
+            /// </summary>
+            /// <param name="score">The Heaven score.</param>
+            /// <returns>True if the score is acceptable.</returns>
             public bool HeavenScoreValidation(int score)
             {
                 return true;
@@ -94,6 +108,10 @@ namespace Builder_Companion
         {
             private string _name;
 
+            /// <summary>
+            /// Instantiates a CPU in the system, with the name and brand information.
+            /// </summary>
+            /// <param name="name">The raw CPU name.</param>
             public CPUInfo(string name)
             {
                 string[] words = name.Split('_');
@@ -122,6 +140,10 @@ namespace Builder_Companion
         {
             private string _desc;
 
+            /// <summary>
+            /// Instantiates RAM in the system, with a relevant description.
+            /// </summary>
+            /// <param name="desc">The relevant description.</param>
             public RAMInfo(string desc)
             {
                 _desc = desc;

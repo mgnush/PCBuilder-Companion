@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * RGBInstaller.cs
+ * 
+ * @Author  Magnus Hjorth
+ * 
+ * File Description: This class holds all static methods needed to convert user-specified RGB software
+ * to options in the GUI, download and install software.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,13 +22,16 @@ using Microsoft.VisualBasic;
 
 namespace Builder_Companion
 {
-    // This class collects all installation methods to be executed by stand-alone scripts.
     public static class RGBInstaller
     {
         public static List<string> software = new List<string>();   // Software name as defined in xml
         private static List<string> setupName = new List<string>();   // Software setup filename as defined in xml
         private static List<string> scriptName = new List<string>();   // Script name as defined in xml
 
+        /// <summary>
+        /// Populates the private static list of software available, as specified by the user in 
+        /// the xml file.
+        /// </summary>
         public static void ReadRGBSoftware()
         {          
             // Load in RGB options specified on server file
@@ -46,6 +58,12 @@ namespace Builder_Companion
             }
         }
 
+        /// <summary>
+        /// Pulls and installs all user-selected software if the specified paths are correct.
+        /// Software is identified by the order in which they are loaded into the GUI.
+        /// </summary>
+        /// <param name="indeces">The selected checkbox indices.</param>
+        /// <returns>Null if successful, otherwise error message.</returns>
         public static void InstallSelectedSoftware(CheckedListBox.CheckedIndexCollection indeces)
         {
             PullSoftware(indeces);

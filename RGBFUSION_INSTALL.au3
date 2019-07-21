@@ -9,7 +9,7 @@
 #ce ----------------------------------------------------------------------------
 
 #RequireAdmin
-Run($CmdLine[1])
 
+$pid = Run($CmdLine[1])
 
-Sleep("9000")
+ProcessWaitClose($pid)

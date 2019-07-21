@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿/*
+ * TaskServicer.cs
+ * 
+ * @Author Magnus Hjorth
+ * 
+ * File Description: This class holds static methods needed to create and destroy windows tasks,
+ * allowing the program to be automatically started with admin rights on startup.
+ */
+
 using Microsoft.Win32.TaskScheduler;
 using System.IO;
 using System.Windows.Forms;
-using System.Security.Principal;
-using System.Diagnostics;
-
 
 namespace Builder_Companion
 {
@@ -15,6 +17,9 @@ namespace Builder_Companion
     {
         private const string taskDef = "BUILDER_COMPANION";
 
+        /// <summary>
+        /// Creates a Windows Task which will start up this application with admin rights at every startup.
+        /// </summary>
         public static void CreateTaskService()
         {
             TaskService ts = new TaskService();
@@ -29,6 +34,9 @@ namespace Builder_Companion
           
         }
 
+        /// <summary>
+        /// Deletes the Windows Task for this application if any.
+        /// </summary>
         public static void DeleteTaskService()
         {
             EnumAllTasks();

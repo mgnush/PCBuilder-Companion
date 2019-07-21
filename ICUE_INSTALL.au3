@@ -9,7 +9,7 @@
 #ce ----------------------------------------------------------------------------
 #include <MsgBoxConstants.au3>
 
-ShellExecute($CmdLine[1])
+$pid = ShellExecute($CmdLine[1])
 
 WinWaitActive("SELECT SETUP LANGUAGE")
 Send("{ENTER}")
@@ -38,3 +38,5 @@ WinWaitActive("INSTALL CORSAIR iCUE Software")
 Send("{SPACE}")
 
 Sleep(25000)
+
+ProcessWaitClose($pid)

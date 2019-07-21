@@ -11,7 +11,7 @@
 
 #RequireAdmin
 
-Run($CmdLine[1])
+$pid = Run($CmdLine[1])
 
 WinWaitActive("CAM Setup", "Please select a language:")
 Send("{ENTER}")
@@ -38,3 +38,5 @@ Send("{ENTER}")
 Sleep(2000)
 WinActivate("Windows Security Alert")
 Send("!a")
+
+ProcessWaitClose($pid)

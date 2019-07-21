@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * INIFile.cs
+ * 
+ * @Author  Magnus Hjorth
+ * 
+ * File Description: This class incorporates all useful INIFile operations with the associated INIFile.
+ */
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

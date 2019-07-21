@@ -1,17 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿/*
+ * PrimeHandler.cs
+ * 
+ * @Author  Magnus Hjorth
+ * 
+ * File Description: This class holds all static methods to run and interact with Prime95.
+ * Running and evaluating is done as a single sequence of actions with a large asynchronous wait,
+ * rather than calling an evaluation method once the caller has terminated Prime95.
+ */
+ 
 using System.Threading.Tasks;
 using System.IO;
-using System.Timers;
-using System.Runtime;
 using System.Diagnostics;
 
 namespace Builder_Companion
 {
     public static class PrimeHandler
-    {               
+    {
+        /// <summary>
+        /// Runs Prime95 and continuously checks the results file for errors.
+        /// </summary>
+        /// <returns>True if no errors, false if errors or IO errors.</returns>
         public static async Task<bool> RunPrime(int durationMin)
         {            
             string filename = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.PRIME_EXE);
@@ -49,9 +57,7 @@ namespace Builder_Companion
             }
 
             proc.CloseMainWindow();
-            proc.Close();
- 
-           
+            proc.Close();   
            
             return true; // We made it!
         }

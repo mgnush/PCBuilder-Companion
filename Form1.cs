@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿/*
+ * Form1.cs
+ * 
+ * @Author  Magnus Hjorth
+ * 
+ * File Description: The custom part of the mainform (GUI) class, hosts all major control flow
+ */
+
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -87,6 +90,7 @@ namespace Builder_Companion
                     QCHandler.FormatDrives();   // No effect if already formatted
                     QCHandler.LaunchManualChecks();
                     QCHandler.ClearDesktop();
+                    QCHandler.ClearSettings();
                     QCHandler.ClearToasts();
                     Properties.Settings.Default.CurrentPhase = Phase.QC;
                     Properties.Settings.Default.Save();
@@ -308,31 +312,20 @@ namespace Builder_Companion
             }
         }
 
+        private HeavenHandler heavenHandler;
         
         private void TestHeaven()
         {
-            if (!HeavenHandler.RunHeaven(this))
-            {
-                TestInfo.AppendText("Couldn't start heaven, run manually \n", Color.Red);
-                ManualHeavenButton.Visible = true;
-            } else
-            {
-                int heavenScore = HeavenHandler.EvaluateHeaven();
-                TestInfo.AppendText("Heaven Score: " + heavenScore + "\n", Color.Black);
-                if (heavenScore > 0)
-                {
-                    TestingComplete();
-                }
-                else
-                {
-                    TestInfo.AppendText("Wrong heaven score, run manually \n", Color.Red);
-                    ManualHeavenButton.Visible = true;
-                }
-            }
+            heavenHandler = new HeavenHandler(this);            
         }
 
-        public void ReportHeavenScore(int score)
+        /// <summary>
+        /// Adds the heaven score to the testinfo screen. This should only be called by 
+        /// heaven event handlers or after heaven has been run, or score will always be 0. 
+        /// </summary>
+        public void ReportHeavenScore()
         {
+            int score = heavenHandler.Score;
             TestInfo.AppendText("Heaven Score: " + score + "\n", Color.Black);
             if (score > 0)
             {
@@ -343,8 +336,7 @@ namespace Builder_Companion
                 TestInfo.AppendText("Wrong heaven score, run manually \n", Color.Red);
                 ManualHeavenButton.Visible = true;
             }
-        }
-        
+        }       
 
         private void TestingComplete()
         {
@@ -367,6 +359,9 @@ namespace Builder_Companion
         }
         #endregion<------- Testing Methods ------->
 
+        /// <summary>
+        /// Saves all obtained test and system info to default application settings.
+        /// </summary>
         public void SaveAllData()
         {
             Properties.Settings.Default.TestInfo = this.TestInfo.Text;
@@ -382,6 +377,9 @@ namespace Builder_Companion
             Properties.Settings.Default.Save();
         }
 
+        /// <summary>
+        /// Loads all saved test and system info settings into their respective place in the GUI.
+        /// </summary>
         public void LoadAllData()
         {
             this.TestInfo.Text = Properties.Settings.Default.TestInfo;

@@ -1,16 +1,20 @@
-﻿using System;
+﻿/*
+ * TempHandler.cs
+ * 
+ * @Author  Magnus Hjorth
+ * 
+ * File Description: This class holds all static methods used to launch and read from
+ * all the temperature monitor programs used
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
-using System.Runtime;
-using System.Security.Principal;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using System.Text.RegularExpressions;
-
 
 namespace Builder_Companion
 {
@@ -25,6 +29,9 @@ namespace Builder_Companion
 
         private static string furmarkTemp = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.FURMARK_TEMP);
 
+        /// <summary>
+        /// Starts all temperature monitoring programs and enables logging.
+        /// </summary>
         public static void InitTemp()
         {
             // CoreTemp for logging purposes (they agree on clock speeds & temps)
@@ -75,6 +82,9 @@ namespace Builder_Companion
 
         }
 
+        /// <summary>
+        /// Start continuous event-driven temperature log reading.
+        /// </summary>
         public static void ReadTemp()
         {
             // Acquire full name of newest log
