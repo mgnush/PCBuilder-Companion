@@ -86,17 +86,26 @@ namespace Builder_Companion
                     UpdatesTimeout();
                     break;
                 case Phase.QCReady:
-                    TaskServicer.DeleteTaskService();   // Clean up task created  
-                    QCHandler.FormatDrives();   // No effect if already formatted
+                    TaskServicer.DeleteTaskService();   // Clean up task created                      
                     QCHandler.LaunchManualChecks();
                     QCHandler.ClearDesktop();
-                    QCHandler.ClearSettings();
-                    QCHandler.ClearToasts();
+                    QCHandler.ClearHeaven();
+                    QCHandler.FormatDrives();   // No effect if already formatted
+                    //QCHandler.ClearToasts();
                     Properties.Settings.Default.CurrentPhase = Phase.QC;
                     Properties.Settings.Default.Save();
                     SetPhaseLabel();
                     break;
                 default:
+                    TaskServicer.DeleteTaskService();   // Clean up task created                      
+                    QCHandler.LaunchManualChecks();
+                    QCHandler.ClearDesktop();
+                    QCHandler.ClearHeaven();
+                    QCHandler.FormatDrives();   // No effect if already formatted
+                    //QCHandler.ClearToasts();
+                    Properties.Settings.Default.CurrentPhase = Phase.QC;
+                    Properties.Settings.Default.Save();
+                    SetPhaseLabel();
                     break;
             }
         }
@@ -105,6 +114,8 @@ namespace Builder_Companion
         {
             if (Properties.Settings.Default.CurrentPhase == Phase.QC)
             {
+                QCHandler.ClearSettings();
+
                 // Delete this executable shortly after closing the application
                 ProcessStartInfo info = new ProcessStartInfo();
                 info.Arguments = "/C choice /C Y /N /D Y /T 2 & Del " + "\"" + Application.ExecutablePath + "\"";
