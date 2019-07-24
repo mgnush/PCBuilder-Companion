@@ -26,7 +26,12 @@ namespace Builder_Companion
         private const string HARD_DRIVE = "3";
         private const int MBR = 1;
         private const int GPT = 2;
-        private const String APP_ID = "Microsoft.Samples.DesktopToastsSample";    
+        private const String APP_ID = "Microsoft.Samples.DesktopToastsSample";
+
+        private static bool filesDeleted = false;
+        public static bool cleaningDone = false;
+        private static List<AFile> desktopFiles = new List<AFile>();
+        private static List<AFile> desktopFolders = new List<AFile>();
 
         [DllImport("user32.dll", EntryPoint = "SetWindowPos")]
         public static extern IntPtr SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int Y, int cx, int cy, int wFlags);
@@ -39,17 +44,12 @@ namespace Builder_Companion
             DirectoryInfo di = new DirectoryInfo(Paths.Desktop());
             //SetAttributesNormal(di);   // Uncomment if access isnt granted to non-exe files
 
-            List<AFile> desktopFiles = new List<AFile>();
-            List<AFile> desktopFolders = new List<AFile>();
-            bool filesDeleted = false;
-            bool cleaningDone = false;
-
             // Watcher for files deleted on the desktop
             FileSystemWatcher watcher = new FileSystemWatcher();
             watcher.Path = di.FullName;
             watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName;
             watcher.Filter = "*.*";
-            watcher.Deleted += delegate (object sender, FileSystemEventArgs e) { DesktopItemDeleted(sender, e, desktopFiles, desktopFolders, ref filesDeleted, ref cleaningDone); };
+            watcher.Deleted += new FileSystemEventHandler(DesktopItemDeleted);
             watcher.EnableRaisingEvents = true;
 
             foreach (FileInfo file in di.EnumerateFiles())
@@ -80,34 +80,33 @@ namespace Builder_Companion
                 // Delete folders if any
                 if (desktopFolders.Count > 0)
                 {
-                    ClearDesktopFolders(desktopFolders);
+                    ClearDesktopFolders();
                 } else
                 {
                     watcher.EnableRaisingEvents = false;
-                    OrganizeDesktop();   // Organize desktop if already clear
+                    SortDesktop();
                 }                
             }               
         }
 
-        private static void ClearDesktopFolders(List<AFile> desktopFolders) 
+        private static void ClearDesktopFolders() 
         {
             // Start deleting any folder that hasn't already begun deleting
             foreach (AFile file in desktopFolders)
             {
                 if (!file.DeleteStarted)
-                {
+                {              
                     lock (file)
                     {
+                        DirectoryInfo d = new DirectoryInfo(file.FullPath);
+                        d.Delete(true);
                         file.DeleteStarted = true;
-                    }                    
-                    DirectoryInfo d = new DirectoryInfo(file.FullPath);
-                    d.Delete(true);
+                    }
                 }                
             }
         }
 
-        private static void DesktopItemDeleted(object source, FileSystemEventArgs e, List<AFile> desktopFiles, 
-            List<AFile> desktopFolders, ref bool filesDeleted, ref bool cleaningDone)
+        private static void DesktopItemDeleted(object source, FileSystemEventArgs e)
         {
             if (cleaningDone) { return; }
 
@@ -146,7 +145,7 @@ namespace Builder_Companion
                     }
                 }
                 filesDeleted = true;
-                ClearDesktopFolders(desktopFolders);
+                ClearDesktopFolders();
             }
 
             // Advance only if all folders are deleted
@@ -159,11 +158,11 @@ namespace Builder_Companion
             }
             
             cleaningDone = true;
-            Thread.Sleep(300);
-            OrganizeDesktop();            
+            Thread.Sleep(5000);   // Meh
+            SortDesktop();
         }
 
-        private static async void OrganizeDesktop()
+        private static async void SortDesktop()
         {
             DirectoryInfo di = new DirectoryInfo(Paths.Desktop());
 

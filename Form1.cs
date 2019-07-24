@@ -97,15 +97,6 @@ namespace Builder_Companion
                     SetPhaseLabel();
                     break;
                 default:
-                    TaskServicer.DeleteTaskService();   // Clean up task created                      
-                    QCHandler.LaunchManualChecks();
-                    QCHandler.ClearDesktop();
-                    QCHandler.ClearHeaven();
-                    QCHandler.FormatDrives();   // No effect if already formatted
-                    //QCHandler.ClearToasts();
-                    Properties.Settings.Default.CurrentPhase = Phase.QC;
-                    Properties.Settings.Default.Save();
-                    SetPhaseLabel();
                     break;
             }
         }
