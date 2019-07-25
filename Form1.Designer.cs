@@ -293,12 +293,12 @@
             // PrimeDurationBar
             // 
             this.PrimeDurationBar.Location = new System.Drawing.Point(687, 390);
-            this.PrimeDurationBar.Maximum = 29;
-            this.PrimeDurationBar.Minimum = 9;
+            this.PrimeDurationBar.Maximum = 30;
+            this.PrimeDurationBar.Minimum = 8;
             this.PrimeDurationBar.Name = "PrimeDurationBar";
             this.PrimeDurationBar.Size = new System.Drawing.Size(104, 45);
             this.PrimeDurationBar.TabIndex = 24;
-            this.PrimeDurationBar.Value = 29;
+            this.PrimeDurationBar.Value = 30;
             this.PrimeDurationBar.ValueChanged += new System.EventHandler(this.PrimeDurationBar_onChanged);
             // 
             // BarDurationLabel
@@ -309,7 +309,7 @@
             this.BarDurationLabel.Name = "BarDurationLabel";
             this.BarDurationLabel.Size = new System.Drawing.Size(43, 16);
             this.BarDurationLabel.TabIndex = 25;
-            this.BarDurationLabel.Text = "29min";
+            this.BarDurationLabel.Text = "30min";
             // 
             // ManualHeavenButton
             // 

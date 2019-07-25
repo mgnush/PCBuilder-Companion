@@ -25,6 +25,7 @@ namespace Builder_Companion
         public const string TEST = "AAA Testing";
         public const string RGB = "RGB";
         public const string APPDATA = "AppData/Local/Builder_Companion";
+        public const string BENCHMARK = "Benchmark";
 
         // Programs & settings
         public const string FILES = "Companion Files";

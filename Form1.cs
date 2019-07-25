@@ -17,7 +17,7 @@ using System.Threading;
 namespace Builder_Companion
 {
     public partial class Form1 : Form
-    {        
+    {
         public Form1()
         {            
             InitializeComponent();
@@ -88,8 +88,8 @@ namespace Builder_Companion
                 case Phase.QCReady:
                     TaskServicer.DeleteTaskService();   // Clean up task created                      
                     QCHandler.LaunchManualChecks();
-                    QCHandler.ClearDesktop();
                     QCHandler.ClearHeaven();
+                    QCHandler.ClearDesktop();                    
                     QCHandler.FormatDrives();   // No effect if already formatted
                     //QCHandler.ClearToasts();
                     Properties.Settings.Default.CurrentPhase = Phase.QC;

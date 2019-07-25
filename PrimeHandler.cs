@@ -11,11 +11,15 @@
 using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
+using System.Text;
 
 namespace Builder_Companion
 {
     public static class PrimeHandler
     {
+        private static string primeResults = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.PRIME_RESULT);
+        private static Process prime;
+        public static bool primeOK = true;
         /// <summary>
         /// Runs Prime95 and continuously checks the results file for errors.
         /// </summary>
@@ -23,12 +27,11 @@ namespace Builder_Companion
         public static async Task<bool> RunPrime(int durationMin)
         {            
             string filename = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.PRIME_EXE);
-            string resultsPath = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.PRIME_RESULT);
 
             // Clear results history (from previous builds / prior failed session)
-            if (File.Exists(resultsPath))
+            if (File.Exists(primeResults))
             {
-                File.Delete(resultsPath);
+                File.Delete(primeResults);
             }
 
             if (!File.Exists(filename))
@@ -38,28 +41,61 @@ namespace Builder_Companion
             }
 
       
-            Process proc = Process.Start(filename, "-t");
+            prime = Process.Start(filename, "-t");
 
-            // Check prime logs every minute
-            for (int i = 0; i < durationMin; i++)
+            // Trigger read every time prime updates results
+            FileSystemWatcher watcher = new FileSystemWatcher();
+            FileSystemEventHandler fsHandler = new FileSystemEventHandler(PrimeUpdate);
+            watcher.Path = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.BENCHMARK);
+            watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+            watcher.Filter = "results.txt";
+            watcher.Created += fsHandler;
+            watcher.Changed += fsHandler;
+            watcher.EnableRaisingEvents = true;
+
+            // Check prime logs
+            for (int i = 0; i < (durationMin * 6); i++)
             {
-                await Task.Delay(60000);
-                if (File.Exists(resultsPath))
+                await Task.Delay(10000);
+                if (!primeOK)
                 {
-                    string results = File.ReadAllText(resultsPath).ToLower();
-                    if (results.Contains("hardware failure"))
-                    {
-                        proc.CloseMainWindow();
-                        proc.Close();
-                        return false;
-                    }
+                    watcher.EnableRaisingEvents = false;
+
+                    prime.CloseMainWindow();
+                    prime.Close();
+
+                    return false;
                 }
             }
 
-            proc.CloseMainWindow();
-            proc.Close();   
+            watcher.EnableRaisingEvents = false;
+
+            prime.CloseMainWindow();
+            prime.Close();   
            
-            return true; // We made it!
+            return true;   // We made it!
+        }
+
+        private static void PrimeUpdate(object sender, FileSystemEventArgs e)
+        {
+            string results = "";
+
+            using (var fs = new FileStream(primeResults, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var sr = new StreamReader(fs, Encoding.Default))
+            {
+                try {
+                    results = sr.ReadToEnd();
+                } catch
+                {
+                    Prompt.ShowDialog("Prime results file too large", "Error");
+                }
+                
+
+                if (results.Contains("hardware failure"))
+                {
+                    primeOK = false;
+                }                
+            }
         }
     }
 }
