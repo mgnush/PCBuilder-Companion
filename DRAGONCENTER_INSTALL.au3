@@ -3,7 +3,7 @@
  Author:         Magnus Hjorth & Haohan Liu
  Date: 2019/07/28
  Script Function:
-	Install MysticLight
+	Install Dragon Center, old version
 #ce ----------------------------------------------------------------------------
 
 #include <Array.au3>
@@ -13,7 +13,7 @@
 #RequireAdmin
 
 $sPreInstName = 'Select Setup Language'
-$sInstName = 'Setup - MysticLight'
+$sInstName = 'Setup - Dragon Center'
 
 ;$pid = Run($CmdLine[1])
 
@@ -21,10 +21,17 @@ $sInstName = 'Setup - MysticLight'
 WinWait($sPreInstName, '')
 ControlClick($sPreInstName, 'OK', 'TNewButton1')
 
-; SETUP SELECTION
-WinWait($sInstName, 'Welcome to the MysticLight Setup Wizard')
+; WELCOME SCREEN
+WinWait($sInstName, 'Welcome to the Dragon Center Setup Wizard')
 ControlClick($sInstName, '&Next >', 'TNewButton1')
 
+; PASS EULA
+WinWait($sInstName, 'License Agreement')
+ControlCommand($sInstName, 'I &accept the agreement', 'TNewRadioButton1', 'Check')
+Sleep(500) ; required to ensure 'Next' button is not greyed out
+ControlClick($sInstName, '&Next >', 'TNewButton2')
+
+; SETUP PROCESS
 WinWait($sInstName, 'Select Destination Location')
 ControlClick($sInstName, '&Next >', 'TNewButton3')
 
@@ -40,7 +47,7 @@ ControlClick($sInstName, '&Install', 'TNewButton3')
 
 
 ; CONCLUSION OF INSTALL
-WinWait($sInstName, 'Completing the MysticLight Setup Wizard')
+WinWait($sInstName, 'Completing the Dragon Center Setup Wizard')
 WinActivate($sInstName) ; Cannot get consistent ControlID handle on checkbox
 Send("{DOWN}")
 Send("{SPACE}")
