@@ -18,6 +18,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Windows.UI.Notifications;
+using System.Linq;
 
 namespace Builder_Companion
 {
@@ -28,175 +29,59 @@ namespace Builder_Companion
         private const int GPT = 2;
         private const String APP_ID = "Microsoft.Samples.DesktopToastsSample";
 
-        private static bool filesDeleted = false;
-        public static bool cleaningDone = false;
-        private static List<AFile> desktopFiles = new List<AFile>();
-        private static List<AFile> desktopFolders = new List<AFile>();
-
         [DllImport("user32.dll", EntryPoint = "SetWindowPos")]
         public static extern IntPtr SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int Y, int cx, int cy, int wFlags);
 
         /// <summary>
-        /// Deletes all folders and files from desktop, except links and 'blacklisted' items.
+        /// Deletes all folders and files from desktop, then sorts shortcuts
         /// </summary>
-        public static void ClearDesktop()
+        public static async void ClearDesktop()
         {
-            DirectoryInfo di = new DirectoryInfo(Paths.Desktop());
-            //SetAttributesNormal(di);   // Uncomment if access isnt granted to non-exe files
-
-            // Watcher for files deleted on the desktop
-            FileSystemWatcher watcher = new FileSystemWatcher();
-            watcher.Path = di.FullName;
-            watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName;
-            watcher.Filter = "*.*";
-            watcher.Deleted += new FileSystemEventHandler(DesktopItemDeleted);
-            watcher.EnableRaisingEvents = true;
-
-            foreach (FileInfo file in di.EnumerateFiles())
-            {
-                // Delete all desktop files that are not shortcuts or this program itself (unless its a NAS-shortcut)
-                if ((!IsLink(file.FullName) || file.Name.Contains("CustService")) && 
-                    !file.Name.Equals(Path.GetFileName(Application.ExecutablePath)))
-                {
-                    desktopFiles.Add(new AFile(file.FullName));
-                }                    
-            }
-
-            // Add all desktop folders to list of folders to be deleted
-            foreach (DirectoryInfo dir in di.EnumerateDirectories())
-            {
-                desktopFolders.Add(new AFile(dir.FullName));
-            }
-
-            if (desktopFiles.Count > 0)
-            {
-                // Delete files first if any
-                foreach (AFile file in desktopFiles)
-                {
-                    File.Delete(file.FullPath);
-                }               
-            } else
-            {
-                // Delete folders if any
-                if (desktopFolders.Count > 0)
-                {
-                    ClearDesktopFolders();
-                } else
-                {
-                    watcher.EnableRaisingEvents = false;
-                    SortDesktop();
-                }                
-            }               
-        }
-
-        private static void ClearDesktopFolders() 
-        {
-            // Start deleting any folder that hasn't already begun deleting
-            foreach (AFile file in desktopFolders)
-            {
-                if (!file.DeleteStarted)
-                {              
-                    lock (file)
-                    {
-                        DirectoryInfo d = new DirectoryInfo(file.FullPath);
-                        d.Delete(true);
-                        file.DeleteStarted = true;
-                    }
-                }                
-            }
-        }
-
-        private static void DesktopItemDeleted(object source, FileSystemEventArgs e)
-        {
-            if (cleaningDone) { return; }
-
-            // Declare the deleted item deleted
-            foreach (AFile file in desktopFiles)
-            {
-                if (file.FullPath.Equals(e.FullPath))
-                {
-                    lock (file)
-                    {
-                        file.Deleted = true;
-                    }
-                }
-            }
-
-            // Declare the deleted folder deleted
-            foreach (AFile folder in desktopFolders)
-            {
-                if (folder.FullPath.Equals(e.FullPath))
-                {
-                    lock (folder)
-                    {
-                        folder.Deleted = true;
-                    }
-                }
-            }
-
-            // Advance only if all files are deleted
-            if (!filesDeleted)
-            {
-                foreach (AFile file in desktopFiles)
-                {
-                    if (!file.Deleted)
-                    {
-                        return;
-                    }
-                }
-                filesDeleted = true;
-                ClearDesktopFolders();
-            }
-
-            // Advance only if all folders are deleted
-            foreach (AFile folder in desktopFolders)
-            {
-                if (!folder.Deleted)
-                {
-                    return;
-                }
-            }
-            
-            cleaningDone = true;
-            Thread.Sleep(5000);   // Meh
-            SortDesktop();
-        }
-
-        private static async void SortDesktop()
-        {
-            DirectoryInfo di = new DirectoryInfo(Paths.Desktop());
-
+            DirectoryInfo desktop = new DirectoryInfo(Paths.Desktop());
+            DirectoryInfo desktopCommon = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory));
+            DirectoryInfo tempDesktop = Directory.CreateDirectory(Path.Combine(Paths.User(), "TempDesktop"));
             List<Task<bool>> copyOps = new List<Task<bool>>();
 
-            // Rearrange
-            // This simply moves all remaining items to a temporary folder and back -
-            // the alternative is a shell aproach
-            // https://devblogs.microsoft.com/oldnewthing/?p=4933
-            DirectoryInfo tempDesktop = Directory.CreateDirectory(Path.Combine(Paths.User(), "TempDesktop"));
-
-            // Copy files to temp folder
-            foreach (FileInfo file in di.EnumerateFiles())
+            foreach (FileInfo file in desktop.EnumerateFiles())
             {
+                // Move all files to tempdesktop
+                if (!file.Name.Equals(Path.GetFileName(Application.ExecutablePath)))
+                {
+                    copyOps.Add(MoveFileAsync(file.FullName, Path.Combine(tempDesktop.FullName, file.Name)));
+                }                    
+            }
+            foreach (FileInfo file in desktopCommon.EnumerateFiles())
+            {
+                // Move all files to tempdesktop
                 if (!file.Name.Equals(Path.GetFileName(Application.ExecutablePath)))
                 {
                     copyOps.Add(MoveFileAsync(file.FullName, Path.Combine(tempDesktop.FullName, file.Name)));
                 }
             }
-            // Wait for copy operations to finish
-            await Task.WhenAll(copyOps.ToArray());
 
+            // Move all folders to tempdesktop            
+            foreach (DirectoryInfo dir in desktop.EnumerateDirectories())
+            {
+                dir.MoveTo(Path.Combine(tempDesktop.FullName, dir.Name));
+            }            
+
+            await Task.WhenAll(copyOps.ToArray());
             tempDesktop.Refresh();
             copyOps.Clear();
-            // Move back...
+
+            // Move shortcuts back
             foreach (FileInfo file in tempDesktop.EnumerateFiles())
             {
-                copyOps.Add(MoveFileAsync(file.FullName, Path.Combine(di.FullName, file.Name)));
+                if (IsLink(file.FullName) && !file.Name.ToLower().Contains("edge") && !file.Name.Contains("CustService"))
+                {
+                    copyOps.Add(MoveFileAsync(file.FullName, Path.Combine(desktop.FullName, file.Name)));
+                } 
             }
-            // Wait for copy operations to finish
+
             await Task.WhenAll(copyOps.ToArray());
+            tempDesktop.Refresh();
 
-
-            tempDesktop.Delete(true);             
+            tempDesktop.Delete(true);
         }
 
         private static async Task<bool> MoveFileAsync(string sourcePath, string destPath)
@@ -217,8 +102,8 @@ namespace Builder_Companion
                 // swallow
             }
             return true;
-            
         }
+ 
 
         /// <summary>
         /// Deletes the appsettings folder for this application for the local user.
@@ -400,19 +285,6 @@ namespace Builder_Companion
             }
             return false; // not found
         }
-
-        public class AFile
-        {
-            public string FullPath { get; internal set; }
-            public bool Deleted { get; set; }
-            public bool DeleteStarted { get; set; }
-
-            public AFile(string path)
-            {
-                FullPath = path;
-                Deleted = false;
-                DeleteStarted = false;
-            }
-        }
+     
     }    
 }

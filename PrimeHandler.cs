@@ -91,7 +91,7 @@ namespace Builder_Companion
                 }
                 
 
-                if (results.Contains("hardware failure"))
+                if (results.ToLower().Contains("hardware failure"))
                 {
                     primeOK = false;
                 }                
