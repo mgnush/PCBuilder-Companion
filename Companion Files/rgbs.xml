@@ -31,6 +31,11 @@
 		<SCRIPTNAME>ICUE_INSTALL.exe</SCRIPTNAME>
 	</record>
 	<record>
+		<GUI>LiveDash</GUI>
+		<FILENAME>Setup.exe</FILENAME>
+		<SCRIPTNAME>LIVEDASH_INSTALL.exe</SCRIPTNAME>
+	</record>
+	<record>
 		<GUI>Mystic Light</GUI>
 		<FILENAME>MysticLight.exe</FILENAME>
 		<SCRIPTNAME>MYSTICLIGHT_INSTALL.exe</SCRIPTNAME>
