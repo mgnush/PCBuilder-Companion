@@ -15,7 +15,7 @@
 $sPreInstName = 'Select Setup Language'
 $sInstName = 'Setup - MysticLight'
 
-;$pid = Run($CmdLine[1])
+$pid = Run($CmdLine[1])
 
 ; SELECT LANGUAGE SCREEN
 WinWait($sPreInstName, '')
@@ -48,4 +48,4 @@ Send("{ENTER}")
 
 
 
-;ProcessWaitClose($pid)
+ProcessWaitClose($pid)
