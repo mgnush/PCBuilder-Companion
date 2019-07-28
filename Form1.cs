@@ -97,7 +97,6 @@ namespace Builder_Companion
                     SetPhaseLabel();
                     break;
                 default:
-                    QCHandler.ClearDesktop();
                     break;
             }
         }

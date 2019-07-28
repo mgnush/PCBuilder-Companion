@@ -39,7 +39,7 @@ namespace Builder_Companion
         {
             DirectoryInfo desktop = new DirectoryInfo(Paths.Desktop());
             DirectoryInfo desktopCommon = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory));
-            DirectoryInfo tempDesktop = Directory.CreateDirectory(Path.Combine(Paths.User(), "TempDesktop"));
+            DirectoryInfo tempDesktop = Directory.CreateDirectory(Path.Combine(desktop.Parent.FullName, "TempDesktop"));
             List<Task<bool>> copyOps = new List<Task<bool>>();
 
             foreach (FileInfo file in desktop.EnumerateFiles())
@@ -62,7 +62,13 @@ namespace Builder_Companion
             // Move all folders to tempdesktop            
             foreach (DirectoryInfo dir in desktop.EnumerateDirectories())
             {
-                dir.MoveTo(Path.Combine(tempDesktop.FullName, dir.Name));
+                try
+                {
+                    dir.MoveTo(Path.Combine(tempDesktop.FullName, dir.Name));
+                } catch
+                {
+                    Prompt.ShowDialog("DesktopSort error", "Error");
+                }                
             }            
 
             await Task.WhenAll(copyOps.ToArray());
