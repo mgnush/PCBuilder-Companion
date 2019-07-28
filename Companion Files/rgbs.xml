@@ -41,6 +41,11 @@
 		<SCRIPTNAME>MYSTICLIGHT_INSTALL.exe</SCRIPTNAME>
 	</record>
 	<record>
+		<GUI>Polychrome</GUI>
+		<FILENAME>AsrPolychromeRGBSetup*.exe</FILENAME>
+		<SCRIPTNAME>POLYCHROME_INSTALL.exe</SCRIPTNAME>
+	</record>
+	<record>
 		<GUI>RGB Fusion</GUI>
 		<FILENAME>UpdPack.exe</FILENAME>
 		<SCRIPTNAME>RGBFUSION_INSTALL.exe</SCRIPTNAME>
