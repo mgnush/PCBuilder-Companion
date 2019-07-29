@@ -1,7 +1,7 @@
 #cs ----------------------------------------------------------------------------
  AutoIt Version: 3.3.14.5
  Author:         Magnus Hjorth & Haohan Liu
- Date: 2019/07/28
+ Date: 2019/07/30
  Script Function:
 	Install LiveDash for ASUS products
 #ce ----------------------------------------------------------------------------
