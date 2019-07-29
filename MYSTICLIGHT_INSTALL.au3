@@ -15,7 +15,7 @@
 $sPreInstName = 'Select Setup Language'
 $sInstName = 'Setup - MysticLight'
 
-;$pid = Run($CmdLine[1])
+$pid = Run($CmdLine[1])
 
 ; INSTALL PROCEDURE
 WinWait($sPreInstName)
@@ -26,15 +26,15 @@ WinWait("Setup - MysticLight", "Welcome to the MysticLight Setup Wizard")
 WinActivate($sInstName)
 Send("!n")
 
-WinWait("Setup - MysticLight", "Select Destination Location")
+WinWaitActive("Setup - MysticLight", "Select Destination Location")
 Send("!n")
 
-WinWait($sInstName, 'Select Additional Tasks', 3000) ;3s timeout
+WinWaitActive($sInstName, 'Select Additional Tasks', 3000) ;3s timeout
 If WinExists($sInstName, 'Select Additional Tasks') Then
 	Send("!n")
 EndIf
 
-WinWait("Setup - MysticLight", "Ready to Install")
+WinWaitActive("Setup - MysticLight", "Ready to Install")
 Send("!i")
 
 
@@ -46,5 +46,4 @@ Send("{SPACE}")
 Send("{ENTER}")
 
 
-
-;ProcessWaitClose($pid)
+ProcessWaitClose($pid)

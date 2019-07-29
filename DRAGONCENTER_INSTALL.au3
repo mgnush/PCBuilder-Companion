@@ -19,29 +19,31 @@ $pid = Run($CmdLine[1])
 
 ; SELECT LANGUAGE SCREEN
 WinWait($sPreInstName, '')
-ControlClick($sPreInstName, 'OK', 'TNewButton1')
+WinActivate($sPreInstName)
+Send('{ENTER}')
 
 ; WELCOME SCREEN
 WinWait($sInstName, 'Welcome to the Dragon Center Setup Wizard')
-ControlClick($sInstName, '&Next >', 'TNewButton1')
+WinActivate($sInstName)
+Send('!a')
+Send('!n')
 
 ; PASS EULA
-WinWait($sInstName, 'License Agreement')
-ControlCommand($sInstName, 'I &accept the agreement', 'TNewRadioButton1', 'Check')
+WinWaitActive($sInstName, 'License Agreement')
+Send('!a')
 Sleep(500) ; required to ensure 'Next' button is not greyed out
-ControlClick($sInstName, '&Next >', 'TNewButton2')
+Send('!n')
 
 ; SETUP PROCESS
-WinWait($sInstName, 'Select Destination Location')
-ControlClick($sInstName, '&Next >', 'TNewButton3')
+WinWaitActive($sInstName, 'Select Destination Location')
+Send('!n')
 
-WinWait($sInstName, 'Select Additional Tasks', 500) ;500ms timeout
-If WinExists($sInstName, 'Select Additional Tasks') Then
-	ControlClick($sInstName, '&Next >', 'TNewButton3')
-EndIf
+WinWaitActive($sInstName, 'Select Additional Tasks', 3000) ;3s timeout
+Send('!n')
 
-WinWait($sInstName, 'Ready to Install')
-ControlClick($sInstName, '&Install', 'TNewButton3')
+WinWaitActive($sInstName, 'Ready to Install')
+Send('!i')
+
 
 ; INSTALL OCCURS HERE
 
@@ -49,10 +51,8 @@ ControlClick($sInstName, '&Install', 'TNewButton3')
 ; CONCLUSION OF INSTALL
 WinWait($sInstName, 'Completing the Dragon Center Setup Wizard')
 WinActivate($sInstName) ; Cannot get consistent ControlID handle on checkbox
-Send("{DOWN}")
 Send("{SPACE}")
-Send("{ENTER}")
-
+Send("!f")
 
 
 ProcessWaitClose($pid)
