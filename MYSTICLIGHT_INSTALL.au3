@@ -15,28 +15,27 @@
 $sPreInstName = 'Select Setup Language'
 $sInstName = 'Setup - MysticLight'
 
-$pid = Run($CmdLine[1])
+;$pid = Run($CmdLine[1])
 
-; SELECT LANGUAGE SCREEN
-WinWait($sPreInstName, '')
-ControlClick($sPreInstName, 'OK', 'TNewButton1')
+; INSTALL PROCEDURE
+WinWait($sPreInstName)
+WinActivate($sPreInstName)
+Send("{ENTER}")
 
-; SETUP SELECTION
-WinWait($sInstName, 'Welcome to the MysticLight Setup Wizard')
-ControlClick($sInstName, '&Next >', 'TNewButton1')
+WinWait("Setup - MysticLight", "Welcome to the MysticLight Setup Wizard")
+WinActivate($sInstName)
+Send("!n")
 
-WinWait($sInstName, 'Select Destination Location')
-ControlClick($sInstName, '&Next >', 'TNewButton3')
+WinWait("Setup - MysticLight", "Select Destination Location")
+Send("!n")
 
-WinWait($sInstName, 'Select Additional Tasks', 500) ;500ms timeout
+WinWait($sInstName, 'Select Additional Tasks', 3000) ;3s timeout
 If WinExists($sInstName, 'Select Additional Tasks') Then
-	ControlClick($sInstName, '&Next >', 'TNewButton3')
+	Send("!n")
 EndIf
 
-WinWait($sInstName, 'Ready to Install')
-ControlClick($sInstName, '&Install', 'TNewButton3')
-
-; INSTALL OCCURS HERE
+WinWait("Setup - MysticLight", "Ready to Install")
+Send("!i")
 
 
 ; CONCLUSION OF INSTALL
@@ -48,4 +47,4 @@ Send("{ENTER}")
 
 
 
-ProcessWaitClose($pid)
+;ProcessWaitClose($pid)
