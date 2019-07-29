@@ -15,7 +15,7 @@
 $sPreInstName = ''
 $sInstName = 'Setup - MasterPlus'
 
-;$pid = Run($CmdLine[1])
+$pid = Run($CmdLine[1])
 
 ; INSTALL PROCEDURE
 WinWait($sInstName, 'Select Destination Location')
@@ -40,4 +40,4 @@ WinActivate($sInstName)
 Send("{SPACE}")
 Send("!f")
 
-;ProcessWaitClose($pid)
+ProcessWaitClose($pid)
