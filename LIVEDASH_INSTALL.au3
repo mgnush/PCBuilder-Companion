@@ -20,19 +20,20 @@ $pid = Run($CmdLine[1])
 ; WELCOME SCREEN
 WinWait($sInstName, 'Welcome to the InstallShield Wizard for LiveDash')
 WinActivate($sInstName)
-ControlClick($sInstName, '&Next >', 'Button1')
+Send('!n')
 
 ; SETUP PROCESS
 WinWait($sInstName, 'Choose Destination Location')
 WinActivate($sInstName)
-ControlClick($sInstName, '&Next >', 'Button1')
+Send('!n')
 
 ; FINISH INSTALLATION
 WinWait($sInstName, 'InstallShield Wizard Complete')
 WinActivate($sInstName)
-ControlCommand($sInstName, 'No, I will restart my computer later.', 'Button2', 'Check')
-ControlClick($sInstName, 'Finish', 'Button4')
-
+Send('{TAB}')
+Send('{TAB}')
+Send('{UP}')
+Send('{ENTER}')
 
 
 ProcessWaitClose($pid)
