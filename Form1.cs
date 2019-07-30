@@ -156,7 +156,7 @@ namespace Builder_Companion
         private void DMResync_Click(object sender, EventArgs e)
         {
             DMStatusCheck();
-            DMResync.Visible = false;
+            DMResyncButton.Visible = false;
         }
 
         private void IgnoreTemp_Click(object sender, EventArgs e)
@@ -217,16 +217,17 @@ namespace Builder_Companion
 
         private void DMStatusCheck()
         {
-            TestInfo.Text = "";
+            DMLabel.Visible = true;
             if (DMChecker.GetStatus())
             {
-                TestInfo.AppendText("Device Manager OK \n", Color.Green);
+                DMCheck.Visible = true;
             }
             else
             {
-                TestInfo.AppendText("Check Device Manager! \n", Color.Red);
+                DMError.Visible = true;
+                DMLabel.Text = ("Check Device Manager!");
                 Process.Start("devmgmt.msc");   // Launch device manager
-                DMResync.Visible = true;
+                DMResyncButton.Visible = true;
             }
         }
 
@@ -246,7 +247,7 @@ namespace Builder_Companion
         private void SetPowerPerformanceMode()
         {
             PowerControl.SetToPerformance();
-            TestInfo.AppendText("Power mode was changed to Performance \n", Color.Green);
+            PowerModeLabel.Visible = true;
         }
 
         #region<------- Testing Methods ------->
@@ -272,23 +273,45 @@ namespace Builder_Companion
             Task<bool> taskHandler = TaskHandler.RunPrimeFurmark(durationMin);   // Run testing asynchronously           
 
             // Poll prime results and temps every (10) seconds
-            // Overheating will not stop testing immediately
+            // Overheating will not cut testing short
             while (!taskHandler.IsCompleted)
             {
                 await Task.Delay(10000);
                 UpdateCPU();
-                if ((TempHandler.MaxTemp > 95) && !overheating)
+
+                if ((TempHandler.MaxTemp > 95))
                 {
-                    TestInfo.AppendText("Overheating! Check cooling \n", Color.Red);
+                    if (highdraw)
+                    {
+                        StressTestLabel.Text = "Overheating & high wattage ";
+                    } else
+                    {
+                        StressTestLabel.Text = "Overheating CPU! ";
+                    }                    
+                    OverheatingFlame.Visible = true;
                     overheating = true;
                 }
-                if ((TempHandler.MaxPwr > 185) && !highdraw) {
-                    TestInfo.AppendText("High wattage, check MCE \n", Color.YellowGreen);
+                if ((TempHandler.MaxPwr > 185)) {
+                    if (overheating)
+                    {
+                        StressTestLabel.Text = "Overheating & high wattage ";
+                    } else
+                    {
+                        StressTestLabel.Text += "High wattage ";
+                    }
                     highdraw = true;
                 }
-                if ((TempHandler.MaxGPUTemp > 90) && !overheatingGPU)
+                if ((TempHandler.MaxGPUTemp > 90))
                 {
-                    TestInfo.AppendText("Overheating GPU! \n", Color.Red);
+                    if (overheating)
+                    {
+                        StressTestLabel.Text = "Insert eggs now ";
+                        StressEggs.Visible = true;
+                    } else if (highdraw)
+                    {
+                        StressTestLabel.Text = "High wattage & Overheating GPU!";
+                    }
+
                     overheatingGPU = true;
                 }
             }
