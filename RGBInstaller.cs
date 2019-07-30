@@ -66,7 +66,10 @@ namespace Builder_Companion
         /// <returns>Null if successful, otherwise error message.</returns>
         public static void InstallSelectedSoftware(CheckedListBox.CheckedIndexCollection indeces)
         {
-            PullSoftware(indeces);
+            if (indeces.Count == 0)
+            {
+                return;
+            }           
 
             string scriptPath = "";
             string setupFolder = "";
