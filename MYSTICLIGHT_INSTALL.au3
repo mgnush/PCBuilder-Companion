@@ -18,29 +18,26 @@ $sInstName = 'Setup - MysticLight'
 $pid = Run($CmdLine[1])
 
 ; INSTALL PROCEDURE
-WinWait($sPreInstName)
-WinActivate($sPreInstName)
+WinWaitActive($sPreInstName)
 Send("{ENTER}")
 
-WinWait("Setup - MysticLight", "Welcome to the MysticLight Setup Wizard")
-WinActivate($sInstName)
+WinWaitActive($sInstName, "Welcome to the MysticLight Setup Wizard")
 Send("!n")
 
-WinWaitActive("Setup - MysticLight", "Select Destination Location")
+WinWaitActive($sInstName, "Select Destination Location")
 Send("!n")
 
-WinWaitActive($sInstName, 'Select Additional Tasks', 3000) ;3s timeout
+WinWaitActive($sInstName, 'Select Additional Tasks', 1000) ;3s timeout
 If WinExists($sInstName, 'Select Additional Tasks') Then
 	Send("!n")
 EndIf
 
-WinWaitActive("Setup - MysticLight", "Ready to Install")
+WinWaitActive($sInstName, "Ready to Install")
 Send("!i")
 
 
 ; CONCLUSION OF INSTALL
-WinWait($sInstName, 'Completing the MysticLight Setup Wizard')
-WinActivate($sInstName) ; Cannot get consistent ControlID handle on checkbox
+WinWaitActive($sInstName, 'Completing the MysticLight Setup Wizard')
 Send("{DOWN}")
 Send("{SPACE}")
 Send("{ENTER}")
