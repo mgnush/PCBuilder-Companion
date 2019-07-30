@@ -54,39 +54,45 @@ namespace Builder_Companion
                 string family = ""; 
                 string model = "";
                 string edition = "";
+                _name = "";
+                _driver = "";
+
                 string[] words = gpuname.Split(' ');
-                for (int i = 0; i < words.Length; i++)
+                try
                 {
-                    if (words[i].Equals("GeForce") || words[i].Equals("Radeon"))
+                    for (int i = 0; i < words.Length; i++)
                     {
-                        family = words[i + 1];
-                        model = words[i + 2];
-                        if (words.Length > (i + 3))
+                        if (words[i].Equals("GeForce") || words[i].Equals("Radeon"))
                         {
-                            edition = words[i + 3];
+                            family = words[i + 1];
+                            model = words[i + 2];
+                            if (words.Length > (i + 3))
+                            {
+                                edition = words[i + 3];
+                            }
+                            if (words[i].Equals("GeForce")) { _gpuBrand = GPUBrand.nVIDIA; }
+                            if (words[i].Equals("Radeon")) { _gpuBrand = GPUBrand.AMD; }
+                            break;
                         }
-                        if (words[i].Equals("GeForce")) { _gpuBrand = GPUBrand.nVIDIA; }
-                        if (words[i].Equals("Radeon")) { _gpuBrand = GPUBrand.AMD; }
-                        break;
-                    }                    
-                }
-                _name = family + " " + model + " " + edition;
+                    }
+                    _name = family + " " + model + " " + edition;
 
-                switch (_gpuBrand)
-                {
-                    case GPUBrand.nVIDIA:
-                        string[] numbersn = gpudriver.Split('.');
-                        _driver = numbersn[2].Substring(1) + numbersn[3].Substring(0, 2) + "." + numbersn[3].Substring(2, 2);
-                        break;
-                    case GPUBrand.AMD:
-                        string[] numbersa = gpudriver.Split('.');
-                        _driver = numbersa[2].Substring(4, 1) + numbersa[3].Substring(0, 1) + ".xx";   // NOT complete
-                        break;
-                    default:
-                        _driver = "Unknown driver";
-                        break;
+                    switch (_gpuBrand)
+                    {
+                        case GPUBrand.nVIDIA:
+                            string[] numbersn = gpudriver.Split('.');
+                            _driver = numbersn[2].Substring(1) + numbersn[3].Substring(0, 2) + "." + numbersn[3].Substring(2, 2);
+                            break;
+                        case GPUBrand.AMD:
+                            string[] numbersa = gpudriver.Split('.');
+                            _driver = numbersa[2].Substring(4, 1) + numbersa[3].Substring(0, 1) + ".xx";   // NOT complete
+                            break;
+                        default:
+                            _driver = "Unknown driver";
+                            break;
+                    }
                 }
-
+                catch { }
                
             }
 
@@ -97,7 +103,7 @@ namespace Builder_Companion
             /// NOT IMPLEMENTED. Evaluates the given Heaven score against this GPU Model.
             /// </summary>
             /// <param name="score">The Heaven score.</param>
-            /// <returns>True if the score is acceptable.</returns>
+            /// <returns>Whether heaven score is acceptable.</returns>
             public bool HeavenScoreValidation(int score)
             {
                 return true;

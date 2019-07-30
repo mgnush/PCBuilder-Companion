@@ -47,6 +47,7 @@ namespace Builder_Companion
         public const string HEAVEN_EXIT_SCRIPT = "HEAVEN_EXIT.exe";
         public const string TEMP_SCRIPT = "TEMP_LOGGING.exe";
         public const string QCWINDOWS_SCRIPT = "QC_WINDOWS.exe";
+        public const string CLEAR_TOASTS_SCRIPT = "CLEAR_TOASTS.exe";
 
         // NAS 
         public const string NAS = @"\\CustServiceNAS\SysbBuilds\_Software";

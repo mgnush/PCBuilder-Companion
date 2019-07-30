@@ -108,8 +108,7 @@ namespace Builder_Companion
                 // swallow
             }
             return true;
-        }
- 
+        } 
 
         /// <summary>
         /// Deletes the appsettings folder for this application for the local user.
@@ -212,15 +211,12 @@ namespace Builder_Companion
         /// </summary>
         public static void ClearToasts()
         {
-            // Can only instantiate notificationmanagers for apps in the same package as caller...
-            var toastMngr = ToastNotificationManager.CreateToastNotifier(APP_ID);
-            var notifs = toastMngr.GetScheduledToastNotifications();
+            string scriptPath = Path.Combine(Paths.Desktop(), Paths.TEST, Paths.FILES, Paths.CLEAR_TOASTS_SCRIPT);
 
-            for (int i = 0; i < notifs.Count; i++)
+            if (File.Exists(scriptPath))
             {
-                toastMngr.RemoveFromSchedule(notifs[i]);
-            }
-            
+                Process.Start(scriptPath);
+            }            
         }
 
         /// <summary>

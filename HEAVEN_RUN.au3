@@ -12,6 +12,7 @@ Run("Benchmark\Heaven\heaven.bat")
 
 
 WinWaitActive("Unigine Heaven Benchmark 4.0 (Basic Edition)")
+Sleep(100)   ; Address bugs reported that mouseclick happened before load
 MouseClick($MOUSE_CLICK_LEFT, 1240, 676)
 Sleep(14000)
 Send("{F9}")
