@@ -69,7 +69,9 @@ namespace Builder_Companion
             if (indeces.Count == 0)
             {
                 return;
-            }           
+            }
+
+            PullSoftware(indeces);
 
             string scriptPath = "";
             string setupFolder = "";
