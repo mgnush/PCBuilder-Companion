@@ -63,7 +63,6 @@ namespace Builder_Companion
         /// Software is identified by the order in which they are loaded into the GUI.
         /// </summary>
         /// <param name="indeces">The selected checkbox indices.</param>
-        /// <returns>Null if successful, otherwise error message.</returns>
         public static void InstallSelectedSoftware(CheckedListBox.CheckedIndexCollection indeces)
         {
             if (indeces.Count == 0)
