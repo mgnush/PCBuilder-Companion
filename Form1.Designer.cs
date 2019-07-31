@@ -55,10 +55,10 @@
             this.DMResyncButton = new System.Windows.Forms.Button();
             this.InfoTabel = new System.Windows.Forms.TableLayoutPanel();
             this.PowerModeLabel = new System.Windows.Forms.Label();
+            this.StressTestLabel = new System.Windows.Forms.Label();
             this.PwrCheck = new System.Windows.Forms.PictureBox();
             this.DMCheck = new System.Windows.Forms.PictureBox();
             this.DMError = new System.Windows.Forms.PictureBox();
-            this.StressTestLabel = new System.Windows.Forms.Label();
             this.StressCheck = new System.Windows.Forms.PictureBox();
             this.StressError = new System.Windows.Forms.PictureBox();
             this.OverheatingFlame = new System.Windows.Forms.PictureBox();
@@ -384,6 +384,17 @@
             this.PowerModeLabel.Text = "Power Mode -> Performance";
             this.PowerModeLabel.Visible = false;
             // 
+            // StressTestLabel
+            // 
+            this.StressTestLabel.AutoSize = true;
+            this.StressTestLabel.BackColor = System.Drawing.Color.Transparent;
+            this.StressTestLabel.Font = new System.Drawing.Font("Architects Daughter", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.StressTestLabel.ForeColor = System.Drawing.Color.White;
+            this.StressTestLabel.Location = new System.Drawing.Point(3, 120);
+            this.StressTestLabel.Name = "StressTestLabel";
+            this.StressTestLabel.Size = new System.Drawing.Size(0, 57);
+            this.StressTestLabel.TabIndex = 30;
+            // 
             // PwrCheck
             // 
             this.PwrCheck.BackColor = System.Drawing.Color.Transparent;
@@ -421,17 +432,6 @@
             this.DMError.TabIndex = 33;
             this.DMError.TabStop = false;
             this.DMError.Visible = false;
-            // 
-            // StressTestLabel
-            // 
-            this.StressTestLabel.AutoSize = true;
-            this.StressTestLabel.BackColor = System.Drawing.Color.Transparent;
-            this.StressTestLabel.Font = new System.Drawing.Font("Architects Daughter", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.StressTestLabel.ForeColor = System.Drawing.Color.White;
-            this.StressTestLabel.Location = new System.Drawing.Point(3, 120);
-            this.StressTestLabel.Name = "StressTestLabel";
-            this.StressTestLabel.Size = new System.Drawing.Size(0, 57);
-            this.StressTestLabel.TabIndex = 30;
             // 
             // StressCheck
             // 

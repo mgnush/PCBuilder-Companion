@@ -283,7 +283,7 @@ namespace Builder_Companion
                 {
                     if (highdraw)
                     {
-                        StressTestLabel.Text = "Overheating & high wattage ";
+                        StressTestLabel.Text = "High wattage, hot CPU";
                     } else
                     {
                         StressTestLabel.Text = "Overheating CPU! ";
@@ -294,10 +294,10 @@ namespace Builder_Companion
                 if ((TempHandler.MaxPwr > 185)) {
                     if (overheating)
                     {
-                        StressTestLabel.Text = "Overheating & high wattage ";
+                        StressTestLabel.Text = "High wattage, hot CPU";
                     } else
                     {
-                        StressTestLabel.Text += "High wattage ";
+                        StressTestLabel.Text += "High wattage";
                     }
                     highdraw = true;
                 }
@@ -309,7 +309,7 @@ namespace Builder_Companion
                         StressEggs.Visible = true;
                     } else if (highdraw)
                     {
-                        StressTestLabel.Text = "High wattage & Overheating GPU!";
+                        StressTestLabel.Text = "High wattage, hot GPU";
                     }
 
                     overheatingGPU = true;
@@ -389,7 +389,7 @@ namespace Builder_Companion
         /// </summary>
         public void SaveAllData()
         {
-            Properties.Settings.Default.TestInfo = this.TestInfo.Text;
+           // Properties.Settings.Default.TestInfo = this.TestInfo.Text;
             Properties.Settings.Default.CPUInfo = this.CPUMonitor.Text;
             Properties.Settings.Default.CPUPwr = this.CPUPwr.Text;
             Properties.Settings.Default.CPUTemp = this.CPUTemp.Text;
@@ -407,7 +407,7 @@ namespace Builder_Companion
         /// </summary>
         public void LoadAllData()
         {
-            this.TestInfo.Text = Properties.Settings.Default.TestInfo;
+            //this.TestInfo.Text = Properties.Settings.Default.TestInfo;
             this.CPUMonitor.Text = Properties.Settings.Default.CPUInfo;
             this.CPUPwr.Text = Properties.Settings.Default.CPUPwr;
             this.CPUTemp.Text = Properties.Settings.Default.CPUTemp;
