@@ -80,11 +80,18 @@ namespace Builder_Companion
                 setupFolder = Path.Combine(Paths.Desktop(), Paths.RGB, software.ElementAt(index));
 
                 // Find the (newest) setup file
-                foreach (string file in Directory.GetFiles(setupFolder, setupName.ElementAt(index), SearchOption.AllDirectories))
+                try
                 {
-                    string[] partialPaths = file.Split('/');
-                    setupPath = partialPaths.Last();
+                    foreach (string file in Directory.GetFiles(setupFolder, setupName.ElementAt(index), SearchOption.AllDirectories))
+                    {
+                        string[] partialPaths = file.Split('/');
+                        setupPath = partialPaths.Last();
+                    }
+                } catch
+                {
+                    Prompt.ShowDialog("Folder naming inconsistency", "Error");
                 }
+                
 
                 if (File.Exists(scriptPath))
                 {
