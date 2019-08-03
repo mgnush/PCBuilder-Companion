@@ -21,6 +21,7 @@ namespace Builder_Companion
         public Form1()
         {            
             InitializeComponent();
+            InitGUI();
             DMStatusCheck();   // Check Device manager every time program is launched             
         }
 
@@ -32,6 +33,14 @@ namespace Builder_Companion
             switch (Properties.Settings.Default.CurrentPhase)
             {
                 case Phase.Testing:
+                    // Populate system info labels
+                    SystemInfo.RetrieveSystemInfo();
+                    CPUMonitor.Text = SystemInfo.Cpu.Name + " (Max values)";
+                    GPULabel.Text = SystemInfo.Gpu.Name + " (Max temp)";
+                    GPUDriverLabel.Text = SystemInfo.Gpu.Driver;
+                    RAMLabel.Text = SystemInfo.Ram.Description;
+
+                    // RGB Label
                     this.RGBLabel.AppendText("R", Color.Red);
                     this.RGBLabel.AppendText("G", Color.Green);
                     this.RGBLabel.AppendText("B", Color.Blue);
@@ -161,7 +170,7 @@ namespace Builder_Companion
 
         private void IgnoreTemp_Click(object sender, EventArgs e)
         {
-            IgnoreTemp.Visible = false;
+            IgnoreTempButton.Visible = false;
             Thread.Sleep(1000); // Give user a chance to let go of mouse
             TestHeaven();            
         }
@@ -179,16 +188,18 @@ namespace Builder_Companion
         private void ManualHeavenButton_onClick(object sender, EventArgs e)
         {
             ManualHeavenButton.Visible = false;
-            TestInfo.AppendText("Heaven OK", Color.Green);
+            TableAddTestInfo("Heaven OK", true);
             TestingComplete();
         }
 
         private void AudioButton_click(object sender, EventArgs e)
         {
-            TestInfo.Undo();
-            TestInfo.AppendText("Audio OK", Color.Green);
-            AudioButton.Visible = false;            
+            AudioButton.Visible = false;
+            // Reposition relevant icon
+            int iconLocY = AudioCheck.Location.Y + (TableAddTestInfo("Audio OK", true) * TESTLABEL_HEIGHT);
+            AudioCheck.Location = new Point(AudioCheck.Location.X, iconLocY);                    
 
+            // Launch Windows activation
             string slui = Environment.GetFolderPath(Environment.SpecialFolder.System);
             ProcessStartInfo sInfo = new ProcessStartInfo(Path.Combine(slui, "slui.exe"));
             Process p = new Process();
@@ -208,7 +219,7 @@ namespace Builder_Companion
             // If testing is complete, begin next step
             if ((Properties.Settings.Default.CurrentPhase == Phase.Updating) || (Properties.Settings.Default.CurrentPhase == Phase.QCReady))
             {        
-                TestInfo.AppendText("Test Audio \n", Color.Black);
+                TableAddTestInfo("Test Audio");
                 AudioButton.Visible = true;
                 PhaseLabel.Text += ": Configure RGB software if any!";
             }
@@ -258,13 +269,7 @@ namespace Builder_Companion
         /// <returns></returns>
         private async void TestHandler(int durationMin)
         {
-            // Populate system info labels
-            SystemInfo.RetrieveSystemInfo();
-            CPUMonitor.Text = SystemInfo.Cpu.Name + " (Max values)";
-            GPULabel.Text = SystemInfo.Gpu.Name + " (Max temp)";
-            GPUDriverLabel.Text = SystemInfo.Gpu.Driver;
-            RAMLabel.Text = SystemInfo.Ram.Description;
-
+            int iconLocY;
             bool overheating = false;
             bool overheatingGPU = false;
             bool highdraw = false;
@@ -279,40 +284,34 @@ namespace Builder_Companion
                 await Task.Delay(10000);
                 UpdateCPU();
 
-                if ((TempHandler.MaxTemp > 95))
-                {
-                    if (highdraw)
-                    {
-                        StressTestLabel.Text = "High wattage, hot CPU";
-                    } else
-                    {
-                        StressTestLabel.Text = "Overheating CPU! ";
-                    }                    
-                    OverheatingFlame.Visible = true;
+                if ((TempHandler.MaxTemp > 95) && !overheating)
+                {              
                     overheating = true;
+                    // Reposition associated icon as needed
+                    iconLocY = OverheatingFlame.Location.Y + (TableAddTestInfo("CPU Overheating!") * TESTLABEL_HEIGHT);
+                    OverheatingFlame.Location = new Point(OverheatingFlame.Location.X, iconLocY);
+                    OverheatingFlame.Visible = true;
                 }
-                if ((TempHandler.MaxPwr > 185)) {
-                    if (overheating)
-                    {
-                        StressTestLabel.Text = "High wattage, hot CPU";
-                    } else
-                    {
-                        StressTestLabel.Text += "High wattage";
-                    }
+                if ((TempHandler.MaxPwr > 185) && !highdraw) {
+                    TableAddTestInfo("High CPU wattage!");
                     highdraw = true;
                 }
-                if ((TempHandler.MaxGPUTemp > 90))
+                if ((TempHandler.MaxGPUTemp > 90) && !overheatingGPU)
                 {
+                    overheatingGPU = true;
                     if (overheating)
                     {
-                        StressTestLabel.Text = "Insert eggs now ";
+                        // Reposition associated icon as needed
+                        iconLocY = StressEggs.Location.Y + (TableAddTestInfo("Insert eggs now") * TESTLABEL_HEIGHT);
+                        OverheatingFlame.Location = new Point(StressEggs.Location.X, iconLocY);
                         StressEggs.Visible = true;
-                    } else if (highdraw)
+                    } else
                     {
-                        StressTestLabel.Text = "High wattage, hot GPU";
-                    }
-
-                    overheatingGPU = true;
+                        // Reposition associated icon as needed
+                        iconLocY = OverheatingFlame.Location.Y + (TableAddTestInfo("GPU Overheating!") * TESTLABEL_HEIGHT);
+                        OverheatingFlame.Location = new Point(OverheatingFlame.Location.X, iconLocY);
+                        OverheatingFlame.Visible = true;
+                    }                 
                 }
             }
 
@@ -320,18 +319,31 @@ namespace Builder_Companion
             
             switch (taskHandler.Result)
             {
+                 
                 case false:
                     // Halt program
-                    TestInfo.AppendText("Prime failed! \n", Color.Red);
+                    // Reposition associated icon as needed
+                    iconLocY = StressError.Location.Y + (TableAddTestInfo("Prime failed!") * TESTLABEL_HEIGHT);
+                    StressError.Location = new Point(StressError.Location.X, iconLocY);
+                    StressError.Visible = true;
                     break;
                 case true when (overheating || overheatingGPU):
                     // Do not advance automatically if overheating
-                    TestInfo.AppendText("Prime OK \n", Color.Green);
-                    IgnoreTemp.Visible = true;
+                    // Reposition associated icons as needed
+                    iconLocY = StressCheck.Location.Y + (TableAddTestInfo("Prime OK") * TESTLABEL_HEIGHT);
+                    StressCheck.Location = new Point(StressCheck.Location.X, iconLocY);
+                    StressCheck.Visible = true;
+
+                    IgnoreTempButton.Parent = InfoTable;
+                    InfoTable.SetCellPosition(IgnoreTempButton, new TableLayoutPanelCellPosition(1, testLabelRecentRow));
+                    IgnoreTempButton.Visible = true;
                     break;
                 case true when !(overheating || overheatingGPU):
                     // Advance when not overheating
-                    TestInfo.AppendText("Prime OK \n", Color.Green);
+                    // Reposition associated icons as needed
+                    iconLocY = StressCheck.Location.Y + (TableAddTestInfo("Prime OK") * TESTLABEL_HEIGHT);
+                    StressCheck.Location = new Point(StressCheck.Location.X, iconLocY);
+                    StressCheck.Visible = true;
                     TestHeaven();
                     break;
             }
@@ -351,14 +363,24 @@ namespace Builder_Companion
         public void ReportHeavenScore()
         {
             int score = heavenHandler.Score;
-            TestInfo.AppendText("Heaven Score: " + score + "\n", Color.Black);
+            string heavenScore = "Heaven Score: " + score;
+
+            int iconLocY = HeavenIcon.Location.Y + (TableAddTestInfo(heavenScore) * TESTLABEL_HEIGHT);
+            HeavenIcon.Location = new Point(HeavenIcon.Location.X, iconLocY);
+
             if (score > 0)
             {
                 TestingComplete();
             }
             else
             {
-                TestInfo.AppendText("Wrong heaven score, run manually \n", Color.Red);
+                // Reposition associated icons as needed
+                iconLocY = HeavenError.Location.Y + (TableAddTestInfo("Run Heaven manually") * TESTLABEL_HEIGHT);
+                HeavenError.Location = new Point(StressCheck.Location.X, iconLocY);
+                HeavenError.Visible = true;
+
+                ManualHeavenButton.Parent = InfoTable;
+                InfoTable.SetCellPosition(ManualHeavenButton, new TableLayoutPanelCellPosition(1, testLabelRecentRow));
                 ManualHeavenButton.Visible = true;
             }
         }       
@@ -374,7 +396,9 @@ namespace Builder_Companion
             if (_updateSessionComplete && _upToDate)
             {               
                 {
-                    TestInfo.AppendText("Test Audio \n", Color.Black);
+                    TableAddTestInfo("Test Audio");
+                    AudioButton.Parent = InfoTable;
+                    InfoTable.SetCellPosition(AudioButton, new TableLayoutPanelCellPosition(1, testLabelRecentRow));
                     AudioButton.Visible = true;
                 }
             } else

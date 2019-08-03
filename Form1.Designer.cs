@@ -33,7 +33,6 @@
             this.CPUSpeed = new System.Windows.Forms.Label();
             this.CPUTemp = new System.Windows.Forms.Label();
             this.CPUPwr = new System.Windows.Forms.Label();
-            this.IgnoreTemp = new System.Windows.Forms.Button();
             this.WUP = new System.Windows.Forms.Label();
             this.GPULabel = new System.Windows.Forms.Label();
             this.GPUTempValue = new System.Windows.Forms.Label();
@@ -44,18 +43,16 @@
             this.TestDurationLabel = new System.Windows.Forms.Label();
             this.QCButton = new System.Windows.Forms.Button();
             this.RestartQCButton = new System.Windows.Forms.Button();
-            this.AudioButton = new System.Windows.Forms.Button();
             this.RAMLabel = new System.Windows.Forms.Label();
             this.PhaseLabel = new System.Windows.Forms.Label();
             this.PrimeDurationBar = new System.Windows.Forms.TrackBar();
             this.BarDurationLabel = new System.Windows.Forms.Label();
-            this.ManualHeavenButton = new System.Windows.Forms.Button();
             this.DMLabel = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.DMResyncButton = new System.Windows.Forms.Button();
-            this.InfoTabel = new System.Windows.Forms.TableLayoutPanel();
+            this.InfoTable = new System.Windows.Forms.TableLayoutPanel();
             this.PowerModeLabel = new System.Windows.Forms.Label();
-            this.StressTestLabel = new System.Windows.Forms.Label();
+            this.TestLabel1 = new System.Windows.Forms.Label();
             this.PwrCheck = new System.Windows.Forms.PictureBox();
             this.DMCheck = new System.Windows.Forms.PictureBox();
             this.DMError = new System.Windows.Forms.PictureBox();
@@ -63,8 +60,18 @@
             this.StressError = new System.Windows.Forms.PictureBox();
             this.OverheatingFlame = new System.Windows.Forms.PictureBox();
             this.StressEggs = new System.Windows.Forms.PictureBox();
+            this.TestLabel2 = new System.Windows.Forms.Label();
+            this.TestLabel3 = new System.Windows.Forms.Label();
+            this.TestLabel4 = new System.Windows.Forms.Label();
+            this.TestLabel5 = new System.Windows.Forms.Label();
+            this.IgnoreTempButton = new System.Windows.Forms.Button();
+            this.HeavenError = new System.Windows.Forms.PictureBox();
+            this.HeavenIcon = new System.Windows.Forms.PictureBox();
+            this.ManualHeavenButton = new System.Windows.Forms.Button();
+            this.AudioButton = new System.Windows.Forms.Button();
+            this.AudioCheck = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.PrimeDurationBar)).BeginInit();
-            this.InfoTabel.SuspendLayout();
+            this.InfoTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PwrCheck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DMCheck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DMError)).BeginInit();
@@ -72,6 +79,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.StressError)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OverheatingFlame)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StressEggs)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HeavenError)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HeavenIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AudioCheck)).BeginInit();
             this.SuspendLayout();
             // 
             // CPUMonitor
@@ -113,18 +123,6 @@
             this.CPUPwr.Size = new System.Drawing.Size(47, 17);
             this.CPUPwr.TabIndex = 5;
             this.CPUPwr.Text = "Power";
-            // 
-            // IgnoreTemp
-            // 
-            this.IgnoreTemp.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.IgnoreTemp.Location = new System.Drawing.Point(812, 32);
-            this.IgnoreTemp.Name = "IgnoreTemp";
-            this.IgnoreTemp.Size = new System.Drawing.Size(75, 23);
-            this.IgnoreTemp.TabIndex = 6;
-            this.IgnoreTemp.Text = "Ignore";
-            this.IgnoreTemp.UseVisualStyleBackColor = false;
-            this.IgnoreTemp.Visible = false;
-            this.IgnoreTemp.Click += new System.EventHandler(this.IgnoreTemp_Click);
             // 
             // WUP
             // 
@@ -247,18 +245,6 @@
             this.RestartQCButton.Visible = false;
             this.RestartQCButton.Click += new System.EventHandler(this.RestartQCButton_Click);
             // 
-            // AudioButton
-            // 
-            this.AudioButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.AudioButton.Location = new System.Drawing.Point(812, 89);
-            this.AudioButton.Name = "AudioButton";
-            this.AudioButton.Size = new System.Drawing.Size(75, 23);
-            this.AudioButton.TabIndex = 21;
-            this.AudioButton.Text = "Audio OK";
-            this.AudioButton.UseVisualStyleBackColor = false;
-            this.AudioButton.Visible = false;
-            this.AudioButton.Click += new System.EventHandler(this.AudioButton_click);
-            // 
             // RAMLabel
             // 
             this.RAMLabel.AutoSize = true;
@@ -285,7 +271,7 @@
             this.PrimeDurationBar.BackColor = System.Drawing.Color.White;
             this.PrimeDurationBar.Location = new System.Drawing.Point(992, 568);
             this.PrimeDurationBar.Maximum = 30;
-            this.PrimeDurationBar.Minimum = 8;
+            this.PrimeDurationBar.Minimum = 1;
             this.PrimeDurationBar.Name = "PrimeDurationBar";
             this.PrimeDurationBar.Size = new System.Drawing.Size(104, 45);
             this.PrimeDurationBar.TabIndex = 24;
@@ -303,18 +289,6 @@
             this.BarDurationLabel.TabIndex = 25;
             this.BarDurationLabel.Text = "30min";
             // 
-            // ManualHeavenButton
-            // 
-            this.ManualHeavenButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.ManualHeavenButton.Location = new System.Drawing.Point(801, 134);
-            this.ManualHeavenButton.Name = "ManualHeavenButton";
-            this.ManualHeavenButton.Size = new System.Drawing.Size(75, 23);
-            this.ManualHeavenButton.TabIndex = 26;
-            this.ManualHeavenButton.Text = "Heaven OK";
-            this.ManualHeavenButton.UseVisualStyleBackColor = false;
-            this.ManualHeavenButton.Visible = false;
-            this.ManualHeavenButton.Click += new System.EventHandler(this.ManualHeavenButton_onClick);
-            // 
             // DMLabel
             // 
             this.DMLabel.AutoSize = true;
@@ -330,9 +304,10 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(71, 597);
+            this.progressBar1.Location = new System.Drawing.Point(70, 597);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(100, 23);
+            this.progressBar1.Size = new System.Drawing.Size(53, 23);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar1.TabIndex = 29;
             // 
             // DMResyncButton
@@ -351,25 +326,33 @@
             this.DMResyncButton.Visible = false;
             this.DMResyncButton.Click += new System.EventHandler(this.DMResync_Click);
             // 
-            // InfoTabel
+            // InfoTable
             // 
-            this.InfoTabel.BackColor = System.Drawing.Color.Transparent;
-            this.InfoTabel.ColumnCount = 2;
-            this.InfoTabel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.InfoTabel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 74F));
-            this.InfoTabel.Controls.Add(this.DMResyncButton, 1, 0);
-            this.InfoTabel.Controls.Add(this.PowerModeLabel, 0, 1);
-            this.InfoTabel.Controls.Add(this.DMLabel, 0, 0);
-            this.InfoTabel.Controls.Add(this.StressTestLabel, 0, 2);
-            this.InfoTabel.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.InfoTabel.Location = new System.Drawing.Point(71, 12);
-            this.InfoTabel.Name = "InfoTabel";
-            this.InfoTabel.RowCount = 3;
-            this.InfoTabel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.InfoTabel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.InfoTabel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.InfoTabel.Size = new System.Drawing.Size(694, 439);
-            this.InfoTabel.TabIndex = 30;
+            this.InfoTable.BackColor = System.Drawing.Color.Transparent;
+            this.InfoTable.ColumnCount = 2;
+            this.InfoTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.InfoTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 74F));
+            this.InfoTable.Controls.Add(this.DMResyncButton, 1, 0);
+            this.InfoTable.Controls.Add(this.PowerModeLabel, 0, 1);
+            this.InfoTable.Controls.Add(this.DMLabel, 0, 0);
+            this.InfoTable.Controls.Add(this.TestLabel1, 0, 2);
+            this.InfoTable.Controls.Add(this.TestLabel3, 0, 4);
+            this.InfoTable.Controls.Add(this.TestLabel4, 0, 5);
+            this.InfoTable.Controls.Add(this.TestLabel5, 0, 6);
+            this.InfoTable.Controls.Add(this.TestLabel2, 0, 3);
+            this.InfoTable.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.InfoTable.Location = new System.Drawing.Point(71, 12);
+            this.InfoTable.Name = "InfoTable";
+            this.InfoTable.RowCount = 7;
+            this.InfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.InfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.InfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.InfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.InfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.InfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.InfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.InfoTable.Size = new System.Drawing.Size(694, 439);
+            this.InfoTable.TabIndex = 30;
             // 
             // PowerModeLabel
             // 
@@ -384,16 +367,16 @@
             this.PowerModeLabel.Text = "Power Mode -> Performance";
             this.PowerModeLabel.Visible = false;
             // 
-            // StressTestLabel
+            // TestLabel1
             // 
-            this.StressTestLabel.AutoSize = true;
-            this.StressTestLabel.BackColor = System.Drawing.Color.Transparent;
-            this.StressTestLabel.Font = new System.Drawing.Font("Architects Daughter", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.StressTestLabel.ForeColor = System.Drawing.Color.White;
-            this.StressTestLabel.Location = new System.Drawing.Point(3, 120);
-            this.StressTestLabel.Name = "StressTestLabel";
-            this.StressTestLabel.Size = new System.Drawing.Size(0, 57);
-            this.StressTestLabel.TabIndex = 30;
+            this.TestLabel1.AutoSize = true;
+            this.TestLabel1.BackColor = System.Drawing.Color.Transparent;
+            this.TestLabel1.Font = new System.Drawing.Font("Architects Daughter", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TestLabel1.ForeColor = System.Drawing.Color.White;
+            this.TestLabel1.Location = new System.Drawing.Point(3, 120);
+            this.TestLabel1.Name = "TestLabel1";
+            this.TestLabel1.Size = new System.Drawing.Size(0, 57);
+            this.TestLabel1.TabIndex = 30;
             // 
             // PwrCheck
             // 
@@ -484,6 +467,142 @@
             this.StressEggs.TabStop = false;
             this.StressEggs.Visible = false;
             // 
+            // TestLabel2
+            // 
+            this.TestLabel2.AutoSize = true;
+            this.TestLabel2.BackColor = System.Drawing.Color.Transparent;
+            this.TestLabel2.Font = new System.Drawing.Font("Architects Daughter", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TestLabel2.ForeColor = System.Drawing.Color.White;
+            this.TestLabel2.Location = new System.Drawing.Point(3, 180);
+            this.TestLabel2.Name = "TestLabel2";
+            this.TestLabel2.Size = new System.Drawing.Size(0, 57);
+            this.TestLabel2.TabIndex = 31;
+            // 
+            // TestLabel3
+            // 
+            this.TestLabel3.AutoSize = true;
+            this.TestLabel3.BackColor = System.Drawing.Color.Transparent;
+            this.TestLabel3.Font = new System.Drawing.Font("Architects Daughter", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TestLabel3.ForeColor = System.Drawing.Color.White;
+            this.TestLabel3.Location = new System.Drawing.Point(3, 240);
+            this.TestLabel3.Name = "TestLabel3";
+            this.TestLabel3.Size = new System.Drawing.Size(0, 57);
+            this.TestLabel3.TabIndex = 32;
+            // 
+            // TestLabel4
+            // 
+            this.TestLabel4.AutoSize = true;
+            this.TestLabel4.BackColor = System.Drawing.Color.Transparent;
+            this.TestLabel4.Font = new System.Drawing.Font("Architects Daughter", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TestLabel4.ForeColor = System.Drawing.Color.White;
+            this.TestLabel4.Location = new System.Drawing.Point(3, 300);
+            this.TestLabel4.Name = "TestLabel4";
+            this.TestLabel4.Size = new System.Drawing.Size(0, 57);
+            this.TestLabel4.TabIndex = 33;
+            // 
+            // TestLabel5
+            // 
+            this.TestLabel5.AutoSize = true;
+            this.TestLabel5.BackColor = System.Drawing.Color.Transparent;
+            this.TestLabel5.Font = new System.Drawing.Font("Architects Daughter", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TestLabel5.ForeColor = System.Drawing.Color.White;
+            this.TestLabel5.Location = new System.Drawing.Point(3, 360);
+            this.TestLabel5.Name = "TestLabel5";
+            this.TestLabel5.Size = new System.Drawing.Size(0, 57);
+            this.TestLabel5.TabIndex = 34;
+            // 
+            // IgnoreTempButton
+            // 
+            this.IgnoreTempButton.BackColor = System.Drawing.Color.Transparent;
+            this.IgnoreTempButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("IgnoreTempButton.BackgroundImage")));
+            this.IgnoreTempButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.IgnoreTempButton.FlatAppearance.BorderSize = 0;
+            this.IgnoreTempButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.IgnoreTempButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.IgnoreTempButton.Font = new System.Drawing.Font("Architects Daughter", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.IgnoreTempButton.ForeColor = System.Drawing.Color.White;
+            this.IgnoreTempButton.Location = new System.Drawing.Point(799, 195);
+            this.IgnoreTempButton.Name = "IgnoreTempButton";
+            this.IgnoreTempButton.Size = new System.Drawing.Size(68, 54);
+            this.IgnoreTempButton.TabIndex = 35;
+            this.IgnoreTempButton.UseVisualStyleBackColor = false;
+            this.IgnoreTempButton.Visible = false;
+            this.IgnoreTempButton.Click += new System.EventHandler(this.IgnoreTemp_Click);
+            // 
+            // HeavenError
+            // 
+            this.HeavenError.BackColor = System.Drawing.Color.Transparent;
+            this.HeavenError.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("HeavenError.BackgroundImage")));
+            this.HeavenError.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.HeavenError.ErrorImage = null;
+            this.HeavenError.Location = new System.Drawing.Point(0, 132);
+            this.HeavenError.Name = "HeavenError";
+            this.HeavenError.Size = new System.Drawing.Size(65, 53);
+            this.HeavenError.TabIndex = 38;
+            this.HeavenError.TabStop = false;
+            this.HeavenError.Visible = false;
+            // 
+            // HeavenIcon
+            // 
+            this.HeavenIcon.BackColor = System.Drawing.Color.Transparent;
+            this.HeavenIcon.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("HeavenIcon.BackgroundImage")));
+            this.HeavenIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.HeavenIcon.ErrorImage = null;
+            this.HeavenIcon.Location = new System.Drawing.Point(0, 132);
+            this.HeavenIcon.Name = "HeavenIcon";
+            this.HeavenIcon.Size = new System.Drawing.Size(65, 53);
+            this.HeavenIcon.TabIndex = 39;
+            this.HeavenIcon.TabStop = false;
+            this.HeavenIcon.Visible = false;
+            // 
+            // ManualHeavenButton
+            // 
+            this.ManualHeavenButton.BackColor = System.Drawing.Color.Transparent;
+            this.ManualHeavenButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ManualHeavenButton.BackgroundImage")));
+            this.ManualHeavenButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.ManualHeavenButton.FlatAppearance.BorderSize = 0;
+            this.ManualHeavenButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.ManualHeavenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ManualHeavenButton.Font = new System.Drawing.Font("Architects Daughter", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ManualHeavenButton.ForeColor = System.Drawing.Color.White;
+            this.ManualHeavenButton.Location = new System.Drawing.Point(799, 269);
+            this.ManualHeavenButton.Name = "ManualHeavenButton";
+            this.ManualHeavenButton.Size = new System.Drawing.Size(68, 54);
+            this.ManualHeavenButton.TabIndex = 36;
+            this.ManualHeavenButton.UseVisualStyleBackColor = false;
+            this.ManualHeavenButton.Visible = false;
+            this.ManualHeavenButton.Click += new System.EventHandler(this.ManualHeavenButton_onClick);
+            // 
+            // AudioButton
+            // 
+            this.AudioButton.BackColor = System.Drawing.Color.Transparent;
+            this.AudioButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("AudioButton.BackgroundImage")));
+            this.AudioButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.AudioButton.FlatAppearance.BorderSize = 0;
+            this.AudioButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.AudioButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AudioButton.Font = new System.Drawing.Font("Architects Daughter", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AudioButton.ForeColor = System.Drawing.Color.White;
+            this.AudioButton.Location = new System.Drawing.Point(812, 352);
+            this.AudioButton.Name = "AudioButton";
+            this.AudioButton.Size = new System.Drawing.Size(68, 54);
+            this.AudioButton.TabIndex = 40;
+            this.AudioButton.UseVisualStyleBackColor = false;
+            this.AudioButton.Visible = false;
+            this.AudioButton.Click += new System.EventHandler(this.AudioButton_click);
+            // 
+            // AudioCheck
+            // 
+            this.AudioCheck.BackColor = System.Drawing.Color.Transparent;
+            this.AudioCheck.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("AudioCheck.BackgroundImage")));
+            this.AudioCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.AudioCheck.Location = new System.Drawing.Point(0, 68);
+            this.AudioCheck.Name = "AudioCheck";
+            this.AudioCheck.Size = new System.Drawing.Size(65, 53);
+            this.AudioCheck.TabIndex = 41;
+            this.AudioCheck.TabStop = false;
+            this.AudioCheck.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -492,22 +611,25 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.AudioCheck);
+            this.Controls.Add(this.AudioButton);
+            this.Controls.Add(this.HeavenIcon);
+            this.Controls.Add(this.HeavenError);
             this.Controls.Add(this.StressEggs);
             this.Controls.Add(this.OverheatingFlame);
             this.Controls.Add(this.StressError);
             this.Controls.Add(this.StressCheck);
             this.Controls.Add(this.DMError);
             this.Controls.Add(this.DMCheck);
-            this.Controls.Add(this.InfoTabel);
+            this.Controls.Add(this.ManualHeavenButton);
+            this.Controls.Add(this.IgnoreTempButton);
+            this.Controls.Add(this.InfoTable);
             this.Controls.Add(this.PwrCheck);
             this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.ManualHeavenButton);
             this.Controls.Add(this.BarDurationLabel);
             this.Controls.Add(this.PrimeDurationBar);
             this.Controls.Add(this.PhaseLabel);
-            this.Controls.Add(this.IgnoreTemp);
             this.Controls.Add(this.RAMLabel);
-            this.Controls.Add(this.AudioButton);
             this.Controls.Add(this.RestartQCButton);
             this.Controls.Add(this.QCButton);
             this.Controls.Add(this.TestDurationLabel);
@@ -530,8 +652,8 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Loaded);
             ((System.ComponentModel.ISupportInitialize)(this.PrimeDurationBar)).EndInit();
-            this.InfoTabel.ResumeLayout(false);
-            this.InfoTabel.PerformLayout();
+            this.InfoTable.ResumeLayout(false);
+            this.InfoTable.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PwrCheck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DMCheck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DMError)).EndInit();
@@ -539,6 +661,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.StressError)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.OverheatingFlame)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.StressEggs)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HeavenError)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.HeavenIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AudioCheck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -549,7 +674,6 @@
         private System.Windows.Forms.Label CPUSpeed;
         private System.Windows.Forms.Label CPUTemp;
         private System.Windows.Forms.Label CPUPwr;
-        private System.Windows.Forms.Button IgnoreTemp;
         private System.Windows.Forms.Label WUP;
         private System.Windows.Forms.Label GPULabel;
         private System.Windows.Forms.Label GPUTempValue;
@@ -560,25 +684,33 @@
         private System.Windows.Forms.Label TestDurationLabel;
         private System.Windows.Forms.Button QCButton;
         private System.Windows.Forms.Button RestartQCButton;
-        private System.Windows.Forms.Button AudioButton;
         private System.Windows.Forms.Label RAMLabel;
         private System.Windows.Forms.Label PhaseLabel;
         private System.Windows.Forms.TrackBar PrimeDurationBar;
         private System.Windows.Forms.Label BarDurationLabel;
-        private System.Windows.Forms.Button ManualHeavenButton;
         private System.Windows.Forms.Label DMLabel;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button DMResyncButton;
-        private System.Windows.Forms.TableLayoutPanel InfoTabel;
+        private System.Windows.Forms.TableLayoutPanel InfoTable;
         private System.Windows.Forms.Label PowerModeLabel;
         private System.Windows.Forms.PictureBox PwrCheck;
         private System.Windows.Forms.PictureBox DMCheck;
         private System.Windows.Forms.PictureBox DMError;
-        private System.Windows.Forms.Label StressTestLabel;
+        private System.Windows.Forms.Label TestLabel1;
         private System.Windows.Forms.PictureBox StressCheck;
         private System.Windows.Forms.PictureBox StressError;
         private System.Windows.Forms.PictureBox OverheatingFlame;
         private System.Windows.Forms.PictureBox StressEggs;
+        private System.Windows.Forms.Label TestLabel2;
+        private System.Windows.Forms.Label TestLabel3;
+        private System.Windows.Forms.Label TestLabel4;
+        private System.Windows.Forms.Label TestLabel5;
+        private System.Windows.Forms.Button IgnoreTempButton;
+        private System.Windows.Forms.PictureBox HeavenError;
+        private System.Windows.Forms.PictureBox HeavenIcon;
+        private System.Windows.Forms.Button ManualHeavenButton;
+        private System.Windows.Forms.Button AudioButton;
+        private System.Windows.Forms.PictureBox AudioCheck;
     }
 }
 

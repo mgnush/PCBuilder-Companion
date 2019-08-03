@@ -3,8 +3,8 @@
  * 
  * @Author  Magnus Hjorth
  * 
- * File Description: This class holds all static methods needed to convert user-specified RGB software
- * to options in the GUI, download and install software.
+ * File Description: This class holds all static methods needed to convert user-specified Software
+ * to options in the GUI, downloading and installing software.
  */
 
 using System;
@@ -66,6 +66,10 @@ namespace Builder_Companion
         /// <returns>Null if successful, otherwise error message.</returns>
         public static void InstallSelectedSoftware(CheckedListBox.CheckedIndexCollection indeces)
         {
+            if (indeces.Count == 0)
+            {
+                return;
+            }
             PullSoftware(indeces);
 
             string scriptPath = "";
