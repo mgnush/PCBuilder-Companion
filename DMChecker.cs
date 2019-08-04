@@ -114,16 +114,16 @@ namespace Builder_Companion
             return devices;
         }
 
-        public static string GetRAMDescription()
+        public static void GetRAMDescription(ref int size, ref int speed)
         {
             ManagementObjectSearcher objSearcher = new ManagementObjectSearcher("Select * from Win32_PhysicalMemory");
 
             ManagementObjectCollection objectCollection = objSearcher.Get();
 
-            string description = "";
+            //string description = "";
             int totalCapacity = 0;
             long capacity = 0;
-            int speed = 0;
+            speed = 0;
 
             foreach (ManagementObject obj in objectCollection)
             {
@@ -135,10 +135,9 @@ namespace Builder_Companion
                 {
                     speed *= 2;   // On AMD systems, the reported speed is half the actual setting
                 }
-                description= String.Format("{0}GB @{1}MHz", totalCapacity, obj["ConfiguredClockSpeed"]);
+                //description= String.Format("{0}GB @{1}MHz", totalCapacity, obj["ConfiguredClockSpeed"]);                
             }
-
-            return description;
+            size = totalCapacity;
         }
     }
 

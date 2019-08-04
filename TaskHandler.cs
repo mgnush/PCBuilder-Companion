@@ -6,19 +6,17 @@
  * File Description: This class manages all asynchronous stress testing methods
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using System.Threading.Tasks;
-using System.Security.Permissions;
-using System.IO;
+using System.Timers;
 using System.Diagnostics;
 
 namespace Builder_Companion
 {
     public static class TaskHandler
     {
+        public static Stopwatch stopwatch;
+
         /// <summary>
         /// Runs Prime95 and FurMark for a specified duration. If Prime fails before both has finished,
         /// Both programs are terminated.
@@ -35,6 +33,8 @@ namespace Builder_Companion
             await Task.Delay(2000);
 
             Task<bool> primeTask = PrimeHandler.RunPrime(durationMin);
+            stopwatch = new Stopwatch();
+            stopwatch.Start();
 
             await Task.WhenAll(primeTask);
             if (!primeTask.Result )
@@ -42,6 +42,8 @@ namespace Builder_Companion
                 furmark.CloseMainWindow();
                 furmark.Close();
             }
+
+            stopwatch.Stop();
 
             return primeTask.Result;
         }

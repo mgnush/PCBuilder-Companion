@@ -287,6 +287,13 @@ namespace Builder_Companion
         {
             return WUP.Text;
         }
+
+        public void IncrementStatusbar()
+        {
+            UpdatingBar.PerformStep();
+            Properties.Settings.Default.UpdatingProgress = UpdatingBar.Value;
+            Properties.Settings.Default.Save();
+        }
         #endregion <------- Notification Methods ------->
 
 
@@ -401,6 +408,7 @@ namespace Builder_Companion
             public void Invoke (IInstallationJob iIJob, IInstallationCompletedCallbackArgs e)
             {
                 _form.InstallationComplete();
+                _form.IncrementStatusbar();
             }
         }
 

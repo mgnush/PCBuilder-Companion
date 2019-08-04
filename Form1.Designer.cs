@@ -36,23 +36,25 @@
             this.WUP = new System.Windows.Forms.Label();
             this.GPULabel = new System.Windows.Forms.Label();
             this.GPUTempValue = new System.Windows.Forms.Label();
-            this.GPUDriverLabel = new System.Windows.Forms.Label();
             this.RGBList = new System.Windows.Forms.CheckedListBox();
-            this.RGBLabel = new System.Windows.Forms.RichTextBox();
             this.StartButton = new System.Windows.Forms.Button();
             this.TestDurationLabel = new System.Windows.Forms.Label();
             this.QCButton = new System.Windows.Forms.Button();
             this.RestartQCButton = new System.Windows.Forms.Button();
-            this.RAMLabel = new System.Windows.Forms.Label();
-            this.PhaseLabel = new System.Windows.Forms.Label();
+            this.RAMSize = new System.Windows.Forms.Label();
             this.PrimeDurationBar = new System.Windows.Forms.TrackBar();
             this.BarDurationLabel = new System.Windows.Forms.Label();
             this.DMLabel = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.StressBar = new System.Windows.Forms.ProgressBar();
             this.DMResyncButton = new System.Windows.Forms.Button();
             this.InfoTable = new System.Windows.Forms.TableLayoutPanel();
             this.PowerModeLabel = new System.Windows.Forms.Label();
             this.TestLabel1 = new System.Windows.Forms.Label();
+            this.TestLabel3 = new System.Windows.Forms.Label();
+            this.TestLabel4 = new System.Windows.Forms.Label();
+            this.TestLabel5 = new System.Windows.Forms.Label();
+            this.TestLabel2 = new System.Windows.Forms.Label();
+            this.TestLabel6 = new System.Windows.Forms.Label();
             this.PwrCheck = new System.Windows.Forms.PictureBox();
             this.DMCheck = new System.Windows.Forms.PictureBox();
             this.DMError = new System.Windows.Forms.PictureBox();
@@ -60,16 +62,30 @@
             this.StressError = new System.Windows.Forms.PictureBox();
             this.OverheatingFlame = new System.Windows.Forms.PictureBox();
             this.StressEggs = new System.Windows.Forms.PictureBox();
-            this.TestLabel2 = new System.Windows.Forms.Label();
-            this.TestLabel3 = new System.Windows.Forms.Label();
-            this.TestLabel4 = new System.Windows.Forms.Label();
-            this.TestLabel5 = new System.Windows.Forms.Label();
             this.IgnoreTempButton = new System.Windows.Forms.Button();
             this.HeavenError = new System.Windows.Forms.PictureBox();
             this.HeavenIcon = new System.Windows.Forms.PictureBox();
             this.ManualHeavenButton = new System.Windows.Forms.Button();
             this.AudioButton = new System.Windows.Forms.Button();
             this.AudioCheck = new System.Windows.Forms.PictureBox();
+            this.RGBButton = new System.Windows.Forms.Button();
+            this.CPULogo = new System.Windows.Forms.PictureBox();
+            this.SpeedLogo = new System.Windows.Forms.PictureBox();
+            this.PwrLogo = new System.Windows.Forms.PictureBox();
+            this.TempLogo = new System.Windows.Forms.PictureBox();
+            this.GPULogo = new System.Windows.Forms.PictureBox();
+            this.RAMLogo = new System.Windows.Forms.PictureBox();
+            this.RAMSpeed = new System.Windows.Forms.Label();
+            this.SoftwareLabel = new System.Windows.Forms.Label();
+            this.UpdatingBar = new System.Windows.Forms.ProgressBar();
+            this.BenchmarkBar = new System.Windows.Forms.ProgressBar();
+            this.QCReadyBar = new System.Windows.Forms.ProgressBar();
+            this.StressTestLabel = new System.Windows.Forms.Label();
+            this.BenchmarkLabel = new System.Windows.Forms.Label();
+            this.UpdatingLabel = new System.Windows.Forms.Label();
+            this.QCReadyLabel = new System.Windows.Forms.Label();
+            this.RGBCheck = new System.Windows.Forms.PictureBox();
+            this.SoftwareStatusLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PrimeDurationBar)).BeginInit();
             this.InfoTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PwrCheck)).BeginInit();
@@ -82,55 +98,72 @@
             ((System.ComponentModel.ISupportInitialize)(this.HeavenError)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.HeavenIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AudioCheck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CPULogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SpeedLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PwrLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TempLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GPULogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RAMLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RGBCheck)).BeginInit();
             this.SuspendLayout();
             // 
             // CPUMonitor
             // 
             this.CPUMonitor.AutoSize = true;
-            this.CPUMonitor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CPUMonitor.Location = new System.Drawing.Point(1029, 9);
+            this.CPUMonitor.BackColor = System.Drawing.Color.Transparent;
+            this.CPUMonitor.Font = new System.Drawing.Font("Architects Daughter", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CPUMonitor.ForeColor = System.Drawing.Color.White;
+            this.CPUMonitor.Location = new System.Drawing.Point(860, 77);
             this.CPUMonitor.Name = "CPUMonitor";
-            this.CPUMonitor.Size = new System.Drawing.Size(195, 20);
+            this.CPUMonitor.Size = new System.Drawing.Size(50, 26);
             this.CPUMonitor.TabIndex = 2;
-            this.CPUMonitor.Text = "CPU Monitor (Max Values)";
+            this.CPUMonitor.Text = "CPU";
             // 
             // CPUSpeed
             // 
             this.CPUSpeed.AutoSize = true;
-            this.CPUSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CPUSpeed.Location = new System.Drawing.Point(1020, 38);
+            this.CPUSpeed.BackColor = System.Drawing.Color.Transparent;
+            this.CPUSpeed.Font = new System.Drawing.Font("Architects Daughter", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CPUSpeed.ForeColor = System.Drawing.Color.White;
+            this.CPUSpeed.Location = new System.Drawing.Point(1020, 77);
             this.CPUSpeed.Name = "CPUSpeed";
-            this.CPUSpeed.Size = new System.Drawing.Size(49, 17);
+            this.CPUSpeed.Size = new System.Drawing.Size(0, 26);
             this.CPUSpeed.TabIndex = 3;
-            this.CPUSpeed.Text = "Speed";
             // 
             // CPUTemp
             // 
             this.CPUTemp.AutoSize = true;
-            this.CPUTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CPUTemp.Location = new System.Drawing.Point(1090, 38);
+            this.CPUTemp.BackColor = System.Drawing.Color.Transparent;
+            this.CPUTemp.Font = new System.Drawing.Font("Architects Daughter", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CPUTemp.ForeColor = System.Drawing.Color.White;
+            this.CPUTemp.Location = new System.Drawing.Point(1211, 77);
             this.CPUTemp.Name = "CPUTemp";
-            this.CPUTemp.Size = new System.Drawing.Size(44, 17);
+            this.CPUTemp.Size = new System.Drawing.Size(0, 26);
             this.CPUTemp.TabIndex = 4;
-            this.CPUTemp.Text = "Temp";
             // 
             // CPUPwr
             // 
             this.CPUPwr.AutoSize = true;
-            this.CPUPwr.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CPUPwr.Location = new System.Drawing.Point(1140, 38);
+            this.CPUPwr.BackColor = System.Drawing.Color.Transparent;
+            this.CPUPwr.Font = new System.Drawing.Font("Architects Daughter", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CPUPwr.ForeColor = System.Drawing.Color.White;
+            this.CPUPwr.Location = new System.Drawing.Point(1132, 77);
             this.CPUPwr.Name = "CPUPwr";
-            this.CPUPwr.Size = new System.Drawing.Size(47, 17);
+            this.CPUPwr.Size = new System.Drawing.Size(0, 26);
             this.CPUPwr.TabIndex = 5;
-            this.CPUPwr.Text = "Power";
             // 
             // WUP
             // 
+            this.WUP.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.WUP.AutoSize = true;
-            this.WUP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.WUP.Location = new System.Drawing.Point(554, 616);
+            this.WUP.BackColor = System.Drawing.Color.Transparent;
+            this.WUP.Font = new System.Drawing.Font("Architects Daughter", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.WUP.ForeColor = System.Drawing.Color.White;
+            this.WUP.Location = new System.Drawing.Point(531, 640);
             this.WUP.Name = "WUP";
-            this.WUP.Size = new System.Drawing.Size(135, 20);
+            this.WUP.Size = new System.Drawing.Size(185, 32);
             this.WUP.TabIndex = 8;
             this.WUP.Text = "Windows Update";
             this.WUP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -138,82 +171,71 @@
             // GPULabel
             // 
             this.GPULabel.AutoSize = true;
-            this.GPULabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.GPULabel.Location = new System.Drawing.Point(1075, 80);
+            this.GPULabel.BackColor = System.Drawing.Color.Transparent;
+            this.GPULabel.Font = new System.Drawing.Font("Architects Daughter", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GPULabel.ForeColor = System.Drawing.Color.White;
+            this.GPULabel.Location = new System.Drawing.Point(860, 132);
             this.GPULabel.Name = "GPULabel";
-            this.GPULabel.Size = new System.Drawing.Size(121, 17);
+            this.GPULabel.Size = new System.Drawing.Size(50, 26);
             this.GPULabel.TabIndex = 9;
-            this.GPULabel.Text = "GPU Temp (Max):";
+            this.GPULabel.Text = "GPU";
             // 
             // GPUTempValue
             // 
             this.GPUTempValue.AutoSize = true;
-            this.GPUTempValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.GPUTempValue.Location = new System.Drawing.Point(1202, 74);
+            this.GPUTempValue.BackColor = System.Drawing.Color.Transparent;
+            this.GPUTempValue.Font = new System.Drawing.Font("Architects Daughter", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GPUTempValue.ForeColor = System.Drawing.Color.White;
+            this.GPUTempValue.Location = new System.Drawing.Point(1211, 132);
             this.GPUTempValue.Name = "GPUTempValue";
-            this.GPUTempValue.Size = new System.Drawing.Size(22, 17);
+            this.GPUTempValue.Size = new System.Drawing.Size(0, 26);
             this.GPUTempValue.TabIndex = 10;
-            this.GPUTempValue.Text = "0°";
-            // 
-            // GPUDriverLabel
-            // 
-            this.GPUDriverLabel.AutoSize = true;
-            this.GPUDriverLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GPUDriverLabel.Location = new System.Drawing.Point(716, 96);
-            this.GPUDriverLabel.Name = "GPUDriverLabel";
-            this.GPUDriverLabel.Size = new System.Drawing.Size(0, 16);
-            this.GPUDriverLabel.TabIndex = 11;
             // 
             // RGBList
             // 
-            this.RGBList.BackColor = System.Drawing.SystemColors.Control;
+            this.RGBList.BackColor = System.Drawing.SystemColors.HotTrack;
             this.RGBList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.RGBList.CheckOnClick = true;
+            this.RGBList.Font = new System.Drawing.Font("Architects Daughter", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RGBList.ForeColor = System.Drawing.Color.White;
             this.RGBList.FormattingEnabled = true;
             this.RGBList.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.RGBList.Location = new System.Drawing.Point(992, 212);
+            this.RGBList.Location = new System.Drawing.Point(962, 298);
             this.RGBList.Name = "RGBList";
-            this.RGBList.Size = new System.Drawing.Size(204, 165);
+            this.RGBList.Size = new System.Drawing.Size(290, 276);
             this.RGBList.TabIndex = 13;
-            this.RGBList.SelectedIndexChanged += new System.EventHandler(this.RGBList_SelectedIndexChanged);
-            // 
-            // RGBLabel
-            // 
-            this.RGBLabel.BackColor = System.Drawing.SystemColors.Control;
-            this.RGBLabel.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.RGBLabel.Cursor = System.Windows.Forms.Cursors.Default;
-            this.RGBLabel.Enabled = false;
-            this.RGBLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RGBLabel.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.RGBLabel.Location = new System.Drawing.Point(992, 177);
-            this.RGBLabel.Name = "RGBLabel";
-            this.RGBLabel.ReadOnly = true;
-            this.RGBLabel.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.RGBLabel.Size = new System.Drawing.Size(153, 29);
-            this.RGBLabel.TabIndex = 15;
-            this.RGBLabel.TabStop = false;
-            this.RGBLabel.Text = "";
+            this.RGBList.ThreeDCheckBoxes = true;
             // 
             // StartButton
             // 
-            this.StartButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.StartButton.BackColor = System.Drawing.Color.Transparent;
+            this.StartButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("StartButton.BackgroundImage")));
+            this.StartButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.StartButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.StartButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.StartButton.Location = new System.Drawing.Point(921, 443);
+            this.StartButton.FlatAppearance.BorderSize = 0;
+            this.StartButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.StartButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.StartButton.Font = new System.Drawing.Font("Architects Daughter", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.StartButton.ForeColor = System.Drawing.Color.White;
+            this.StartButton.Location = new System.Drawing.Point(1083, 591);
             this.StartButton.Name = "StartButton";
-            this.StartButton.Size = new System.Drawing.Size(113, 48);
+            this.StartButton.Size = new System.Drawing.Size(169, 89);
             this.StartButton.TabIndex = 16;
-            this.StartButton.Text = "START";
+            this.StartButton.Text = "Start";
             this.StartButton.UseVisualStyleBackColor = false;
             this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
+            this.StartButton.MouseEnter += new System.EventHandler(this.StartButton_MouseEnter);
+            this.StartButton.MouseLeave += new System.EventHandler(this.StartButton_MouseLeave);
             // 
             // TestDurationLabel
             // 
             this.TestDurationLabel.AutoSize = true;
-            this.TestDurationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TestDurationLabel.Location = new System.Drawing.Point(1000, 549);
+            this.TestDurationLabel.BackColor = System.Drawing.Color.Transparent;
+            this.TestDurationLabel.Font = new System.Drawing.Font("Architects Daughter", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TestDurationLabel.ForeColor = System.Drawing.Color.White;
+            this.TestDurationLabel.Location = new System.Drawing.Point(958, 662);
             this.TestDurationLabel.Name = "TestDurationLabel";
-            this.TestDurationLabel.Size = new System.Drawing.Size(96, 16);
+            this.TestDurationLabel.Size = new System.Drawing.Size(119, 22);
             this.TestDurationLabel.TabIndex = 18;
             this.TestDurationLabel.Text = "Prime Duration";
             // 
@@ -222,7 +244,7 @@
             this.QCButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.QCButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.QCButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.QCButton.Location = new System.Drawing.Point(841, 531);
+            this.QCButton.Location = new System.Drawing.Point(802, 544);
             this.QCButton.Name = "QCButton";
             this.QCButton.Size = new System.Drawing.Size(113, 48);
             this.QCButton.TabIndex = 19;
@@ -233,47 +255,46 @@
             // 
             // RestartQCButton
             // 
-            this.RestartQCButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.RestartQCButton.BackColor = System.Drawing.Color.Transparent;
+            this.RestartQCButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("RestartQCButton.BackgroundImage")));
+            this.RestartQCButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.RestartQCButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.RestartQCButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RestartQCButton.Location = new System.Drawing.Point(1078, 443);
+            this.RestartQCButton.FlatAppearance.BorderSize = 0;
+            this.RestartQCButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.RestartQCButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.RestartQCButton.Font = new System.Drawing.Font("Architects Daughter", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RestartQCButton.ForeColor = System.Drawing.Color.White;
+            this.RestartQCButton.Location = new System.Drawing.Point(1083, 591);
             this.RestartQCButton.Name = "RestartQCButton";
-            this.RestartQCButton.Size = new System.Drawing.Size(113, 48);
+            this.RestartQCButton.Size = new System.Drawing.Size(169, 86);
             this.RestartQCButton.TabIndex = 20;
             this.RestartQCButton.Text = "Restart (QC)";
             this.RestartQCButton.UseVisualStyleBackColor = false;
             this.RestartQCButton.Visible = false;
             this.RestartQCButton.Click += new System.EventHandler(this.RestartQCButton_Click);
+            this.RestartQCButton.MouseEnter += new System.EventHandler(this.RestartQCButton_Enter);
+            this.RestartQCButton.MouseLeave += new System.EventHandler(this.RestartQCButton_MouseLeave);
             // 
-            // RAMLabel
+            // RAMSize
             // 
-            this.RAMLabel.AutoSize = true;
-            this.RAMLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.RAMLabel.Location = new System.Drawing.Point(1140, 123);
-            this.RAMLabel.Name = "RAMLabel";
-            this.RAMLabel.Size = new System.Drawing.Size(38, 17);
-            this.RAMLabel.TabIndex = 22;
-            this.RAMLabel.Text = "RAM";
-            // 
-            // PhaseLabel
-            // 
-            this.PhaseLabel.AutoSize = true;
-            this.PhaseLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PhaseLabel.Location = new System.Drawing.Point(67, 652);
-            this.PhaseLabel.Name = "PhaseLabel";
-            this.PhaseLabel.Size = new System.Drawing.Size(56, 20);
-            this.PhaseLabel.TabIndex = 23;
-            this.PhaseLabel.Text = "Phase";
-            this.PhaseLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.RAMSize.AutoSize = true;
+            this.RAMSize.BackColor = System.Drawing.Color.Transparent;
+            this.RAMSize.Font = new System.Drawing.Font("Architects Daughter", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RAMSize.ForeColor = System.Drawing.Color.White;
+            this.RAMSize.Location = new System.Drawing.Point(860, 181);
+            this.RAMSize.Name = "RAMSize";
+            this.RAMSize.Size = new System.Drawing.Size(54, 26);
+            this.RAMSize.TabIndex = 22;
+            this.RAMSize.Text = "RAM";
             // 
             // PrimeDurationBar
             // 
-            this.PrimeDurationBar.BackColor = System.Drawing.Color.White;
-            this.PrimeDurationBar.Location = new System.Drawing.Point(992, 568);
+            this.PrimeDurationBar.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.PrimeDurationBar.Location = new System.Drawing.Point(962, 616);
             this.PrimeDurationBar.Maximum = 30;
-            this.PrimeDurationBar.Minimum = 1;
+            this.PrimeDurationBar.Minimum = 8;
             this.PrimeDurationBar.Name = "PrimeDurationBar";
-            this.PrimeDurationBar.Size = new System.Drawing.Size(104, 45);
+            this.PrimeDurationBar.Size = new System.Drawing.Size(107, 45);
             this.PrimeDurationBar.TabIndex = 24;
             this.PrimeDurationBar.Value = 30;
             this.PrimeDurationBar.ValueChanged += new System.EventHandler(this.PrimeDurationBar_onChanged);
@@ -281,11 +302,12 @@
             // BarDurationLabel
             // 
             this.BarDurationLabel.AutoSize = true;
-            this.BarDurationLabel.BackColor = System.Drawing.Color.White;
-            this.BarDurationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BarDurationLabel.Location = new System.Drawing.Point(1020, 597);
+            this.BarDurationLabel.BackColor = System.Drawing.Color.Transparent;
+            this.BarDurationLabel.Font = new System.Drawing.Font("Architects Daughter", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BarDurationLabel.ForeColor = System.Drawing.Color.White;
+            this.BarDurationLabel.Location = new System.Drawing.Point(990, 591);
             this.BarDurationLabel.Name = "BarDurationLabel";
-            this.BarDurationLabel.Size = new System.Drawing.Size(43, 16);
+            this.BarDurationLabel.Size = new System.Drawing.Size(51, 22);
             this.BarDurationLabel.TabIndex = 25;
             this.BarDurationLabel.Text = "30min";
             // 
@@ -302,20 +324,24 @@
             this.DMLabel.Text = "Device Manager OK";
             this.DMLabel.Visible = false;
             // 
-            // progressBar1
+            // StressBar
             // 
-            this.progressBar1.Location = new System.Drawing.Point(70, 597);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(53, 23);
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBar1.TabIndex = 29;
+            this.StressBar.BackColor = System.Drawing.Color.White;
+            this.StressBar.Location = new System.Drawing.Point(66, 598);
+            this.StressBar.Name = "StressBar";
+            this.StressBar.Size = new System.Drawing.Size(110, 23);
+            this.StressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.StressBar.TabIndex = 29;
             // 
             // DMResyncButton
             // 
             this.DMResyncButton.BackColor = System.Drawing.Color.Transparent;
-            this.DMResyncButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DMResyncButton.BackgroundImage")));
+            this.DMResyncButton.BackgroundImage = global::Builder_Companion.Properties.Resources.resync;
             this.DMResyncButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.DMResyncButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.DMResyncButton.FlatAppearance.BorderSize = 0;
+            this.DMResyncButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.DMResyncButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.DMResyncButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DMResyncButton.Font = new System.Drawing.Font("Architects Daughter", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DMResyncButton.ForeColor = System.Drawing.Color.White;
             this.DMResyncButton.Location = new System.Drawing.Point(623, 3);
@@ -325,6 +351,8 @@
             this.DMResyncButton.UseVisualStyleBackColor = false;
             this.DMResyncButton.Visible = false;
             this.DMResyncButton.Click += new System.EventHandler(this.DMResync_Click);
+            this.DMResyncButton.MouseEnter += new System.EventHandler(this.DMResyncButton_MouseEnter);
+            this.DMResyncButton.MouseLeave += new System.EventHandler(this.DMResyncButton_MouseLeave);
             // 
             // InfoTable
             // 
@@ -340,10 +368,11 @@
             this.InfoTable.Controls.Add(this.TestLabel4, 0, 5);
             this.InfoTable.Controls.Add(this.TestLabel5, 0, 6);
             this.InfoTable.Controls.Add(this.TestLabel2, 0, 3);
+            this.InfoTable.Controls.Add(this.TestLabel6, 0, 7);
             this.InfoTable.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
             this.InfoTable.Location = new System.Drawing.Point(71, 12);
             this.InfoTable.Name = "InfoTable";
-            this.InfoTable.RowCount = 7;
+            this.InfoTable.RowCount = 8;
             this.InfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.InfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.InfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
@@ -351,7 +380,8 @@
             this.InfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.InfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.InfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.InfoTable.Size = new System.Drawing.Size(694, 439);
+            this.InfoTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.InfoTable.Size = new System.Drawing.Size(694, 483);
             this.InfoTable.TabIndex = 30;
             // 
             // PowerModeLabel
@@ -377,106 +407,6 @@
             this.TestLabel1.Name = "TestLabel1";
             this.TestLabel1.Size = new System.Drawing.Size(0, 57);
             this.TestLabel1.TabIndex = 30;
-            // 
-            // PwrCheck
-            // 
-            this.PwrCheck.BackColor = System.Drawing.Color.Transparent;
-            this.PwrCheck.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PwrCheck.BackgroundImage")));
-            this.PwrCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.PwrCheck.Location = new System.Drawing.Point(3, 68);
-            this.PwrCheck.Name = "PwrCheck";
-            this.PwrCheck.Size = new System.Drawing.Size(65, 53);
-            this.PwrCheck.TabIndex = 30;
-            this.PwrCheck.TabStop = false;
-            this.PwrCheck.Visible = false;
-            // 
-            // DMCheck
-            // 
-            this.DMCheck.BackColor = System.Drawing.Color.Transparent;
-            this.DMCheck.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DMCheck.BackgroundImage")));
-            this.DMCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.DMCheck.ErrorImage = null;
-            this.DMCheck.Location = new System.Drawing.Point(3, 9);
-            this.DMCheck.Name = "DMCheck";
-            this.DMCheck.Size = new System.Drawing.Size(65, 53);
-            this.DMCheck.TabIndex = 32;
-            this.DMCheck.TabStop = false;
-            this.DMCheck.Visible = false;
-            // 
-            // DMError
-            // 
-            this.DMError.BackColor = System.Drawing.Color.Transparent;
-            this.DMError.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DMError.BackgroundImage")));
-            this.DMError.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.DMError.ErrorImage = null;
-            this.DMError.Location = new System.Drawing.Point(3, 9);
-            this.DMError.Name = "DMError";
-            this.DMError.Size = new System.Drawing.Size(65, 53);
-            this.DMError.TabIndex = 33;
-            this.DMError.TabStop = false;
-            this.DMError.Visible = false;
-            // 
-            // StressCheck
-            // 
-            this.StressCheck.BackColor = System.Drawing.Color.Transparent;
-            this.StressCheck.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("StressCheck.BackgroundImage")));
-            this.StressCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.StressCheck.Location = new System.Drawing.Point(3, 132);
-            this.StressCheck.Name = "StressCheck";
-            this.StressCheck.Size = new System.Drawing.Size(65, 53);
-            this.StressCheck.TabIndex = 34;
-            this.StressCheck.TabStop = false;
-            this.StressCheck.Visible = false;
-            // 
-            // StressError
-            // 
-            this.StressError.BackColor = System.Drawing.Color.Transparent;
-            this.StressError.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("StressError.BackgroundImage")));
-            this.StressError.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.StressError.ErrorImage = null;
-            this.StressError.Location = new System.Drawing.Point(3, 132);
-            this.StressError.Name = "StressError";
-            this.StressError.Size = new System.Drawing.Size(65, 53);
-            this.StressError.TabIndex = 35;
-            this.StressError.TabStop = false;
-            this.StressError.Visible = false;
-            // 
-            // OverheatingFlame
-            // 
-            this.OverheatingFlame.BackColor = System.Drawing.Color.Transparent;
-            this.OverheatingFlame.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("OverheatingFlame.BackgroundImage")));
-            this.OverheatingFlame.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.OverheatingFlame.ErrorImage = null;
-            this.OverheatingFlame.Location = new System.Drawing.Point(3, 134);
-            this.OverheatingFlame.Name = "OverheatingFlame";
-            this.OverheatingFlame.Size = new System.Drawing.Size(65, 53);
-            this.OverheatingFlame.TabIndex = 36;
-            this.OverheatingFlame.TabStop = false;
-            this.OverheatingFlame.Visible = false;
-            // 
-            // StressEggs
-            // 
-            this.StressEggs.BackColor = System.Drawing.Color.Transparent;
-            this.StressEggs.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("StressEggs.BackgroundImage")));
-            this.StressEggs.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.StressEggs.ErrorImage = null;
-            this.StressEggs.Location = new System.Drawing.Point(0, 132);
-            this.StressEggs.Name = "StressEggs";
-            this.StressEggs.Size = new System.Drawing.Size(65, 53);
-            this.StressEggs.TabIndex = 37;
-            this.StressEggs.TabStop = false;
-            this.StressEggs.Visible = false;
-            // 
-            // TestLabel2
-            // 
-            this.TestLabel2.AutoSize = true;
-            this.TestLabel2.BackColor = System.Drawing.Color.Transparent;
-            this.TestLabel2.Font = new System.Drawing.Font("Architects Daughter", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TestLabel2.ForeColor = System.Drawing.Color.White;
-            this.TestLabel2.Location = new System.Drawing.Point(3, 180);
-            this.TestLabel2.Name = "TestLabel2";
-            this.TestLabel2.Size = new System.Drawing.Size(0, 57);
-            this.TestLabel2.TabIndex = 31;
             // 
             // TestLabel3
             // 
@@ -511,6 +441,118 @@
             this.TestLabel5.Size = new System.Drawing.Size(0, 57);
             this.TestLabel5.TabIndex = 34;
             // 
+            // TestLabel2
+            // 
+            this.TestLabel2.AutoSize = true;
+            this.TestLabel2.BackColor = System.Drawing.Color.Transparent;
+            this.TestLabel2.Font = new System.Drawing.Font("Architects Daughter", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TestLabel2.ForeColor = System.Drawing.Color.White;
+            this.TestLabel2.Location = new System.Drawing.Point(3, 180);
+            this.TestLabel2.Name = "TestLabel2";
+            this.TestLabel2.Size = new System.Drawing.Size(0, 57);
+            this.TestLabel2.TabIndex = 31;
+            // 
+            // TestLabel6
+            // 
+            this.TestLabel6.AutoSize = true;
+            this.TestLabel6.BackColor = System.Drawing.Color.Transparent;
+            this.TestLabel6.Font = new System.Drawing.Font("Architects Daughter", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TestLabel6.ForeColor = System.Drawing.Color.White;
+            this.TestLabel6.Location = new System.Drawing.Point(3, 420);
+            this.TestLabel6.Name = "TestLabel6";
+            this.TestLabel6.Size = new System.Drawing.Size(0, 57);
+            this.TestLabel6.TabIndex = 35;
+            this.TestLabel6.Visible = false;
+            // 
+            // PwrCheck
+            // 
+            this.PwrCheck.BackColor = System.Drawing.Color.Transparent;
+            this.PwrCheck.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PwrCheck.BackgroundImage")));
+            this.PwrCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.PwrCheck.Location = new System.Drawing.Point(3, 68);
+            this.PwrCheck.Name = "PwrCheck";
+            this.PwrCheck.Size = new System.Drawing.Size(65, 53);
+            this.PwrCheck.TabIndex = 30;
+            this.PwrCheck.TabStop = false;
+            this.PwrCheck.Visible = false;
+            // 
+            // DMCheck
+            // 
+            this.DMCheck.BackColor = System.Drawing.Color.Transparent;
+            this.DMCheck.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("DMCheck.BackgroundImage")));
+            this.DMCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.DMCheck.ErrorImage = null;
+            this.DMCheck.Location = new System.Drawing.Point(3, 9);
+            this.DMCheck.Name = "DMCheck";
+            this.DMCheck.Size = new System.Drawing.Size(65, 53);
+            this.DMCheck.TabIndex = 32;
+            this.DMCheck.TabStop = false;
+            this.DMCheck.Visible = false;
+            // 
+            // DMError
+            // 
+            this.DMError.BackColor = System.Drawing.Color.Transparent;
+            this.DMError.BackgroundImage = global::Builder_Companion.Properties.Resources.error;
+            this.DMError.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.DMError.ErrorImage = null;
+            this.DMError.Location = new System.Drawing.Point(3, 9);
+            this.DMError.Name = "DMError";
+            this.DMError.Size = new System.Drawing.Size(65, 53);
+            this.DMError.TabIndex = 33;
+            this.DMError.TabStop = false;
+            this.DMError.Visible = false;
+            // 
+            // StressCheck
+            // 
+            this.StressCheck.BackColor = System.Drawing.Color.Transparent;
+            this.StressCheck.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("StressCheck.BackgroundImage")));
+            this.StressCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.StressCheck.Location = new System.Drawing.Point(3, 68);
+            this.StressCheck.Name = "StressCheck";
+            this.StressCheck.Size = new System.Drawing.Size(65, 53);
+            this.StressCheck.TabIndex = 34;
+            this.StressCheck.TabStop = false;
+            this.StressCheck.Visible = false;
+            // 
+            // StressError
+            // 
+            this.StressError.BackColor = System.Drawing.Color.Transparent;
+            this.StressError.BackgroundImage = global::Builder_Companion.Properties.Resources.error;
+            this.StressError.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.StressError.ErrorImage = null;
+            this.StressError.Location = new System.Drawing.Point(3, 68);
+            this.StressError.Name = "StressError";
+            this.StressError.Size = new System.Drawing.Size(65, 53);
+            this.StressError.TabIndex = 35;
+            this.StressError.TabStop = false;
+            this.StressError.Visible = false;
+            // 
+            // OverheatingFlame
+            // 
+            this.OverheatingFlame.BackColor = System.Drawing.Color.Transparent;
+            this.OverheatingFlame.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("OverheatingFlame.BackgroundImage")));
+            this.OverheatingFlame.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.OverheatingFlame.ErrorImage = null;
+            this.OverheatingFlame.Location = new System.Drawing.Point(3, 68);
+            this.OverheatingFlame.Name = "OverheatingFlame";
+            this.OverheatingFlame.Size = new System.Drawing.Size(65, 53);
+            this.OverheatingFlame.TabIndex = 36;
+            this.OverheatingFlame.TabStop = false;
+            this.OverheatingFlame.Visible = false;
+            // 
+            // StressEggs
+            // 
+            this.StressEggs.BackColor = System.Drawing.Color.Transparent;
+            this.StressEggs.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("StressEggs.BackgroundImage")));
+            this.StressEggs.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.StressEggs.ErrorImage = null;
+            this.StressEggs.Location = new System.Drawing.Point(3, 68);
+            this.StressEggs.Name = "StressEggs";
+            this.StressEggs.Size = new System.Drawing.Size(65, 53);
+            this.StressEggs.TabIndex = 37;
+            this.StressEggs.TabStop = false;
+            this.StressEggs.Visible = false;
+            // 
             // IgnoreTempButton
             // 
             this.IgnoreTempButton.BackColor = System.Drawing.Color.Transparent;
@@ -519,23 +561,26 @@
             this.IgnoreTempButton.FlatAppearance.BorderSize = 0;
             this.IgnoreTempButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.IgnoreTempButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.IgnoreTempButton.Font = new System.Drawing.Font("Architects Daughter", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.IgnoreTempButton.Font = new System.Drawing.Font("Architects Daughter", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.IgnoreTempButton.ForeColor = System.Drawing.Color.White;
-            this.IgnoreTempButton.Location = new System.Drawing.Point(799, 195);
+            this.IgnoreTempButton.Location = new System.Drawing.Point(493, 520);
             this.IgnoreTempButton.Name = "IgnoreTempButton";
             this.IgnoreTempButton.Size = new System.Drawing.Size(68, 54);
             this.IgnoreTempButton.TabIndex = 35;
+            this.IgnoreTempButton.Text = "She\'ll be right";
             this.IgnoreTempButton.UseVisualStyleBackColor = false;
             this.IgnoreTempButton.Visible = false;
             this.IgnoreTempButton.Click += new System.EventHandler(this.IgnoreTemp_Click);
+            this.IgnoreTempButton.MouseEnter += new System.EventHandler(this.IgnoreTempButton_MouseEnter);
+            this.IgnoreTempButton.MouseLeave += new System.EventHandler(this.IgnoreTempButton_MouseLeave);
             // 
             // HeavenError
             // 
             this.HeavenError.BackColor = System.Drawing.Color.Transparent;
-            this.HeavenError.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("HeavenError.BackgroundImage")));
+            this.HeavenError.BackgroundImage = global::Builder_Companion.Properties.Resources.error;
             this.HeavenError.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.HeavenError.ErrorImage = null;
-            this.HeavenError.Location = new System.Drawing.Point(0, 132);
+            this.HeavenError.Location = new System.Drawing.Point(3, 72);
             this.HeavenError.Name = "HeavenError";
             this.HeavenError.Size = new System.Drawing.Size(65, 53);
             this.HeavenError.TabIndex = 38;
@@ -548,9 +593,9 @@
             this.HeavenIcon.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("HeavenIcon.BackgroundImage")));
             this.HeavenIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.HeavenIcon.ErrorImage = null;
-            this.HeavenIcon.Location = new System.Drawing.Point(0, 132);
+            this.HeavenIcon.Location = new System.Drawing.Point(12, 77);
             this.HeavenIcon.Name = "HeavenIcon";
-            this.HeavenIcon.Size = new System.Drawing.Size(65, 53);
+            this.HeavenIcon.Size = new System.Drawing.Size(48, 48);
             this.HeavenIcon.TabIndex = 39;
             this.HeavenIcon.TabStop = false;
             this.HeavenIcon.Visible = false;
@@ -563,15 +608,18 @@
             this.ManualHeavenButton.FlatAppearance.BorderSize = 0;
             this.ManualHeavenButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.ManualHeavenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ManualHeavenButton.Font = new System.Drawing.Font("Architects Daughter", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ManualHeavenButton.Font = new System.Drawing.Font("Architects Daughter", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ManualHeavenButton.ForeColor = System.Drawing.Color.White;
-            this.ManualHeavenButton.Location = new System.Drawing.Point(799, 269);
+            this.ManualHeavenButton.Location = new System.Drawing.Point(582, 519);
             this.ManualHeavenButton.Name = "ManualHeavenButton";
             this.ManualHeavenButton.Size = new System.Drawing.Size(68, 54);
             this.ManualHeavenButton.TabIndex = 36;
+            this.ManualHeavenButton.Text = "Heaven OK";
             this.ManualHeavenButton.UseVisualStyleBackColor = false;
             this.ManualHeavenButton.Visible = false;
             this.ManualHeavenButton.Click += new System.EventHandler(this.ManualHeavenButton_onClick);
+            this.ManualHeavenButton.MouseEnter += new System.EventHandler(this.HeavenButton_MouseEnter);
+            this.ManualHeavenButton.MouseLeave += new System.EventHandler(this.HeavenButton_MouseLeave);
             // 
             // AudioButton
             // 
@@ -583,25 +631,251 @@
             this.AudioButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AudioButton.Font = new System.Drawing.Font("Architects Daughter", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AudioButton.ForeColor = System.Drawing.Color.White;
-            this.AudioButton.Location = new System.Drawing.Point(812, 352);
+            this.AudioButton.Location = new System.Drawing.Point(656, 511);
             this.AudioButton.Name = "AudioButton";
             this.AudioButton.Size = new System.Drawing.Size(68, 54);
             this.AudioButton.TabIndex = 40;
             this.AudioButton.UseVisualStyleBackColor = false;
             this.AudioButton.Visible = false;
             this.AudioButton.Click += new System.EventHandler(this.AudioButton_click);
+            this.AudioButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
+            this.AudioButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
             // 
             // AudioCheck
             // 
             this.AudioCheck.BackColor = System.Drawing.Color.Transparent;
             this.AudioCheck.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("AudioCheck.BackgroundImage")));
             this.AudioCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.AudioCheck.Location = new System.Drawing.Point(0, 68);
+            this.AudioCheck.Location = new System.Drawing.Point(3, 72);
             this.AudioCheck.Name = "AudioCheck";
             this.AudioCheck.Size = new System.Drawing.Size(65, 53);
             this.AudioCheck.TabIndex = 41;
             this.AudioCheck.TabStop = false;
             this.AudioCheck.Visible = false;
+            // 
+            // RGBButton
+            // 
+            this.RGBButton.BackColor = System.Drawing.Color.Transparent;
+            this.RGBButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("RGBButton.BackgroundImage")));
+            this.RGBButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.RGBButton.FlatAppearance.BorderSize = 0;
+            this.RGBButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.RGBButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.RGBButton.Font = new System.Drawing.Font("Architects Daughter", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RGBButton.ForeColor = System.Drawing.Color.White;
+            this.RGBButton.Location = new System.Drawing.Point(385, 511);
+            this.RGBButton.Name = "RGBButton";
+            this.RGBButton.Size = new System.Drawing.Size(68, 54);
+            this.RGBButton.TabIndex = 42;
+            this.RGBButton.UseVisualStyleBackColor = false;
+            this.RGBButton.Visible = false;
+            this.RGBButton.Click += new System.EventHandler(this.RGBButton_onClick);
+            this.RGBButton.MouseEnter += new System.EventHandler(this.RGBButton_MouseEnter);
+            this.RGBButton.MouseLeave += new System.EventHandler(this.RGBButton_MouseLeave);
+            // 
+            // CPULogo
+            // 
+            this.CPULogo.BackColor = System.Drawing.Color.Transparent;
+            this.CPULogo.BackgroundImage = global::Builder_Companion.Properties.Resources.cpu;
+            this.CPULogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.CPULogo.ErrorImage = null;
+            this.CPULogo.Location = new System.Drawing.Point(802, 65);
+            this.CPULogo.Name = "CPULogo";
+            this.CPULogo.Size = new System.Drawing.Size(62, 47);
+            this.CPULogo.TabIndex = 43;
+            this.CPULogo.TabStop = false;
+            // 
+            // SpeedLogo
+            // 
+            this.SpeedLogo.BackColor = System.Drawing.Color.Transparent;
+            this.SpeedLogo.BackgroundImage = global::Builder_Companion.Properties.Resources.speed;
+            this.SpeedLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.SpeedLogo.ErrorImage = null;
+            this.SpeedLogo.Location = new System.Drawing.Point(1035, 21);
+            this.SpeedLogo.Name = "SpeedLogo";
+            this.SpeedLogo.Size = new System.Drawing.Size(62, 41);
+            this.SpeedLogo.TabIndex = 44;
+            this.SpeedLogo.TabStop = false;
+            // 
+            // PwrLogo
+            // 
+            this.PwrLogo.BackColor = System.Drawing.Color.Transparent;
+            this.PwrLogo.BackgroundImage = global::Builder_Companion.Properties.Resources.pwr;
+            this.PwrLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.PwrLogo.ErrorImage = null;
+            this.PwrLogo.Location = new System.Drawing.Point(1135, 21);
+            this.PwrLogo.Name = "PwrLogo";
+            this.PwrLogo.Size = new System.Drawing.Size(48, 41);
+            this.PwrLogo.TabIndex = 45;
+            this.PwrLogo.TabStop = false;
+            // 
+            // TempLogo
+            // 
+            this.TempLogo.BackColor = System.Drawing.Color.Transparent;
+            this.TempLogo.BackgroundImage = global::Builder_Companion.Properties.Resources.thermometer;
+            this.TempLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.TempLogo.ErrorImage = null;
+            this.TempLogo.Location = new System.Drawing.Point(1211, 21);
+            this.TempLogo.Name = "TempLogo";
+            this.TempLogo.Size = new System.Drawing.Size(41, 41);
+            this.TempLogo.TabIndex = 46;
+            this.TempLogo.TabStop = false;
+            // 
+            // GPULogo
+            // 
+            this.GPULogo.BackColor = System.Drawing.Color.Transparent;
+            this.GPULogo.BackgroundImage = global::Builder_Companion.Properties.Resources.gpu;
+            this.GPULogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.GPULogo.ErrorImage = null;
+            this.GPULogo.Location = new System.Drawing.Point(802, 118);
+            this.GPULogo.Name = "GPULogo";
+            this.GPULogo.Size = new System.Drawing.Size(62, 47);
+            this.GPULogo.TabIndex = 47;
+            this.GPULogo.TabStop = false;
+            // 
+            // RAMLogo
+            // 
+            this.RAMLogo.BackColor = System.Drawing.Color.Transparent;
+            this.RAMLogo.BackgroundImage = global::Builder_Companion.Properties.Resources.ram;
+            this.RAMLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.RAMLogo.ErrorImage = null;
+            this.RAMLogo.Location = new System.Drawing.Point(804, 171);
+            this.RAMLogo.Name = "RAMLogo";
+            this.RAMLogo.Size = new System.Drawing.Size(62, 47);
+            this.RAMLogo.TabIndex = 48;
+            this.RAMLogo.TabStop = false;
+            // 
+            // RAMSpeed
+            // 
+            this.RAMSpeed.AutoSize = true;
+            this.RAMSpeed.BackColor = System.Drawing.Color.Transparent;
+            this.RAMSpeed.Font = new System.Drawing.Font("Architects Daughter", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RAMSpeed.ForeColor = System.Drawing.Color.White;
+            this.RAMSpeed.Location = new System.Drawing.Point(1016, 181);
+            this.RAMSpeed.Name = "RAMSpeed";
+            this.RAMSpeed.Size = new System.Drawing.Size(0, 26);
+            this.RAMSpeed.TabIndex = 49;
+            // 
+            // SoftwareLabel
+            // 
+            this.SoftwareLabel.AutoSize = true;
+            this.SoftwareLabel.BackColor = System.Drawing.Color.Transparent;
+            this.SoftwareLabel.Font = new System.Drawing.Font("Architects Daughter", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SoftwareLabel.ForeColor = System.Drawing.Color.White;
+            this.SoftwareLabel.Location = new System.Drawing.Point(1055, 263);
+            this.SoftwareLabel.Name = "SoftwareLabel";
+            this.SoftwareLabel.Size = new System.Drawing.Size(119, 32);
+            this.SoftwareLabel.TabIndex = 50;
+            this.SoftwareLabel.Text = "Software";
+            // 
+            // UpdatingBar
+            // 
+            this.UpdatingBar.BackColor = System.Drawing.Color.White;
+            this.UpdatingBar.Location = new System.Drawing.Point(306, 598);
+            this.UpdatingBar.Name = "UpdatingBar";
+            this.UpdatingBar.Size = new System.Drawing.Size(64, 23);
+            this.UpdatingBar.Step = 8;
+            this.UpdatingBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.UpdatingBar.TabIndex = 51;
+            // 
+            // BenchmarkBar
+            // 
+            this.BenchmarkBar.BackColor = System.Drawing.Color.White;
+            this.BenchmarkBar.Location = new System.Drawing.Point(191, 598);
+            this.BenchmarkBar.Name = "BenchmarkBar";
+            this.BenchmarkBar.Size = new System.Drawing.Size(100, 23);
+            this.BenchmarkBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.BenchmarkBar.TabIndex = 52;
+            // 
+            // QCReadyBar
+            // 
+            this.QCReadyBar.BackColor = System.Drawing.Color.White;
+            this.QCReadyBar.Location = new System.Drawing.Point(386, 598);
+            this.QCReadyBar.Name = "QCReadyBar";
+            this.QCReadyBar.Size = new System.Drawing.Size(68, 23);
+            this.QCReadyBar.Step = 34;
+            this.QCReadyBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.QCReadyBar.TabIndex = 53;
+            // 
+            // StressTestLabel
+            // 
+            this.StressTestLabel.AutoSize = true;
+            this.StressTestLabel.BackColor = System.Drawing.Color.Transparent;
+            this.StressTestLabel.Font = new System.Drawing.Font("Architects Daughter", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.StressTestLabel.ForeColor = System.Drawing.Color.White;
+            this.StressTestLabel.Location = new System.Drawing.Point(66, 624);
+            this.StressTestLabel.Name = "StressTestLabel";
+            this.StressTestLabel.Size = new System.Drawing.Size(115, 22);
+            this.StressTestLabel.TabIndex = 54;
+            this.StressTestLabel.Text = "Stress Testing";
+            this.StressTestLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // BenchmarkLabel
+            // 
+            this.BenchmarkLabel.AutoSize = true;
+            this.BenchmarkLabel.BackColor = System.Drawing.Color.Transparent;
+            this.BenchmarkLabel.Font = new System.Drawing.Font("Architects Daughter", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BenchmarkLabel.ForeColor = System.Drawing.Color.White;
+            this.BenchmarkLabel.Location = new System.Drawing.Point(186, 624);
+            this.BenchmarkLabel.Name = "BenchmarkLabel";
+            this.BenchmarkLabel.Size = new System.Drawing.Size(111, 22);
+            this.BenchmarkLabel.TabIndex = 55;
+            this.BenchmarkLabel.Text = "Benchmarking";
+            this.BenchmarkLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // UpdatingLabel
+            // 
+            this.UpdatingLabel.AutoSize = true;
+            this.UpdatingLabel.BackColor = System.Drawing.Color.Transparent;
+            this.UpdatingLabel.Font = new System.Drawing.Font("Architects Daughter", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UpdatingLabel.ForeColor = System.Drawing.Color.White;
+            this.UpdatingLabel.Location = new System.Drawing.Point(305, 624);
+            this.UpdatingLabel.Name = "UpdatingLabel";
+            this.UpdatingLabel.Size = new System.Drawing.Size(69, 22);
+            this.UpdatingLabel.TabIndex = 56;
+            this.UpdatingLabel.Text = "Updating";
+            this.UpdatingLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // QCReadyLabel
+            // 
+            this.QCReadyLabel.AutoSize = true;
+            this.QCReadyLabel.BackColor = System.Drawing.Color.Transparent;
+            this.QCReadyLabel.Font = new System.Drawing.Font("Architects Daughter", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.QCReadyLabel.ForeColor = System.Drawing.Color.White;
+            this.QCReadyLabel.Location = new System.Drawing.Point(382, 624);
+            this.QCReadyLabel.Name = "QCReadyLabel";
+            this.QCReadyLabel.Size = new System.Drawing.Size(78, 22);
+            this.QCReadyLabel.TabIndex = 57;
+            this.QCReadyLabel.Text = "QCReady";
+            this.QCReadyLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // RGBCheck
+            // 
+            this.RGBCheck.BackColor = System.Drawing.Color.Transparent;
+            this.RGBCheck.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("RGBCheck.BackgroundImage")));
+            this.RGBCheck.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.RGBCheck.Location = new System.Drawing.Point(3, 72);
+            this.RGBCheck.Name = "RGBCheck";
+            this.RGBCheck.Size = new System.Drawing.Size(65, 53);
+            this.RGBCheck.TabIndex = 58;
+            this.RGBCheck.TabStop = false;
+            this.RGBCheck.Visible = false;
+            // 
+            // SoftwareStatusLabel
+            // 
+            this.SoftwareStatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SoftwareStatusLabel.AutoSize = true;
+            this.SoftwareStatusLabel.BackColor = System.Drawing.Color.Transparent;
+            this.SoftwareStatusLabel.Font = new System.Drawing.Font("Architects Daughter", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SoftwareStatusLabel.ForeColor = System.Drawing.Color.White;
+            this.SoftwareStatusLabel.Location = new System.Drawing.Point(956, 598);
+            this.SoftwareStatusLabel.Name = "SoftwareStatusLabel";
+            this.SoftwareStatusLabel.Size = new System.Drawing.Size(0, 32);
+            this.SoftwareStatusLabel.TabIndex = 59;
+            this.SoftwareStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.SoftwareStatusLabel.Visible = false;
             // 
             // Form1
             // 
@@ -611,6 +885,26 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.SoftwareStatusLabel);
+            this.Controls.Add(this.RGBCheck);
+            this.Controls.Add(this.QCReadyLabel);
+            this.Controls.Add(this.UpdatingLabel);
+            this.Controls.Add(this.BenchmarkLabel);
+            this.Controls.Add(this.StressTestLabel);
+            this.Controls.Add(this.QCReadyBar);
+            this.Controls.Add(this.BenchmarkBar);
+            this.Controls.Add(this.UpdatingBar);
+            this.Controls.Add(this.SoftwareLabel);
+            this.Controls.Add(this.BarDurationLabel);
+            this.Controls.Add(this.RAMSpeed);
+            this.Controls.Add(this.RAMLogo);
+            this.Controls.Add(this.GPULogo);
+            this.Controls.Add(this.CPUTemp);
+            this.Controls.Add(this.TempLogo);
+            this.Controls.Add(this.PwrLogo);
+            this.Controls.Add(this.SpeedLogo);
+            this.Controls.Add(this.CPULogo);
+            this.Controls.Add(this.RGBButton);
             this.Controls.Add(this.AudioCheck);
             this.Controls.Add(this.AudioButton);
             this.Controls.Add(this.HeavenIcon);
@@ -625,23 +919,18 @@
             this.Controls.Add(this.IgnoreTempButton);
             this.Controls.Add(this.InfoTable);
             this.Controls.Add(this.PwrCheck);
-            this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.BarDurationLabel);
+            this.Controls.Add(this.StressBar);
             this.Controls.Add(this.PrimeDurationBar);
-            this.Controls.Add(this.PhaseLabel);
-            this.Controls.Add(this.RAMLabel);
+            this.Controls.Add(this.RAMSize);
             this.Controls.Add(this.RestartQCButton);
             this.Controls.Add(this.QCButton);
             this.Controls.Add(this.TestDurationLabel);
             this.Controls.Add(this.StartButton);
-            this.Controls.Add(this.RGBLabel);
             this.Controls.Add(this.RGBList);
-            this.Controls.Add(this.GPUDriverLabel);
             this.Controls.Add(this.GPUTempValue);
             this.Controls.Add(this.GPULabel);
             this.Controls.Add(this.WUP);
             this.Controls.Add(this.CPUPwr);
-            this.Controls.Add(this.CPUTemp);
             this.Controls.Add(this.CPUSpeed);
             this.Controls.Add(this.CPUMonitor);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -664,6 +953,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.HeavenError)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.HeavenIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AudioCheck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CPULogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SpeedLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PwrLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TempLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.GPULogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RAMLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RGBCheck)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -677,19 +973,16 @@
         private System.Windows.Forms.Label WUP;
         private System.Windows.Forms.Label GPULabel;
         private System.Windows.Forms.Label GPUTempValue;
-        private System.Windows.Forms.Label GPUDriverLabel;
         private System.Windows.Forms.CheckedListBox RGBList;
-        private System.Windows.Forms.RichTextBox RGBLabel;
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Label TestDurationLabel;
         private System.Windows.Forms.Button QCButton;
         private System.Windows.Forms.Button RestartQCButton;
-        private System.Windows.Forms.Label RAMLabel;
-        private System.Windows.Forms.Label PhaseLabel;
+        private System.Windows.Forms.Label RAMSize;
         private System.Windows.Forms.TrackBar PrimeDurationBar;
         private System.Windows.Forms.Label BarDurationLabel;
         private System.Windows.Forms.Label DMLabel;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ProgressBar StressBar;
         private System.Windows.Forms.Button DMResyncButton;
         private System.Windows.Forms.TableLayoutPanel InfoTable;
         private System.Windows.Forms.Label PowerModeLabel;
@@ -711,6 +1004,25 @@
         private System.Windows.Forms.Button ManualHeavenButton;
         private System.Windows.Forms.Button AudioButton;
         private System.Windows.Forms.PictureBox AudioCheck;
+        private System.Windows.Forms.Button RGBButton;
+        private System.Windows.Forms.PictureBox CPULogo;
+        private System.Windows.Forms.PictureBox SpeedLogo;
+        private System.Windows.Forms.PictureBox PwrLogo;
+        private System.Windows.Forms.PictureBox TempLogo;
+        private System.Windows.Forms.PictureBox GPULogo;
+        private System.Windows.Forms.PictureBox RAMLogo;
+        private System.Windows.Forms.Label RAMSpeed;
+        private System.Windows.Forms.Label SoftwareLabel;
+        private System.Windows.Forms.ProgressBar UpdatingBar;
+        private System.Windows.Forms.ProgressBar BenchmarkBar;
+        private System.Windows.Forms.ProgressBar QCReadyBar;
+        private System.Windows.Forms.Label StressTestLabel;
+        private System.Windows.Forms.Label BenchmarkLabel;
+        private System.Windows.Forms.Label UpdatingLabel;
+        private System.Windows.Forms.Label QCReadyLabel;
+        private System.Windows.Forms.Label TestLabel6;
+        private System.Windows.Forms.PictureBox RGBCheck;
+        private System.Windows.Forms.Label SoftwareStatusLabel;
     }
 }
 

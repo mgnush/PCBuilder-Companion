@@ -19,6 +19,7 @@ namespace Builder_Companion
     public enum Phase
     {
         Testing,
+        Benchmarking,
         Updating,
         QCReady, 
         QC

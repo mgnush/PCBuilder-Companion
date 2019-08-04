@@ -94,6 +94,7 @@ namespace Builder_Companion
                 } catch
                 {
                     Prompt.ShowDialog("Folder naming inconsistency", "Error");
+                    return;
                 }
                 
 

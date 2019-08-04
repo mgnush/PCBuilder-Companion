@@ -35,7 +35,7 @@ namespace Builder_Companion
         {
             Gpu = new GPUInfo(DMChecker.GetGPUName(), DMChecker.GetGPUDriver());
             Cpu = new CPUInfo(DMChecker.GetCPUName());
-            Ram = new RAMInfo(DMChecker.GetRAMDescription());   // Must be called after cpu (CpuBrand must be set)
+            Ram = new RAMInfo();   // Must be called after cpu (CpuBrand must be set)
         }
 
         public class GPUInfo
@@ -144,18 +144,20 @@ namespace Builder_Companion
 
         public class RAMInfo
         {
-            private string _desc;
+            private int _size;
+            private int _speed;
 
             /// <summary>
             /// Instantiates RAM in the system, with a relevant description.
             /// </summary>
             /// <param name="desc">The relevant description.</param>
-            public RAMInfo(string desc)
+            public RAMInfo()
             {
-                _desc = desc;
+                DMChecker.GetRAMDescription(ref _size, ref _speed);
             }
 
-            public string Description { get => _desc; set => _desc = value; }
+            public int Size { get => _size; set => _size = value; }
+            public int Speed { get => _speed; set => _speed = value; }
         }
     }    
 }
