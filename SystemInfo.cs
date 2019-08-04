@@ -88,7 +88,7 @@ namespace Builder_Companion
                             _driver = numbersa[2].Substring(4, 1) + numbersa[3].Substring(0, 1) + ".xx";   // NOT complete
                             break;
                         default:
-                            _driver = "Unknown driver";
+                            _driver = " ";
                             break;
                     }
                 }

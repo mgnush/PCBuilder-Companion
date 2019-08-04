@@ -386,6 +386,10 @@ namespace Builder_Companion
 
                     IgnoreTempButton.Parent = InfoTable;
                     InfoTable.SetCellPosition(IgnoreTempButton, new TableLayoutPanelCellPosition(1, testLabelRecentRow));
+                    if (SystemInfo.Cpu.Name.Contains("8700") || SystemInfo.Cpu.Name.Contains("9700"))
+                    {
+                        IgnoreTempButton.Text = "Dave Mode";
+                    }
                     IgnoreTempButton.Visible = true;
                     break;
                 case true when !(overheating || overheatingGPU):
