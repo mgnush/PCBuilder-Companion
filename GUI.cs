@@ -1,8 +1,15 @@
-﻿using System;
+﻿/*
+ * GUI.cs
+ * 
+ * @Author  Magnus Hjorth
+ * 
+ * File Description: This partial form class includes methods related directly to displaying items in the GUI.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Builder_Companion
@@ -93,5 +100,67 @@ namespace Builder_Companion
                 return 0;
             }
         }
+
+        public void LoadQCReadyActions()
+        {
+            TableAddTestInfo("Configure RGB");
+            RGBButton.Parent = InfoTable;
+            InfoTable.SetCellPosition(RGBButton, new TableLayoutPanelCellPosition(1, testLabelRecentRow));
+            RGBButton.Visible = true;
+
+
+            TableAddTestInfo("Test Audio");
+            AudioButton.Parent = InfoTable;
+            InfoTable.SetCellPosition(AudioButton, new TableLayoutPanelCellPosition(1, testLabelRecentRow));
+            AudioButton.Visible = true;
+        }
+
+        #region<------- Font Loading ------->
+        // Create the font in memory with specified size
+        private void LoadFontMemory()
+        {
+            byte[] fontData = Properties.Resources.ArchitectsDaughter;
+            IntPtr fontPtr = System.Runtime.InteropServices.Marshal.AllocCoTaskMem(fontData.Length);
+            System.Runtime.InteropServices.Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
+            uint dummy = 0;
+            fonts.AddMemoryFont(fontPtr, Properties.Resources.ArchitectsDaughter.Length);
+            AddFontMemResourceEx(fontPtr, (uint)Properties.Resources.ArchitectsDaughter.Length, IntPtr.Zero, ref dummy);
+            System.Runtime.InteropServices.Marshal.FreeCoTaskMem(fontPtr);
+        }
+
+        private System.Drawing.Font CreateFontMemory(float emSize)
+        {       
+
+            return new Font(fonts.Families[0], emSize);
+        }
+
+        private IEnumerable<Control> GetAll(Control control, Type type)
+        {
+            var controls = control.Controls.Cast<Control>();
+
+            return controls.SelectMany(ctrl => GetAll(ctrl, type))
+                                      .Concat(controls)
+                                      .Where(c => c.GetType() == type);
+        }
+
+        private void LoadFonts()
+        {
+            // Labels
+            var labels = GetAll(this, typeof(Label));
+            foreach (Label label in labels)
+            {
+                float emSize = label.Font.Size;
+                label.Font = CreateFontMemory(emSize);
+            }
+
+            // Buttons
+            var buttons = GetAll(this, typeof(Button));
+            foreach (Button button in buttons)
+            {
+                float emSize = button.Font.Size;
+                button.Font = CreateFontMemory(emSize);
+            }
+        }
+        #endregion<------- Font Loading ------->
     }
 }

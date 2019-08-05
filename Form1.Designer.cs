@@ -39,7 +39,6 @@
             this.RGBList = new System.Windows.Forms.CheckedListBox();
             this.StartButton = new System.Windows.Forms.Button();
             this.TestDurationLabel = new System.Windows.Forms.Label();
-            this.QCButton = new System.Windows.Forms.Button();
             this.RestartQCButton = new System.Windows.Forms.Button();
             this.RAMSize = new System.Windows.Forms.Label();
             this.PrimeDurationBar = new System.Windows.Forms.TrackBar();
@@ -86,6 +85,7 @@
             this.QCReadyLabel = new System.Windows.Forms.Label();
             this.RGBCheck = new System.Windows.Forms.PictureBox();
             this.SoftwareStatusLabel = new System.Windows.Forms.Label();
+            this.QCMegaLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PrimeDurationBar)).BeginInit();
             this.InfoTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PwrCheck)).BeginInit();
@@ -216,7 +216,7 @@
             this.StartButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.StartButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.StartButton.Font = new System.Drawing.Font("Architects Daughter", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.StartButton.ForeColor = System.Drawing.Color.White;
+            this.StartButton.ForeColor = System.Drawing.Color.Transparent;
             this.StartButton.Location = new System.Drawing.Point(1083, 591);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(169, 89);
@@ -224,8 +224,8 @@
             this.StartButton.Text = "Start";
             this.StartButton.UseVisualStyleBackColor = false;
             this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
-            this.StartButton.MouseEnter += new System.EventHandler(this.StartButton_MouseEnter);
-            this.StartButton.MouseLeave += new System.EventHandler(this.StartButton_MouseLeave);
+            this.StartButton.MouseEnter += new System.EventHandler(this.Button_MouseEnterGlow);
+            this.StartButton.MouseLeave += new System.EventHandler(this.Button_MouseLeaveGlow);
             // 
             // TestDurationLabel
             // 
@@ -238,20 +238,6 @@
             this.TestDurationLabel.Size = new System.Drawing.Size(119, 22);
             this.TestDurationLabel.TabIndex = 18;
             this.TestDurationLabel.Text = "Prime Duration";
-            // 
-            // QCButton
-            // 
-            this.QCButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.QCButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.QCButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.QCButton.Location = new System.Drawing.Point(802, 544);
-            this.QCButton.Name = "QCButton";
-            this.QCButton.Size = new System.Drawing.Size(113, 48);
-            this.QCButton.TabIndex = 19;
-            this.QCButton.Text = "QC";
-            this.QCButton.UseVisualStyleBackColor = false;
-            this.QCButton.Visible = false;
-            this.QCButton.Click += new System.EventHandler(this.QCButton_Click);
             // 
             // RestartQCButton
             // 
@@ -272,8 +258,8 @@
             this.RestartQCButton.UseVisualStyleBackColor = false;
             this.RestartQCButton.Visible = false;
             this.RestartQCButton.Click += new System.EventHandler(this.RestartQCButton_Click);
-            this.RestartQCButton.MouseEnter += new System.EventHandler(this.RestartQCButton_Enter);
-            this.RestartQCButton.MouseLeave += new System.EventHandler(this.RestartQCButton_MouseLeave);
+            this.RestartQCButton.MouseEnter += new System.EventHandler(this.Button_MouseEnterGlow);
+            this.RestartQCButton.MouseLeave += new System.EventHandler(this.Button_MouseLeaveGlow);
             // 
             // RAMSize
             // 
@@ -289,10 +275,10 @@
             // 
             // PrimeDurationBar
             // 
-            this.PrimeDurationBar.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.PrimeDurationBar.BackColor = System.Drawing.Color.GhostWhite;
             this.PrimeDurationBar.Location = new System.Drawing.Point(962, 616);
             this.PrimeDurationBar.Maximum = 30;
-            this.PrimeDurationBar.Minimum = 8;
+            this.PrimeDurationBar.Minimum = 1;
             this.PrimeDurationBar.Name = "PrimeDurationBar";
             this.PrimeDurationBar.Size = new System.Drawing.Size(107, 45);
             this.PrimeDurationBar.TabIndex = 24;
@@ -571,8 +557,8 @@
             this.IgnoreTempButton.UseVisualStyleBackColor = false;
             this.IgnoreTempButton.Visible = false;
             this.IgnoreTempButton.Click += new System.EventHandler(this.IgnoreTemp_Click);
-            this.IgnoreTempButton.MouseEnter += new System.EventHandler(this.IgnoreTempButton_MouseEnter);
-            this.IgnoreTempButton.MouseLeave += new System.EventHandler(this.IgnoreTempButton_MouseLeave);
+            this.IgnoreTempButton.MouseEnter += new System.EventHandler(this.Button_MouseEnterGlow);
+            this.IgnoreTempButton.MouseLeave += new System.EventHandler(this.Button_MouseLeaveGlow);
             // 
             // HeavenError
             // 
@@ -618,8 +604,8 @@
             this.ManualHeavenButton.UseVisualStyleBackColor = false;
             this.ManualHeavenButton.Visible = false;
             this.ManualHeavenButton.Click += new System.EventHandler(this.ManualHeavenButton_onClick);
-            this.ManualHeavenButton.MouseEnter += new System.EventHandler(this.HeavenButton_MouseEnter);
-            this.ManualHeavenButton.MouseLeave += new System.EventHandler(this.HeavenButton_MouseLeave);
+            this.ManualHeavenButton.MouseEnter += new System.EventHandler(this.Button_MouseEnterGlow);
+            this.ManualHeavenButton.MouseLeave += new System.EventHandler(this.Button_MouseLeaveGlow);
             // 
             // AudioButton
             // 
@@ -638,8 +624,8 @@
             this.AudioButton.UseVisualStyleBackColor = false;
             this.AudioButton.Visible = false;
             this.AudioButton.Click += new System.EventHandler(this.AudioButton_click);
-            this.AudioButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
-            this.AudioButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
+            this.AudioButton.MouseEnter += new System.EventHandler(this.Button_MouseEnterCheck);
+            this.AudioButton.MouseLeave += new System.EventHandler(this.Button_MouseLeaveCheck);
             // 
             // AudioCheck
             // 
@@ -670,8 +656,8 @@
             this.RGBButton.UseVisualStyleBackColor = false;
             this.RGBButton.Visible = false;
             this.RGBButton.Click += new System.EventHandler(this.RGBButton_onClick);
-            this.RGBButton.MouseEnter += new System.EventHandler(this.RGBButton_MouseEnter);
-            this.RGBButton.MouseLeave += new System.EventHandler(this.RGBButton_MouseLeave);
+            this.RGBButton.MouseEnter += new System.EventHandler(this.Button_MouseEnterCheck);
+            this.RGBButton.MouseLeave += new System.EventHandler(this.Button_MouseLeaveCheck);
             // 
             // CPULogo
             // 
@@ -793,7 +779,7 @@
             this.QCReadyBar.Location = new System.Drawing.Point(386, 598);
             this.QCReadyBar.Name = "QCReadyBar";
             this.QCReadyBar.Size = new System.Drawing.Size(68, 23);
-            this.QCReadyBar.Step = 34;
+            this.QCReadyBar.Step = 50;
             this.QCReadyBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.QCReadyBar.TabIndex = 53;
             // 
@@ -877,6 +863,23 @@
             this.SoftwareStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.SoftwareStatusLabel.Visible = false;
             // 
+            // QCMegaLabel
+            // 
+            this.QCMegaLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.QCMegaLabel.AutoSize = true;
+            this.QCMegaLabel.BackColor = System.Drawing.Color.Transparent;
+            this.QCMegaLabel.Font = new System.Drawing.Font("Architects Daughter", 164.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.QCMegaLabel.ForeColor = System.Drawing.Color.White;
+            this.QCMegaLabel.Location = new System.Drawing.Point(771, 363);
+            this.QCMegaLabel.Name = "QCMegaLabel";
+            this.QCMegaLabel.Size = new System.Drawing.Size(538, 350);
+            this.QCMegaLabel.TabIndex = 60;
+            this.QCMegaLabel.Text = "QC";
+            this.QCMegaLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.QCMegaLabel.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -885,6 +888,8 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.QCMegaLabel);
+            this.Controls.Add(this.RAMSize);
             this.Controls.Add(this.SoftwareStatusLabel);
             this.Controls.Add(this.RGBCheck);
             this.Controls.Add(this.QCReadyLabel);
@@ -921,9 +926,7 @@
             this.Controls.Add(this.PwrCheck);
             this.Controls.Add(this.StressBar);
             this.Controls.Add(this.PrimeDurationBar);
-            this.Controls.Add(this.RAMSize);
             this.Controls.Add(this.RestartQCButton);
-            this.Controls.Add(this.QCButton);
             this.Controls.Add(this.TestDurationLabel);
             this.Controls.Add(this.StartButton);
             this.Controls.Add(this.RGBList);
@@ -976,7 +979,6 @@
         private System.Windows.Forms.CheckedListBox RGBList;
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Label TestDurationLabel;
-        private System.Windows.Forms.Button QCButton;
         private System.Windows.Forms.Button RestartQCButton;
         private System.Windows.Forms.Label RAMSize;
         private System.Windows.Forms.TrackBar PrimeDurationBar;
@@ -1023,6 +1025,7 @@
         private System.Windows.Forms.Label TestLabel6;
         private System.Windows.Forms.PictureBox RGBCheck;
         private System.Windows.Forms.Label SoftwareStatusLabel;
+        private System.Windows.Forms.Label QCMegaLabel;
     }
 }
 

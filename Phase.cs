@@ -22,6 +22,7 @@ namespace Builder_Companion
         Benchmarking,
         Updating,
         QCReady, 
-        QC
+        QC,
+        Exiting
     }
 }

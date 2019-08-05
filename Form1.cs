@@ -8,6 +8,7 @@
 
 using System;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -18,29 +19,39 @@ namespace Builder_Companion
 {
     public partial class Form1 : Form
     {
+        // Font import
+        [System.Runtime.InteropServices.DllImport("gdi32.dll")]
+        private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont,
+            IntPtr pdv, [System.Runtime.InteropServices.In] ref uint pcFonts);
+
+        private PrivateFontCollection fonts = new PrivateFontCollection();
+
         public Form1()
         {            
             InitializeComponent();
             InitGUI();
-            DMStatusCheck();   // Check Device manager every time program is launched             
+            DMStatusCheck();   // Check Device manager every time program is launched    
+
+            LoadFontMemory();   
         }
 
         #region<------- Event Handlers ------->
         // Control what content should be visible
         private void Form1_Load(object sender, EventArgs e)
-        {             
+        {
+            LoadFonts();
+            SystemInfo.RetrieveSystemInfo();
+            if (SystemInfo.CpuBrand == CPUBrand.AMD)
+            {
+                this.BackgroundImage = Properties.Resources.BC_RG;
+                this.RGBList.BackColor = Color.DarkRed;
+                this.PrimeDurationBar.BackColor = Color.DarkRed;
+            }
+             
             switch (Properties.Settings.Default.CurrentPhase)
             {
                 case Phase.Testing:
-                    // Populate system info labels
-                    SystemInfo.RetrieveSystemInfo();
-                    if (SystemInfo.CpuBrand == CPUBrand.AMD)
-                    {
-                        this.BackgroundImage = Properties.Resources.BC_RG;
-                        this.RGBList.BackColor = Color.DarkRed;
-                        this.PrimeDurationBar.BackColor = Color.DarkRed;
-                    }
-
+                    // Populate system info labels   
                     CPUMonitor.Text = SystemInfo.Cpu.Name;
                     GPULabel.Text = SystemInfo.Gpu.Name + " (" + SystemInfo.Gpu.Driver + ")";
                     RAMSize.Text = SystemInfo.Ram.Size.ToString() + "GB";
@@ -79,9 +90,17 @@ namespace Builder_Companion
                     this.StartButton.Visible = false;
                     this.WUP.Visible = false;
                     this.RGBList.Visible = false;
-                    this.SoftwareLabel.Visible = false;
+                    this.SoftwareLabel.Visible = false;                                       
 
                     LoadAllData();
+                    if (QCReadyBar.Value == 100)
+                    {
+                        this.RestartQCButton.Visible = true;
+                    }
+                    else
+                    {
+                        LoadQCReadyActions();
+                    }
                     break;
                 default:                    
                     this.TestDurationLabel.Visible = false;
@@ -89,9 +108,10 @@ namespace Builder_Companion
                     this.BarDurationLabel.Visible = false;
                     this.StartButton.Visible = false;
                     this.WUP.Visible = false;
-                    this.QCButton.Visible = true;
                     this.RGBList.Visible = false;
                     this.SoftwareLabel.Visible = false;
+
+                    this.QCMegaLabel.Visible = true;
 
                     LoadAllData();
                     break;
@@ -104,18 +124,22 @@ namespace Builder_Companion
         {
             switch (Properties.Settings.Default.CurrentPhase)
             {
+                case Phase.Benchmarking:
+                    DoUpdates();
+                    TestHeaven();
+                    break;
                 case Phase.Updating:
                     DoUpdates();
                     UpdatesTimeout();
                     break;
-                case Phase.QCReady:
+                case Phase.QC:
                     TaskServicer.DeleteTaskService();   // Clean up task created                      
                     QCHandler.LaunchManualChecks();
                     QCHandler.ClearHeaven();
                     QCHandler.ClearDesktop();                    
                     QCHandler.FormatDrives();   // No effect if already formatted
-                    //QCHandler.ClearToasts();
-                    Properties.Settings.Default.CurrentPhase = Phase.QC;
+                    QCHandler.ClearToasts();
+                    Properties.Settings.Default.CurrentPhase = Phase.Exiting;
                     Properties.Settings.Default.Save();
                     break;
                 default:
@@ -125,7 +149,7 @@ namespace Builder_Companion
 
         private void Form1_Closed(object sender, FormClosedEventArgs e)
         {
-            if (Properties.Settings.Default.CurrentPhase == Phase.QC)
+            if (Properties.Settings.Default.CurrentPhase == Phase.Exiting)
             {
                 QCHandler.ClearSettings();
 
@@ -146,10 +170,12 @@ namespace Builder_Companion
             BarDurationLabel.Visible = false;
             TestDurationLabel.Visible = false;
 
+            TaskServicer.CreateTaskService();   // Program will now run automatically until QC button has been pressed
+
             // Updates & software
-            DoUpdates();
             SoftwareStatusLabel.Text = "Grabbing software,\n please wait...";
             SoftwareStatusLabel.Visible = true;
+            DoUpdates();            
             RGBInstaller.InstallSelectedSoftware(RGBList.CheckedIndices);
             RGBList.Enabled = false;
             SoftwareStatusLabel.Visible = false;
@@ -163,10 +189,8 @@ namespace Builder_Companion
         private void RestartQCButton_Click(object sender, EventArgs e)
         {
             RestartQCButton.Visible = false;
-            Properties.Settings.Default.CurrentPhase = Phase.QCReady;
-            Properties.Settings.Default.AudioCheckVis = true;
-            Properties.Settings.Default.AudioCheckY = AudioCheck.Location.Y;
-            Properties.Settings.Default.Save();
+            Properties.Settings.Default.CurrentPhase = Phase.QC;
+            SaveAllData();
             Restart();
         }
 
@@ -174,7 +198,7 @@ namespace Builder_Companion
         {
             QCHandler.FormatDrives();   // No effect if already formatted
             QCHandler.ClearDesktop();
-            QCHandler.LaunchManualChecks();
+            QCHandler.LaunchManualChecks();            
         }
 
         private void DMResync_Click(object sender, EventArgs e)
@@ -218,6 +242,20 @@ namespace Builder_Companion
             RGBCheck.Visible = true;
 
             QCReadyBar.PerformStep();
+            Properties.Settings.Default.QCReadyProgress = QCReadyBar.Value;
+
+            if (QCReadyBar.Value == 100)
+            {
+                // Launch Windows activation
+                string slui = Environment.GetFolderPath(Environment.SpecialFolder.System);
+                ProcessStartInfo sInfo = new ProcessStartInfo(Path.Combine(slui, "slui.exe"));
+                Process p = new Process();
+                p.StartInfo = sInfo;
+                p.Start();
+
+                RestartQCButton.Visible = true;
+                SaveAllData();
+            }            
         }
 
         private void AudioButton_click(object sender, EventArgs e)
@@ -230,17 +268,21 @@ namespace Builder_Companion
             AudioCheck.Location = new Point(AudioCheck.Location.X, iconLocY);
             AudioCheck.Visible = true;
 
-            QCReadyBar.PerformStep();            
-
-            // Launch Windows activation
-            string slui = Environment.GetFolderPath(Environment.SpecialFolder.System);
-            ProcessStartInfo sInfo = new ProcessStartInfo(Path.Combine(slui, "slui.exe"));
-            Process p = new Process();
-            p.StartInfo = sInfo;
-            p.Start();
-            RestartQCButton.Visible = true;
-
             QCReadyBar.PerformStep();
+            Properties.Settings.Default.QCReadyProgress = QCReadyBar.Value;
+
+            if (QCReadyBar.Value == 100)
+            {
+                // Launch Windows activation
+                string slui = Environment.GetFolderPath(Environment.SpecialFolder.System);
+                ProcessStartInfo sInfo = new ProcessStartInfo(Path.Combine(slui, "slui.exe"));
+                Process p = new Process();
+                p.StartInfo = sInfo;
+                p.Start();
+
+                RestartQCButton.Visible = true;
+                SaveAllData();
+            }            
         }
 
         // This is called when the updater agent search comes up empty (windows up to date)
@@ -254,30 +296,17 @@ namespace Builder_Companion
             Properties.Settings.Default.Save();
 
             // If testing is complete, begin next step
-            if ((Properties.Settings.Default.CurrentPhase == Phase.Updating) || (Properties.Settings.Default.CurrentPhase == Phase.QCReady))
+            if (Properties.Settings.Default.CurrentPhase == Phase.Updating)
             {
-                if (TestInfoContains("RGB") == null)
-                {
-                    TableAddTestInfo("Configure RGB");
-                    RGBButton.Parent = InfoTable;
-                    InfoTable.SetCellPosition(RGBButton, new TableLayoutPanelCellPosition(1, testLabelRecentRow));
-                    RGBButton.Visible = true;
-                }
-                if (TestInfoContains("Audio") == null)
-                {
-                    TableAddTestInfo("Test Audio");
-                    AudioButton.Parent = InfoTable;
-                    InfoTable.SetCellPosition(AudioButton, new TableLayoutPanelCellPosition(1, testLabelRecentRow));
-                    AudioButton.Visible = true;
-                }                
+                Properties.Settings.Default.CurrentPhase = Phase.QCReady;
+                LoadQCReadyActions();                                             
             }
         }
         #endregion<------- Event Handlers ------->
 
         private void DMStatusCheck()
         {
-            DMLabel.Visible = true;
-            if (DMChecker.GetStatus())
+            DMLabel.Visible = true;          if (DMChecker.GetStatus())
             {
                 DMCheck.Visible = true;
             }
@@ -330,7 +359,14 @@ namespace Builder_Companion
                 UpdateCPU();
                 double durationSec = durationMin * 60;
                 double timeElapsed = TaskHandler.stopwatch.Elapsed.TotalSeconds;
-                StressBar.Value = (int)(100.0 * (timeElapsed / durationSec));
+                int progress = (int)(100.0 * (timeElapsed / durationSec));
+                if (progress <= 100)
+                {
+                    StressBar.Value = progress;
+                } else
+                {
+                    StressBar.Value = 100;
+                }
 
                 if ((TempHandler.MaxTemp > 95) && !overheating)
                 {              
@@ -361,6 +397,8 @@ namespace Builder_Companion
                         OverheatingFlame.Visible = true;
                     }                 
                 }
+
+                SaveAllData();
             }
 
             await Task.WhenAll(taskHandler);
@@ -455,8 +493,7 @@ namespace Builder_Companion
         {
             Properties.Settings.Default.CurrentPhase = Phase.Updating;           
             SaveAllData();
-
-            TaskServicer.CreateTaskService();   // Program will now run automatically until QC button has been pressed
+            
             // Restart if testing and updating is finished
             if (_updateSessionComplete && _upToDate)
             {               
@@ -490,10 +527,16 @@ namespace Builder_Companion
             }
             Properties.Settings.Default.TestInfo = testLabelStrings;
 
-            //Icons
+            // Icons
             Properties.Settings.Default.StressCheckY = StressCheck.Location.Y;
             Properties.Settings.Default.HeavenIconY = HeavenIcon.Location.Y;
             Properties.Settings.Default.AudioCheckY = AudioCheck.Location.Y;
+            Properties.Settings.Default.AudioCheckVis = AudioCheck.Visible;
+            Properties.Settings.Default.RGBCheckY = RGBCheck.Location.Y;
+            Properties.Settings.Default.RGBCheckVis = RGBCheck.Visible;
+
+            // Buttons
+            
 
             Properties.Settings.Default.CPUInfo = this.CPUMonitor.Text;
             Properties.Settings.Default.CPUPwr = this.CPUPwr.Text;
@@ -525,11 +568,17 @@ namespace Builder_Companion
             HeavenIcon.Location = new Point(HeavenIcon.Location.X, Properties.Settings.Default.HeavenIconY);
             AudioCheck.Visible = Properties.Settings.Default.AudioCheckVis;
             AudioCheck.Location = new Point(AudioCheck.Location.X, Properties.Settings.Default.AudioCheckY);
+            RGBCheck.Visible = Properties.Settings.Default.AudioCheckVis;
+            RGBCheck.Location = new Point(RGBCheck.Location.X, Properties.Settings.Default.RGBCheckY);
+
+            // Buttons
+
 
             // Progress bars
             StressBar.Value = Properties.Settings.Default.StressProgress;
             BenchmarkBar.Value = Properties.Settings.Default.BenchmarkProgress;
             UpdatingBar.Value = Properties.Settings.Default.UpdatingProgress;
+            QCReadyBar.Value = Properties.Settings.Default.QCReadyProgress;
 
             this.CPUMonitor.Text = Properties.Settings.Default.CPUInfo;
             this.CPUPwr.Text = Properties.Settings.Default.CPUPwr;
@@ -553,13 +602,22 @@ namespace Builder_Companion
         }
 
         #region<------- Button Mouseover Methods ------->
-        private void Button_MouseEnter(object sender, EventArgs e)
+        private void Button_MouseEnterCheck(object sender, EventArgs e)
         {
-            this.AudioButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.button_p));
+            ((Button)sender).BackgroundImage = ((System.Drawing.Image)(Properties.Resources.button_p));
         }
-        private void Button_MouseLeave(object sender, EventArgs e)
+        private void Button_MouseLeaveCheck(object sender, EventArgs e)
         {
-            this.AudioButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.button));
+            ((Button)sender).BackgroundImage = ((System.Drawing.Image)(Properties.Resources.button));
+        }
+
+        private void Button_MouseEnterGlow(object sender, EventArgs e)
+        {
+            ((Button)sender).BackgroundImage = ((System.Drawing.Image)(Properties.Resources.button_g));
+        }
+        private void Button_MouseLeaveGlow(object sender, EventArgs e)
+        {
+            ((Button)sender).BackgroundImage = ((System.Drawing.Image)(Properties.Resources.button));
         }
 
         private void DMResyncButton_MouseEnter(object sender, EventArgs e)
@@ -570,53 +628,7 @@ namespace Builder_Companion
         {
             this.DMResyncButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.resync));
         }
-
-        private void IgnoreTempButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.IgnoreTempButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.button_g));
-        }
-        private void IgnoreTempButton_MouseLeave(object sender, EventArgs e)
-        {
-            this.IgnoreTempButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.button));
-        }
-
-        private void StartButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.StartButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.button_g));
-        }
-        private void StartButton_MouseLeave(object sender, EventArgs e)
-        {
-            this.StartButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.button));
-        }
-
-        private void RestartQCButton_Enter(object sender, EventArgs e)
-        {
-            this.RestartQCButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.button_g));
-        }
-        private void RestartQCButton_MouseLeave(object sender, EventArgs e)
-        {
-            this.RestartQCButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.button));
-        }
-
-        private void RGBButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.RGBButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.button_p));
-        }
-        private void RGBButton_MouseLeave(object sender, EventArgs e)
-        {
-            this.RGBButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.button));
-        }
-
-        private void HeavenButton_MouseEnter(object sender, EventArgs e)
-        {
-            this.ManualHeavenButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.button_g));
-        }
-        private void HeavenButton_MouseLeave(object sender, EventArgs e)
-        {
-            this.ManualHeavenButton.BackgroundImage = ((System.Drawing.Image)(Properties.Resources.button));
-        }
-        #endregion<------- Button Mouseover Methods ------->
-
+        #endregion<------- Button Mouseover Methods -------> 
 
     }
 }

@@ -17,8 +17,6 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using Windows.UI.Notifications;
-using System.Linq;
 
 namespace Builder_Companion
 {

@@ -15,7 +15,9 @@ using System.Management;
 namespace Builder_Companion
 {
     public static class DMChecker
-    {     
+    {
+        private const int DRAM_SPEED_LOW_THRESH = 2000;   // Due to AMD RAM speeds being inconsistent (reporting half speed only occasionally),
+                                                          // RAM speeds below this threshold will me multiplied by 2.
 
         public static string GetGPUName()
         {
@@ -125,17 +127,21 @@ namespace Builder_Companion
             long capacity = 0;
             speed = 0;
 
-            foreach (ManagementObject obj in objectCollection)
-            {
-                string caps = obj["Capacity"].ToString();
-                Int64.TryParse(obj["Capacity"].ToString(), out capacity);
-                totalCapacity += (int)(capacity / (1024*1024*1024));
-                Int32.TryParse(obj["ConfiguredClockSpeed"].ToString(), out speed);
-                if (SystemInfo.CpuBrand == CPUBrand.AMD)
+            try {
+                foreach (ManagementObject obj in objectCollection)
                 {
-                    speed *= 2;   // On AMD systems, the reported speed is half the actual setting
+                    string caps = obj["Capacity"].ToString();
+                    Int64.TryParse(obj["Capacity"].ToString(), out capacity);
+                    totalCapacity += (int)(capacity / (1024 * 1024 * 1024));
+                    Int32.TryParse(obj["ConfiguredClockSpeed"].ToString(), out speed);
+                    if (SystemInfo.CpuBrand == CPUBrand.AMD && (speed < DRAM_SPEED_LOW_THRESH))
+                    {
+                        speed *= 2;   // On AMD systems, the reported speed is half the actual setting
+                    }
+                    //description= String.Format("{0}GB @{1}MHz", totalCapacity, obj["ConfiguredClockSpeed"]); 
                 }
-                //description= String.Format("{0}GB @{1}MHz", totalCapacity, obj["ConfiguredClockSpeed"]);                
+            } catch {
+                Prompt.ShowDialog("Couldn't determine RAM specs", "Error");
             }
             size = totalCapacity;
         }
