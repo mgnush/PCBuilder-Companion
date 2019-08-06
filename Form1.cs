@@ -176,6 +176,10 @@ namespace Builder_Companion
             RGBList.Enabled = false;
             SoftwareStatusLabel.Visible = false;
 
+            // In case driver installation changed the specs
+            SystemInfo.RetrieveSystemInfo();
+            PopulateSysInfo();
+
             // Calculate the test duration in minutes
             int durationMin = PrimeDurationBar.Value;              
             
