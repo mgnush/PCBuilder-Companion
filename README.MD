@@ -130,11 +130,16 @@ Create a single script for each program to be automated, and add its name to the
 ## Built With
 
 * [Fody Costura](https://github.com/Fody/Costura) - For embedding dll's
+* [Html Agility Pack](https://html-agility-pack.net/) - For reading HTML files
 * [AutoIt3](https://www.autoitscript.com/site/autoit/) - For writing and compiling stand-alone scripts to go with this software
 
 ## Contributing
 
 Please contact Magnus Hjorth on mhjorthen@gmail.com to request becoming a collaborator.
+
+## Licensing
+
+This code is distributed under an MIT license. Please see LICENSE.MD for more details.
 
 ## Authors
 
