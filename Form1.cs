@@ -199,8 +199,8 @@ namespace Builder_Companion
 
         private void DMResync_Click(object sender, EventArgs e)
         {
-            DMStatusCheck();
             DMResyncButton.Visible = false;
+            DMStatusCheck();            
         }
 
         private void IgnoreTemp_Click(object sender, EventArgs e)
@@ -311,16 +311,20 @@ namespace Builder_Companion
 
         private void DMStatusCheck()
         {
-            DMLabel.Visible = true;          if (DMChecker.GetStatus())
+            DMLabel.Visible = true;
+            if (DMChecker.GetStatus())
             {
+                DMLabel.Text = ("Device Manager OK");
+                DMError.Visible = false;
                 DMCheck.Visible = true;
             }
             else
             {
-                DMError.Visible = true;
-                DMLabel.Text = ("Check Device Manager!");
-                Process.Start("devmgmt.msc");   // Launch device manager
                 DMResyncButton.Visible = true;
+                DMError.Visible = true;
+                DMCheck.Visible = false;
+                DMLabel.Text = ("Check Device Manager!");
+                Process.Start("devmgmt.msc");   // Launch device manager                
             }
         }
 
@@ -338,6 +342,16 @@ namespace Builder_Companion
             PowerModeLabel.Visible = true;
             Properties.Settings.Default.PowerInfoVis = true;
             Properties.Settings.Default.Save();
+        }
+
+        // Restart after 1 second
+        private void Restart()
+        {
+            ProcessStartInfo restart = new ProcessStartInfo();
+            restart.WindowStyle = ProcessWindowStyle.Hidden;
+            restart.FileName = "cmd";
+            restart.Arguments = "/C shutdown -f -r -t 1";
+            Process.Start(restart);
         }
 
         #region<------- Testing Methods ------->
@@ -517,6 +531,7 @@ namespace Builder_Companion
         }
         #endregion<------- Testing Methods ------->
 
+        #region<------- Save & Load Form Data ------->
         /// <summary>
         /// Saves all obtained test and system info to default application settings.
         /// </summary>
@@ -588,16 +603,7 @@ namespace Builder_Companion
             this.RAMSize.Text = Properties.Settings.Default.RAMSize;
             this.RAMSpeed.Text = Properties.Settings.Default.RAMSpeed;
         }
-
-        // Restart after 1 second
-        private void Restart()
-        {
-            ProcessStartInfo restart = new ProcessStartInfo();
-            restart.WindowStyle = ProcessWindowStyle.Hidden;
-            restart.FileName = "cmd";
-            restart.Arguments = "/C shutdown -f -r -t 1";
-            Process.Start(restart);
-        }
+        #endregion<------- Save & Load Form Data ------->
 
         #region<------- Button Mouseover Methods ------->
         private void Button_MouseEnterCheck(object sender, EventArgs e)
