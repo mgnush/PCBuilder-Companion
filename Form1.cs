@@ -46,17 +46,11 @@ namespace Builder_Companion
                 this.BackgroundImage = Properties.Resources.BC_RG;
                 this.RGBList.BackColor = Color.DarkRed;
                 this.PrimeDurationBar.BackColor = Color.DarkRed;
-            }
+            }            
              
             switch (Properties.Settings.Default.CurrentPhase)
             {
                 case Phase.Testing:
-                    // Populate system info labels   
-                    CPUMonitor.Text = SystemInfo.Cpu.Name;
-                    GPULabel.Text = SystemInfo.Gpu.Name + " (" + SystemInfo.Gpu.Driver + ")";
-                    RAMSize.Text = SystemInfo.Ram.Size.ToString() + "GB";
-                    RAMSpeed.Text = "@" + SystemInfo.Ram.Speed.ToString() + "MHz";
-
                     // Load all software items from xml file
                     RGBInstaller.ReadRGBSoftware();
                     foreach (string rgbSoftware in RGBInstaller.software)
@@ -116,7 +110,8 @@ namespace Builder_Companion
                     LoadAllData();
                     break;
             }
-            
+
+            PopulateSysInfo();   // Call last to overwrite LoadAllData()
         }
 
         // Control action to take after app has started
@@ -169,12 +164,11 @@ namespace Builder_Companion
             PrimeDurationBar.Visible = false;
             BarDurationLabel.Visible = false;
             TestDurationLabel.Visible = false;
+            SoftwareStatusLabel.Visible = true;
 
             TaskServicer.CreateTaskService();   // Program will now run automatically until QC button has been pressed
 
-            // Updates & software
-            SoftwareStatusLabel.Text = "Grabbing software,\n please wait...";
-            SoftwareStatusLabel.Visible = true;
+            // Updates & software            
             DoUpdates();            
             RGBInstaller.InstallSelectedSoftware(RGBList.CheckedIndices);
             RGBList.Enabled = false;
@@ -304,6 +298,15 @@ namespace Builder_Companion
         }
         #endregion<------- Event Handlers ------->
 
+        private void PopulateSysInfo()
+        {
+            // Populate system info labels   
+            CPUMonitor.Text = SystemInfo.Cpu.Name;
+            GPULabel.Text = SystemInfo.Gpu.Name + " (" + SystemInfo.Gpu.Driver + ")";
+            RAMSize.Text = SystemInfo.Ram.Size.ToString() + "GB";
+            RAMSpeed.Text = "@" + SystemInfo.Ram.Speed.ToString() + "MHz";
+        }
+
         private void DMStatusCheck()
         {
             DMLabel.Visible = true;          if (DMChecker.GetStatus())
@@ -408,7 +411,7 @@ namespace Builder_Companion
                 case false:
                     // Halt program
                     // Reposition associated icon as needed
-                    string msg = String.Format("Prime failed! {0}:{1}", TaskHandler.stopwatch.Elapsed.Minutes, TaskHandler.stopwatch.Elapsed.Seconds);
+                    string msg = String.Format("Prime failed! {0:00}:{1:00}", TaskHandler.stopwatch.Elapsed.Minutes, TaskHandler.stopwatch.Elapsed.Seconds);
                     iconLocY = StressError.Location.Y + (TableAddTestInfo(msg) * TESTLABEL_HEIGHT);
                     StressError.Location = new Point(StressError.Location.X, iconLocY);
                     StressError.Visible = true;

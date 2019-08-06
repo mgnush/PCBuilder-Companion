@@ -278,7 +278,7 @@
             this.PrimeDurationBar.BackColor = System.Drawing.Color.GhostWhite;
             this.PrimeDurationBar.Location = new System.Drawing.Point(962, 616);
             this.PrimeDurationBar.Maximum = 30;
-            this.PrimeDurationBar.Minimum = 1;
+            this.PrimeDurationBar.Minimum = 8;
             this.PrimeDurationBar.Name = "PrimeDurationBar";
             this.PrimeDurationBar.Size = new System.Drawing.Size(107, 45);
             this.PrimeDurationBar.TabIndex = 24;
@@ -858,8 +858,9 @@
             this.SoftwareStatusLabel.ForeColor = System.Drawing.Color.White;
             this.SoftwareStatusLabel.Location = new System.Drawing.Point(956, 598);
             this.SoftwareStatusLabel.Name = "SoftwareStatusLabel";
-            this.SoftwareStatusLabel.Size = new System.Drawing.Size(0, 32);
+            this.SoftwareStatusLabel.Size = new System.Drawing.Size(222, 64);
             this.SoftwareStatusLabel.TabIndex = 59;
+            this.SoftwareStatusLabel.Text = "Grabbing software,\r\nplease wait...";
             this.SoftwareStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.SoftwareStatusLabel.Visible = false;
             // 
