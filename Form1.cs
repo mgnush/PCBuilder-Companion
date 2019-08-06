@@ -66,6 +66,7 @@ namespace Builder_Companion
                     this.StartButton.Visible = false;
                     this.RGBList.Visible = false;
                     this.SoftwareLabel.Visible = false;
+
                     LoadAllData();
                     break;
                 case Phase.Updating:
@@ -75,6 +76,7 @@ namespace Builder_Companion
                     this.StartButton.Visible = false;
                     this.RGBList.Visible = false;
                     this.SoftwareLabel.Visible = false;
+
                     LoadAllData();
                     break;
                 case Phase.QCReady:
@@ -447,8 +449,7 @@ namespace Builder_Companion
                     TestHeaven();
                     break;
             }
-            Properties.Settings.Default.StressCheckVis = StressCheck.Visible;
-            Properties.Settings.Default.Save();
+            SaveAllData();
         }
 
         private HeavenHandler heavenHandler;
@@ -470,8 +471,6 @@ namespace Builder_Companion
             int iconLocY = HeavenIcon.Location.Y + (TableAddTestInfo(heavenScore) * TESTLABEL_HEIGHT);
             HeavenIcon.Location = new Point(HeavenIcon.Location.X, iconLocY);
             HeavenIcon.Visible = true;
-            Properties.Settings.Default.HeavenIconVis = true;
-            Properties.Settings.Default.Save();
 
             if (score > 0)
             {
@@ -532,14 +531,13 @@ namespace Builder_Companion
 
             // Icons
             Properties.Settings.Default.StressCheckY = StressCheck.Location.Y;
+            Properties.Settings.Default.StressCheckVis = StressCheck.Visible;
             Properties.Settings.Default.HeavenIconY = HeavenIcon.Location.Y;
+            Properties.Settings.Default.HeavenIconVis = HeavenIcon.Visible;
             Properties.Settings.Default.AudioCheckY = AudioCheck.Location.Y;
             Properties.Settings.Default.AudioCheckVis = AudioCheck.Visible;
             Properties.Settings.Default.RGBCheckY = RGBCheck.Location.Y;
             Properties.Settings.Default.RGBCheckVis = RGBCheck.Visible;
-
-            // Buttons
-            
 
             Properties.Settings.Default.CPUInfo = this.CPUMonitor.Text;
             Properties.Settings.Default.CPUPwr = this.CPUPwr.Text;
@@ -573,9 +571,6 @@ namespace Builder_Companion
             AudioCheck.Location = new Point(AudioCheck.Location.X, Properties.Settings.Default.AudioCheckY);
             RGBCheck.Visible = Properties.Settings.Default.AudioCheckVis;
             RGBCheck.Location = new Point(RGBCheck.Location.X, Properties.Settings.Default.RGBCheckY);
-
-            // Buttons
-
 
             // Progress bars
             StressBar.Value = Properties.Settings.Default.StressProgress;
