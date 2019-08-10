@@ -43,10 +43,24 @@ namespace Builder_Companion
             foreach (FileInfo file in desktop.EnumerateFiles())
             {
                 // Move all files to tempdesktop
-                if (!file.Name.Equals(Path.GetFileName(Application.ExecutablePath)))
+                try
                 {
-                    copyOps.Add(MoveFileAsync(file.FullName, Path.Combine(tempDesktop.FullName, file.Name)));
-                }                    
+                    if (!file.Name.Equals(Path.GetFileName(Application.ExecutablePath)))
+                    {
+                        copyOps.Add(MoveFileAsync(file.FullName, Path.Combine(tempDesktop.FullName, file.Name)));
+                    }
+                } catch
+                {
+                    try
+                    {
+                        file.Attributes = FileAttributes.Normal;
+                        copyOps.Add(MoveFileAsync(file.FullName, Path.Combine(tempDesktop.FullName, file.Name)));
+                    } catch( Exception e)
+                    {
+                        Prompt.ShowDialog(e.Message, "Error");
+                    }
+                }
+                                   
             }
             foreach (FileInfo file in desktopCommon.EnumerateFiles())
             {
@@ -63,9 +77,9 @@ namespace Builder_Companion
                 try
                 {
                     dir.MoveTo(Path.Combine(tempDesktop.FullName, dir.Name));
-                } catch
+                } catch(Exception e)
                 {
-                    Prompt.ShowDialog("DesktopSort error", "Error");
+                    Prompt.ShowDialog(e.Message, "Error");
                 }                
             }            
 

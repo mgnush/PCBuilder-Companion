@@ -210,6 +210,7 @@ namespace Builder_Companion
         private void IgnoreTemp_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.CurrentPhase = Phase.Benchmarking;
+            Properties.Settings.Default.StressProgress = StressBar.Value;   // Save stress progress
             Properties.Settings.Default.Save();
 
             IgnoreTempButton.Visible = false;
@@ -419,9 +420,7 @@ namespace Builder_Companion
                         OverheatingFlame.Location = new Point(OverheatingFlame.Location.X, iconLocY);
                         OverheatingFlame.Visible = true;
                     }                 
-                }
-
-                SaveAllData();
+                }                
             }
 
             await Task.WhenAll(taskHandler);
@@ -447,7 +446,7 @@ namespace Builder_Companion
 
                     IgnoreTempButton.Parent = InfoTable;
                     InfoTable.SetCellPosition(IgnoreTempButton, new TableLayoutPanelCellPosition(1, testLabelRecentRow));
-                    if (SystemInfo.Cpu.Name.Contains("8700") || SystemInfo.Cpu.Name.Contains("9700"))
+                    if (SystemInfo.Cpu.Name.Contains("8700"))
                     {
                         IgnoreTempButton.Text = "Dave Mode";
                     }
@@ -541,6 +540,7 @@ namespace Builder_Companion
         /// </summary>
         public void SaveAllData()
         {
+            // Test info
             System.Collections.Specialized.StringCollection testLabelStrings = new System.Collections.Specialized.StringCollection();            
             foreach (Label label in testLabels)
             {
@@ -557,7 +557,10 @@ namespace Builder_Companion
             Properties.Settings.Default.AudioCheckVis = AudioCheck.Visible;
             Properties.Settings.Default.RGBCheckY = RGBCheck.Location.Y;
             Properties.Settings.Default.RGBCheckVis = RGBCheck.Visible;
+            Properties.Settings.Default.OverheatIconVis = OverheatingFlame.Visible;
+            Properties.Settings.Default.OverheatIconY = OverheatingFlame.Location.Y;              
 
+            // Text
             Properties.Settings.Default.CPUInfo = this.CPUMonitor.Text;
             Properties.Settings.Default.CPUPwr = this.CPUPwr.Text;
             Properties.Settings.Default.CPUTemp = this.CPUTemp.Text;
@@ -575,10 +578,17 @@ namespace Builder_Companion
         /// </summary>
         public void LoadAllData()
         {
+            // Test info
             PowerModeLabel.Visible = Properties.Settings.Default.PowerInfoVis;
-            for (int i = 0; i < Properties.Settings.Default.TestInfo.Count; i++)
+            try
             {
-                testLabels.ToArray()[i].Text = Properties.Settings.Default.TestInfo[i];
+                for (int i = 0; i < Properties.Settings.Default.TestInfo.Count; i++)
+                {
+                    testLabels.ToArray()[i].Text = Properties.Settings.Default.TestInfo[i];
+                }
+            } catch
+            {
+                // Swallow. Program exited previously before any data was created
             }
 
             // Icons
@@ -590,6 +600,8 @@ namespace Builder_Companion
             AudioCheck.Location = new Point(AudioCheck.Location.X, Properties.Settings.Default.AudioCheckY);
             RGBCheck.Visible = Properties.Settings.Default.AudioCheckVis;
             RGBCheck.Location = new Point(RGBCheck.Location.X, Properties.Settings.Default.RGBCheckY);
+            OverheatingFlame.Visible = Properties.Settings.Default.OverheatIconVis;
+            OverheatingFlame.Location = new Point(OverheatingFlame.Location.X, Properties.Settings.Default.OverheatIconY);
 
             // Progress bars
             StressBar.Value = Properties.Settings.Default.StressProgress;
@@ -597,6 +609,7 @@ namespace Builder_Companion
             UpdatingBar.Value = Properties.Settings.Default.UpdatingProgress;
             QCReadyBar.Value = Properties.Settings.Default.QCReadyProgress;
 
+            // Text
             this.CPUMonitor.Text = Properties.Settings.Default.CPUInfo;
             this.CPUPwr.Text = Properties.Settings.Default.CPUPwr;
             this.CPUTemp.Text = Properties.Settings.Default.CPUTemp;
