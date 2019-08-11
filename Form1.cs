@@ -171,6 +171,7 @@ namespace Builder_Companion
             {
                 QCHandler.ClearHeaven();
                 QCHandler.ClearSettings();
+                TaskServicer.DeleteTaskService();   // In case user originally chose fullprep
             }
         }
 
