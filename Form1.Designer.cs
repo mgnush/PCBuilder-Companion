@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.CPUMonitor = new System.Windows.Forms.Label();
             this.CPUSpeed = new System.Windows.Forms.Label();
@@ -38,6 +39,10 @@
             this.GPUTempValue = new System.Windows.Forms.Label();
             this.RGBList = new System.Windows.Forms.CheckedListBox();
             this.StartButton = new System.Windows.Forms.Button();
+            this.TestMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.FullPrep = new System.Windows.Forms.ToolStripMenuItem();
+            this.FullTest = new System.Windows.Forms.ToolStripMenuItem();
+            this.PrimeFurmark = new System.Windows.Forms.ToolStripMenuItem();
             this.TestDurationLabel = new System.Windows.Forms.Label();
             this.RestartQCButton = new System.Windows.Forms.Button();
             this.RAMSize = new System.Windows.Forms.Label();
@@ -86,6 +91,9 @@
             this.RGBCheck = new System.Windows.Forms.PictureBox();
             this.SoftwareStatusLabel = new System.Windows.Forms.Label();
             this.QCMegaLabel = new System.Windows.Forms.Label();
+            this.RAMExclamationButton = new System.Windows.Forms.Button();
+            this.XMPLabel = new System.Windows.Forms.Label();
+            this.TestMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PrimeDurationBar)).BeginInit();
             this.InfoTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PwrCheck)).BeginInit();
@@ -211,8 +219,10 @@
             this.StartButton.BackColor = System.Drawing.Color.Transparent;
             this.StartButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("StartButton.BackgroundImage")));
             this.StartButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.StartButton.ContextMenuStrip = this.TestMenu;
             this.StartButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.StartButton.FlatAppearance.BorderSize = 0;
+            this.StartButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.StartButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.StartButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.StartButton.Font = new System.Drawing.Font("Architects Daughter", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -226,6 +236,42 @@
             this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
             this.StartButton.MouseEnter += new System.EventHandler(this.Button_MouseEnterGlow);
             this.StartButton.MouseLeave += new System.EventHandler(this.Button_MouseLeaveGlow);
+            // 
+            // TestMenu
+            // 
+            this.TestMenu.BackColor = System.Drawing.Color.White;
+            this.TestMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FullPrep,
+            this.FullTest,
+            this.PrimeFurmark});
+            this.TestMenu.Name = "TestMenu";
+            this.TestMenu.Size = new System.Drawing.Size(184, 70);
+            // 
+            // FullPrep
+            // 
+            this.FullPrep.Checked = true;
+            this.FullPrep.CheckOnClick = true;
+            this.FullPrep.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.FullPrep.Name = "FullPrep";
+            this.FullPrep.Size = new System.Drawing.Size(183, 22);
+            this.FullPrep.Text = "Full Prep (Default)";
+            this.FullPrep.Click += new System.EventHandler(this.TestMenu_onItemClicked);
+            // 
+            // FullTest
+            // 
+            this.FullTest.CheckOnClick = true;
+            this.FullTest.Name = "FullTest";
+            this.FullTest.Size = new System.Drawing.Size(183, 22);
+            this.FullTest.Text = "Test Only";
+            this.FullTest.Click += new System.EventHandler(this.TestMenu_onItemClicked);
+            // 
+            // PrimeFurmark
+            // 
+            this.PrimeFurmark.CheckOnClick = true;
+            this.PrimeFurmark.Name = "PrimeFurmark";
+            this.PrimeFurmark.Size = new System.Drawing.Size(183, 22);
+            this.PrimeFurmark.Text = "Prime & Furmark Only";
+            this.PrimeFurmark.Click += new System.EventHandler(this.TestMenu_onItemClicked);
             // 
             // TestDurationLabel
             // 
@@ -246,6 +292,7 @@
             this.RestartQCButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.RestartQCButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.RestartQCButton.FlatAppearance.BorderSize = 0;
+            this.RestartQCButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.RestartQCButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.RestartQCButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.RestartQCButton.Font = new System.Drawing.Font("Architects Daughter", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -592,6 +639,7 @@
             this.ManualHeavenButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ManualHeavenButton.BackgroundImage")));
             this.ManualHeavenButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ManualHeavenButton.FlatAppearance.BorderSize = 0;
+            this.ManualHeavenButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.ManualHeavenButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.ManualHeavenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ManualHeavenButton.Font = new System.Drawing.Font("Architects Daughter", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -613,6 +661,7 @@
             this.AudioButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("AudioButton.BackgroundImage")));
             this.AudioButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.AudioButton.FlatAppearance.BorderSize = 0;
+            this.AudioButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.AudioButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.AudioButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AudioButton.Font = new System.Drawing.Font("Architects Daughter", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -645,6 +694,7 @@
             this.RGBButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("RGBButton.BackgroundImage")));
             this.RGBButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.RGBButton.FlatAppearance.BorderSize = 0;
+            this.RGBButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.RGBButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.RGBButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.RGBButton.Font = new System.Drawing.Font("Architects Daughter", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -881,6 +931,38 @@
             this.QCMegaLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.QCMegaLabel.Visible = false;
             // 
+            // RAMExclamationButton
+            // 
+            this.RAMExclamationButton.BackColor = System.Drawing.Color.Transparent;
+            this.RAMExclamationButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("RAMExclamationButton.BackgroundImage")));
+            this.RAMExclamationButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.RAMExclamationButton.FlatAppearance.BorderSize = 0;
+            this.RAMExclamationButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.RAMExclamationButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.RAMExclamationButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.RAMExclamationButton.Font = new System.Drawing.Font("Architects Daughter", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RAMExclamationButton.ForeColor = System.Drawing.Color.White;
+            this.RAMExclamationButton.Location = new System.Drawing.Point(929, 174);
+            this.RAMExclamationButton.Name = "RAMExclamationButton";
+            this.RAMExclamationButton.Size = new System.Drawing.Size(43, 39);
+            this.RAMExclamationButton.TabIndex = 36;
+            this.RAMExclamationButton.UseVisualStyleBackColor = false;
+            this.RAMExclamationButton.Visible = false;
+            this.RAMExclamationButton.Click += new System.EventHandler(this.RAMXMP_Click);
+            // 
+            // XMPLabel
+            // 
+            this.XMPLabel.AutoSize = true;
+            this.XMPLabel.BackColor = System.Drawing.Color.Transparent;
+            this.XMPLabel.Font = new System.Drawing.Font("Architects Daughter", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.XMPLabel.ForeColor = System.Drawing.Color.White;
+            this.XMPLabel.Location = new System.Drawing.Point(925, 216);
+            this.XMPLabel.Name = "XMPLabel";
+            this.XMPLabel.Size = new System.Drawing.Size(53, 26);
+            this.XMPLabel.TabIndex = 61;
+            this.XMPLabel.Text = "XMP";
+            this.XMPLabel.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -890,6 +972,8 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.XMPLabel);
+            this.Controls.Add(this.RAMExclamationButton);
             this.Controls.Add(this.QCMegaLabel);
             this.Controls.Add(this.RAMSize);
             this.Controls.Add(this.SoftwareStatusLabel);
@@ -945,6 +1029,7 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_Closed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Loaded);
+            this.TestMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PrimeDurationBar)).EndInit();
             this.InfoTable.ResumeLayout(false);
             this.InfoTable.PerformLayout();
@@ -1028,6 +1113,12 @@
         private System.Windows.Forms.PictureBox RGBCheck;
         private System.Windows.Forms.Label SoftwareStatusLabel;
         private System.Windows.Forms.Label QCMegaLabel;
+        private System.Windows.Forms.ContextMenuStrip TestMenu;
+        private System.Windows.Forms.ToolStripMenuItem FullPrep;
+        private System.Windows.Forms.ToolStripMenuItem FullTest;
+        private System.Windows.Forms.ToolStripMenuItem PrimeFurmark;
+        private System.Windows.Forms.Button RAMExclamationButton;
+        private System.Windows.Forms.Label XMPLabel;
     }
 }
 

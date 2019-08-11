@@ -25,4 +25,11 @@ namespace Builder_Companion
         QC,
         Exiting
     }
+
+    public enum TestConfig
+    {
+        FullPrep,
+        TestOnly,
+        PrimeFurmark
+    }
 }

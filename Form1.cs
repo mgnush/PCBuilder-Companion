@@ -25,14 +25,13 @@ namespace Builder_Companion
             IntPtr pdv, [System.Runtime.InteropServices.In] ref uint pcFonts);
 
         private PrivateFontCollection fonts = new PrivateFontCollection();
+        private TestConfig testConfig;
+        private const int DDR4_DEFAULTSPEED = 2133;
 
         public Form1()
         {            
             InitializeComponent();
-            InitGUI();
-            DMStatusCheck();   // Check Device manager every time program is launched    
-
-            LoadFontMemory();   
+            InitGUI();             
         }
 
         #region<------- Event Handlers ------->
@@ -46,11 +45,20 @@ namespace Builder_Companion
                 this.BackgroundImage = Properties.Resources.BC_RG;
                 this.RGBList.BackColor = Color.DarkRed;
                 this.PrimeDurationBar.BackColor = Color.DarkRed;
-            }            
-             
+            }
+
+            if (SystemInfo.Ram.Speed == DDR4_DEFAULTSPEED)
+            {
+                this.RAMExclamationButton.Visible = true;
+                this.XMPLabel.Visible = true;
+            }
+
+            DMStatusCheck();   // Check Device manager every time program is launched   
+
             switch (Properties.Settings.Default.CurrentPhase)
             {
                 case Phase.Testing:
+                    //this.TestOnlyButton.Visible = true;
                     // Load all software items from xml file
                     RGBInstaller.ReadRGBSoftware();
                     foreach (string rgbSoftware in RGBInstaller.software)
@@ -157,8 +165,62 @@ namespace Builder_Companion
                 info.CreateNoWindow = true;
                 info.FileName = "cmd.exe";
                 Process.Start(info);
-            }           
+            }    
+            
+            if (testConfig != TestConfig.FullPrep)
+            {
+                QCHandler.ClearHeaven();
+                QCHandler.ClearSettings();
+            }
         }
+
+        #region<------- Test Menu ------->
+        private void TestMenu_onItemClicked(object sender, EventArgs e)
+        {
+            UncheckOtherToolStripMenuItems(((ToolStripMenuItem)sender));   // Only one option may be active           
+        }
+
+        private void UncheckOtherToolStripMenuItems(ToolStripMenuItem selectedMenuItem)
+        {
+            selectedMenuItem.Checked = true;
+
+            foreach (ToolStripMenuItem item in selectedMenuItem.Owner.Items)
+            {
+                if (item != selectedMenuItem)
+                {
+                    item.Checked = false;
+                }
+            }                
+
+            selectedMenuItem.Owner.Show();
+        }
+
+        private void GetTestConfig()
+        {
+            ToolStripMenuItem selectedItem = FullPrep;
+            foreach (ToolStripMenuItem menuItem in TestMenu.Items)
+            {
+                if (menuItem.Checked)
+                {
+                    selectedItem = menuItem;   // Only one is checked at once
+                    break;
+                }
+            }
+
+            switch (selectedItem.Name)
+            {
+                case "FullPrep":
+                    testConfig = TestConfig.FullPrep;
+                    break;
+                case "FullTest":
+                    testConfig = TestConfig.TestOnly;
+                    break;
+                case "PrimeFurmark":
+                    testConfig = TestConfig.PrimeFurmark;
+                    break;
+            }
+        }
+        #endregion<------- Test Menu ------->
 
         private void StartButton_Click(object sender, EventArgs e)
         {
@@ -168,10 +230,23 @@ namespace Builder_Companion
             TestDurationLabel.Visible = false;
             SoftwareStatusLabel.Visible = true;
 
-            TaskServicer.CreateTaskService();   // Program will now run automatically until QC button has been pressed
+            GetTestConfig();   // Set the selected testing configuration
 
-            // Updates & software            
-            DoUpdates();            
+            switch (testConfig)
+            {
+                case TestConfig.FullPrep:
+                    TaskServicer.CreateTaskService();   // Program will now run automatically until QC button has been pressed
+                    DoUpdates();
+                    break;
+                case TestConfig.TestOnly:
+                    WUP.Text = "Test Only";
+                    break;
+                case TestConfig.PrimeFurmark:
+                    WUP.Text = "Prime, Furmark Only";
+                    break;
+            }         
+
+            // Software                    
             RGBInstaller.InstallSelectedSoftware(RGBList.CheckedIndices);
             RGBList.Enabled = false;
             SoftwareStatusLabel.Visible = false;
@@ -257,6 +332,12 @@ namespace Builder_Companion
                 RestartQCButton.Visible = true;
                 SaveAllData();
             }            
+        }
+
+        private void RAMXMP_Click(object sender, EventArgs e)
+        {
+            this.RAMExclamationButton.Visible = false;
+            this.XMPLabel.Visible = false;
         }
 
         private void AudioButton_click(object sender, EventArgs e)
@@ -450,7 +531,10 @@ namespace Builder_Companion
                     {
                         IgnoreTempButton.Text = "Dave Mode";
                     }
-                    IgnoreTempButton.Visible = true;
+                    if (testConfig != TestConfig.PrimeFurmark)
+                    {
+                        IgnoreTempButton.Visible = true;
+                    }                    
                     break;
                 case true when !(overheating || overheatingGPU):
                     Properties.Settings.Default.CurrentPhase = Phase.Benchmarking;
@@ -463,7 +547,10 @@ namespace Builder_Companion
                     StressBar.Value = 100;
                     Properties.Settings.Default.StressProgress = StressBar.Value;
 
-                    TestHeaven();
+                    if (testConfig != TestConfig.PrimeFurmark)
+                    {
+                        TestHeaven();
+                    }                    
                     break;
             }
             SaveAllData();
@@ -510,6 +597,11 @@ namespace Builder_Companion
 
         private void TestingComplete()
         {
+            if (testConfig != TestConfig.FullPrep)
+            {
+                return;
+            }
+
             Properties.Settings.Default.CurrentPhase = Phase.Updating;           
             SaveAllData();
             
@@ -651,5 +743,6 @@ namespace Builder_Companion
         }
         #endregion<------- Button Mouseover Methods -------> 
 
+      
     }
 }

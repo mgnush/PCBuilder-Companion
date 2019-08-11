@@ -22,6 +22,8 @@ namespace Builder_Companion
 
         private void InitGUI()
         {
+            LoadFontMemory();
+
             // Add all labels inside the main table which are intended for test reports
             testLabels = new List<Label>();
             testLabels.Add(TestLabel1);
