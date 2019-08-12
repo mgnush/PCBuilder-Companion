@@ -38,6 +38,7 @@ namespace Builder_Companion
             DirectoryInfo desktop = new DirectoryInfo(Paths.Desktop());
             DirectoryInfo desktopCommon = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory));
             DirectoryInfo tempDesktop = Directory.CreateDirectory(Path.Combine(desktop.Parent.FullName, "TempDesktop"));
+            DirectoryInfo tempDesktopCommon = Directory.CreateDirectory(Path.Combine(desktopCommon.FullName, "TempDesktop"));
             List<Task<bool>> copyOps = new List<Task<bool>>();
 
             foreach (FileInfo file in desktop.EnumerateFiles())
@@ -59,15 +60,16 @@ namespace Builder_Companion
                     {
                         Prompt.ShowDialog(e.Message, "Error");
                     }
-                }
-                                   
+                }                                   
             }
+
+            // Common desktop for auto-generated shortcuts
             foreach (FileInfo file in desktopCommon.EnumerateFiles())
             {
                 // Move all files to tempdesktop
                 if (!file.Name.Equals(Path.GetFileName(Application.ExecutablePath)))
                 {
-                    copyOps.Add(MoveFileAsync(file.FullName, Path.Combine(tempDesktop.FullName, file.Name)));
+                    copyOps.Add(MoveFileAsync(file.FullName, Path.Combine(tempDesktopCommon.FullName, file.Name)));
                 }
             }
 
@@ -95,11 +97,19 @@ namespace Builder_Companion
                     copyOps.Add(MoveFileAsync(file.FullName, Path.Combine(desktop.FullName, file.Name)));
                 } 
             }
+            foreach (FileInfo file in tempDesktopCommon.EnumerateFiles())
+            {
+                if (IsLink(file.FullName) && !file.Name.ToLower().Contains("edge") && !file.Name.Contains("CustService"))
+                {
+                    copyOps.Add(MoveFileAsync(file.FullName, Path.Combine(desktopCommon.FullName, file.Name)));
+                }
+            }
 
             await Task.WhenAll(copyOps.ToArray());
             tempDesktop.Refresh();
 
             tempDesktop.Delete(true);
+            tempDesktopCommon.Delete(true);
         }
 
         private static async Task<bool> MoveFileAsync(string sourcePath, string destPath)
