@@ -241,9 +241,11 @@ namespace Builder_Companion
                     break;
                 case TestConfig.TestOnly:
                     WUP.Text = "Test Only";
+                    this.BackgroundImage = Properties.Resources.BC_BW;
                     break;
                 case TestConfig.PrimeFurmark:
                     WUP.Text = "Prime, Furmark Only";
+                    this.BackgroundImage = Properties.Resources.BC_BW;
                     break;
             }         
 
