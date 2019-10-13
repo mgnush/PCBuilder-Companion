@@ -4,10 +4,10 @@
  Author:         Magnus Hjorth
 
  Script Function:
-	Install iCUE
+	Clear Windows Action Center Notifications
 
 #ce ----------------------------------------------------------------------------
 #RequireAdmin
-#include <MsgBoxConstants.au3>
-
-ShellExecuteWait($CmdLine[1], "/qb")
+Send("#{a}")
+Sleep(50)
+Send("{TAB}{TAB}{SPACE}")

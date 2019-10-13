@@ -7,6 +7,7 @@
 	Position QC windows
 
 #ce ----------------------------------------------------------------------------
+#RequireAdmin
 
 ; Launch system info - moving it twice is more stable?!
 Send("{LWINDOWN}{PAUSE}{LWINUP}")

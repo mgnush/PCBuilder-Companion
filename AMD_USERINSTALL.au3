@@ -10,9 +10,15 @@
 #include <File.au3>
 #include <MsgBoxConstants.au3>
 
+<<<<<<< Updated upstream
 ;#RequireAdmin
 
 $pid = Run($CmdLine[1])
+=======
+#RequireAdmin
+
+;$pid = Run($CmdLine[1])
+>>>>>>> Stashed changes
 
 #include <ButtonConstants.au3>
 #include <GUIConstantsEx.au3>
@@ -38,4 +44,8 @@ While 1
 	EndSwitch
 WEnd
 
+<<<<<<< Updated upstream
 ProcessWaitClose($pid)
+=======
+;ProcessWaitClose($pid)
+>>>>>>> Stashed changes

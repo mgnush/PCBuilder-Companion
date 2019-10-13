@@ -8,7 +8,12 @@
 
 #ce ----------------------------------------------------------------------------
 
-WinActivate("Core Temp 1.14")
+#RequireAdmin
+
+Sleep(1000)
+
+WinWait("Core Temp")
+WinActivate("Core Temp")
 Send("{F4}")
 
 WinWait("Prime95")
