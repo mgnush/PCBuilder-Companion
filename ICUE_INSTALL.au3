@@ -1,7 +1,7 @@
 #cs ----------------------------------------------------------------------------
 
  AutoIt Version: 3.3.14.5
- Author:         Magnus Hjorth
+ Author:         Haohan Liu
 
  Script Function:
 	Install iCUE
