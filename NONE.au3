@@ -10,4 +10,7 @@
 
 #RequireAdmin
 
-Sleep(1000)
+$pid = Run($CmdLine[1])
+
+
+ProcessWaitClose($pid)
